@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')!).render(
       client={{
         clientId: import.meta.env.LIL_OIDC_CLIENT_ID ?? '',
         scope: import.meta.env.LIL_OIDC_SCOPE,
-        redirectUri: window.location.href
+        redirectUri: import.meta.env.LIL_REACT_APP_HOMEPAGE_URL
       }}
       storage={store}
       refreshStorage={window.localStorage}
