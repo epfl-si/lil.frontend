@@ -1,6 +1,5 @@
 import {createRoot} from 'react-dom/client'
 import './index.css'
-import 'epfl-elements/dist/css/elements.min.css'
 import App from './App.tsx'
 import {LocalStorageBackend, OIDCContext} from "@epfl-si/react-appauth";
 
