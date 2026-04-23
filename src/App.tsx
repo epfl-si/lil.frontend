@@ -42,7 +42,7 @@ function App() {
 <>Connected {connectedUser.username}<LoginButton/>
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Layout />}/>
+      <Route path="/" element={<Layout />} />
     </Routes>
   </BrowserRouter></>
 
