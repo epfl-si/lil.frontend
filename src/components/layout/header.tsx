@@ -1,37 +1,144 @@
-export const Header = ({ user }: { user: any }) => {
+import { CircleUserRound, Menu, X } from "lucide-react";
+import React, { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+
+
+interface User {
+  username?: string;
+  image?: string;
+  [key: string]: any;
+}
+
+interface HeaderProps {
+  user: User | null | undefined;
+  onLogin?: () => void;
+  onLogout?: () => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
-    <header role="banner" className="header header-light">
-      <div className="header-light-content">
-        <a className="logo" href="https://www.epfl.ch">
-          <img src="https://web2018.epfl.ch/8.5.0/icons/epfl-logo.svg"
-            alt="Logo EPFL, École polytechnique fédérale de Lausanne" className="img-fluid"/>
-        </a>
-        <p className="site-title"><a href="/">LIL</a></p>
-        <div className="nav-user dropdown user-dropdown mr-lg-2">
-          <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30px" height="30px"
-              viewBox="0 0 30 29" version="1.1">
-              <g>
-                <path d="M 8.894531 14.15625 C 8.894531 14.15625 9.625 20.582031 14.984375 20.582031 C 20.339844 20.582031 21.070312 14.160156 21.070312 14.160156 C 21.070312 14.160156 22.226562 14.390625 22.785156 11.988281 C 23.140625 10.421875 22.664062 10.003906 22.363281 10.003906 L 22.078125 10.003906 C 23.480469 2.402344 17.839844 0 14.984375 0 C 12.125 0 6.488281 2.402344 7.886719 10 L 7.601562 10 C 7.300781 10 6.828125 10.417969 7.183594 11.984375 C 7.742188 14.402344 8.894531 14.15625 8.894531 14.15625 Z M 25.070312 23.386719 C 20.246094 22.476562 19.273438 21.515625 19.09375 20.664062 C 16.648438 22.429688 13.320312 22.429688 10.875 20.664062 C 10.699219 21.515625 9.722656 22.46875 4.898438 23.386719 C -0.0664062 24.324219 0 28.339844 0 29 L 29.964844 29 C 29.964844 28.332031 30.035156 24.324219 25.070312 23.386719 Z M 25.070312 23.386719 "/>
-              </g>
-            </svg>
-            <p className="user-name ml-2 text-sm text-left">
-              {user?.username || '—'}<br />
-              <span className="text-xs">
-                123456
-              </span>
-            </p>
-          </button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a className="dropdown-item" href="#">
-              <svg className="icon feather" aria-hidden="true">
-                <use xlink:href="#log-out"></use>
-              </svg>Logout</a>
-          </div>
+    <div className="relative select-none border-b-2">
+      <header className="text-primary-secondary py-2 px-2 sm:py-3 sm:px-6 flex items-center justify-between">
+
+        {/* Logo & Titre */}
+        <div className="flex items-center gap-2 sm:gap-4 p-1 sm:p-3">
+          <img
+            src="https://epfl-si.github.io/elements/svg/epfl-logo.svg"
+            alt="EPFL"
+            width={97}
+            height={28}
+            className="h-4 w-14 sm:w-22 sm:h-7"
+          />
+          <span className="border-l-2 border-solid sm:h-6 h-4 w-1 border-gray-300" />
+          <a href="/" className="text-black hover:text-primary transition-colors" onClick={closeMobileMenu}>
+            <h1 className="text-base sm:text-2xl font-bold -ml-1 sm:ml-0">LIL</h1>
+          </a>
         </div>
-      </div>
-    </header>
+
+        {/* Côté Droit (Desktop & Mobile Burger) */}
+        <div className="flex items-center">
+
+          {/* Desktop: User dropdown */}
+          <div className="hidden md:flex items-center gap-3">
+            {user?.username ? (
+              <DropdownMenu modal={false}>
+                <DropdownMenuTrigger className="outline-none">
+                  <div className="flex items-center gap-1.5 hover:opacity-80 transition-opacity cursor-pointer">
+                    {user.image ? (
+                      <img
+                        src={user.image}
+                        alt={user.username || "Avatar"}
+                        className="inline-block w-8 h-8 rounded-full ml-2 object-cover"
+                      />
+                    ) : (
+                      <CircleUserRound className="w-8 h-8 text-muted-foreground ml-2" strokeWidth={1} />
+                    )}
+                    <p className="text-sm font-medium">{user.username}</p>
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onSelect={onLogout} className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50">
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <button
+                type="button"
+                onClick={onLogin}
+                className="text-muted-foreground hover:text-foreground hover:cursor-pointer font-medium px-4 py-2"
+              >
+                Sign in
+              </button>
+            )}
+          </div>
+
+          {/* Mobile burger button */}
+          <button
+            type="button"
+            className="md:hidden p-2 text-muted-foreground"
+            onClick={() => setMobileMenuOpen((v) => !v)}
+            aria-label="Menu"
+          >
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile menu (Déroulant) */}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute inset-x-0 top-full z-50 bg-white border-b shadow-lg">
+          <nav className="p-4 space-y-1">
+            {user?.username ? (
+              <>
+                <div className="flex items-center gap-3 px-3 py-2">
+                  {user.image ? (
+                    <img
+                      src={user.image}
+                      alt={user.username || "Avatar"}
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                  ) : (
+                    <CircleUserRound className="w-8 h-8 text-muted-foreground" strokeWidth={1} />
+                  )}
+                  <span className="text-sm font-medium truncate">{user.username}</span>
+                </div>
+                <div className="border-t my-2" />
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onLogout) onLogout();
+                    closeMobileMenu();
+                  }}
+                  className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  if (onLogin) onLogin();
+                  closeMobileMenu();
+                }}
+                className="w-full text-left px-3 py-2 text-sm font-medium hover:bg-slate-100 rounded-md transition-colors"
+              >
+                Sign in
+              </button>
+            )}
+          </nav>
+        </div>
+      )}
+    </div>
   );
-}
+};
