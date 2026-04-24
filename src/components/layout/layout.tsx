@@ -1,14 +1,14 @@
 import {Header} from "@/components/layout/header.tsx";
-import {Body} from "@/components/layout/body.tsx";
 import {Footer} from "@/components/layout/footer.tsx";
+import { Outlet } from "react-router";
 
 export const Layout = ({ user }: { user: any }) => {
 
   return (
-    <div className="site d-flex flex-column min-vh-100">
+    <main className="flex flex-col h-screen justify-between">
       <Header user={user}/>
-      <Body />
+      <Outlet />
       <Footer />
-    </div>
+    </main>
   );
 }

@@ -4,6 +4,7 @@ import {LoginButton, StateEnum, useOpenIDConnectContext} from "@epfl-si/react-ap
 import {fetchConnectedUser} from "./lib/graphql/fetchingTools.ts";
 import {Layout} from "@/components/layout/layout.tsx";
 import {BrowserRouter, Route, Routes} from "react-router";
+import {Body} from "@/components/layout/body.tsx";
 
 function App() {
   const oidc = useOpenIDConnectContext();
@@ -42,7 +43,10 @@ function App() {
 <>Connected {connectedUser.username}<LoginButton/>
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Layout user={connectedUser}/>} />
+      <Route element={<Layout user={connectedUser} onLogin={() => oidc.login()}
+  onLogout={() => oidc.logout()} />}>
+        <Route path="/" element={<Body />} />
+      </Route>
     </Routes>
   </BrowserRouter></>
 
