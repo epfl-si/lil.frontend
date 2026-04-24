@@ -5,6 +5,7 @@ import {fetchConnectedUser} from "./lib/graphql/fetchingTools.ts";
 import {Layout} from "@/components/layout/layout.tsx";
 import {BrowserRouter, Route, Routes} from "react-router";
 import {Body} from "@/components/layout/body.tsx";
+import { RequireAuth } from "@/components/auth/RequireAuth.tsx";
 
 function App() {
   const oidc = useOpenIDConnectContext();
@@ -33,23 +34,18 @@ function App() {
     }
   };
 
-  if (oidc.state == StateEnum.InProgress) {
-    return <div></div>;
-  }
-  if (oidc.state != StateEnum.LoggedIn) {
-    return <LoginButton />;
-  }
   return (
-<>Connected {connectedUser.username}<LoginButton/>
-  <BrowserRouter>
-    <Routes>
-      <Route element={<Layout user={connectedUser} onLogin={() => oidc.login()}
-  onLogout={() => oidc.logout()} />}>
-        <Route path="/" element={<Body />} />
-      </Route>
-    </Routes>
-  </BrowserRouter></>
-
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout user={connectedUser} oidc={oidc} />}>
+            <Route element={<RequireAuth oidc={oidc} />}>
+              <Route path="/" element={<Body />} />
+            </Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
