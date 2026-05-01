@@ -1,9 +1,10 @@
 import {doGraphQL} from "./utils.ts";
+import type {FetchUserType} from "@/lib/types.tsx";
 
 export const fetchConnectedUser = async (
   address: string | undefined,
   authToken: string | undefined
-): Promise<any> => {
+): Promise<FetchUserType> => {
   const query = `query connection {
 						connectedUserInfo {
 							groups
@@ -12,7 +13,6 @@ export const fetchConnectedUser = async (
 						}
 					}`;
 
-  console.log(query);
   const result = await doGraphQL(query, {}, address, authToken);
   return {
     status: result.status,

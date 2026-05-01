@@ -1,8 +1,7 @@
 import type React from "react";
+import {config, version} from '../../../package.json';
 
 export const Footer: React.FC = () => {
-  const version = "1.0.0";
-
   return (
     <footer className="bg-muted">
       <div className="container mx-auto px-4 py-8">
@@ -16,55 +15,30 @@ export const Footer: React.FC = () => {
               height={28}
             />
           </a>
-          <div className="flex flex-col items-center md:items-start gap-4 flex-1 md:ml-8">
-            <ul className="flex flex-wrap justify-center md:justify-start items-center gap-x-4 gap-y-1 text-sm">
-              <li>
-                <a href="mailto:1234@epfl.ch" className="font-medium hover:underline">
-                  Contact
-                </a>
-              </li>
-              <li className="text-gray-500">EPFL CH-1015 Lausanne</li>
-              <li className="text-gray-500">+41 21 693 11 11</li>
-            </ul>
-            <div className="w-full border-t pt-4 flex flex-col items-center md:flex-row md:items-center md:justify-between gap-3">
+          <div className="w-full border-t pt-4 flex flex-col items-center md:flex-row md:items-center md:justify-between gap-3">
               <div className="flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1 text-sm">
-                <a
-                  href="https://www.epfl.ch/about/overview/fr/reglements-et-directives/mentions-legales/"
-                  className="hover:underline"
-                >
-                  Accessibilité
-                </a>
-                <a
-                  href="https://www.epfl.ch/about/overview/fr/reglements-et-directives/mentions-legales/"
-                  className="hover:underline"
-                >
-                  Avertissement
-                </a>
-                <a
-                  href="https://go.epfl.ch/protection-des-donnees/"
-                  className="hover:underline"
-                >
-                  Protection des données
-                </a>
+                <ul className="flex flex-wrap justify-center md:justify-start items-center gap-x-4 gap-y-1 text-sm">
+                  <li>
+                    <a href="mailto:1234@epfl.ch" className="font-medium hover:underline">
+                      Contact
+                    </a>
+                  </li>
+                  <li className="text-gray-500">{config.address}</li>
+                  <li className="text-gray-500">{config.telephone}</li>
+                </ul>
               </div>
               <div className="flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1 text-xs text-gray-500">
-                <p>LIL</p>
+                <p>{config.appName}</p>
                 <a
                   className="hover:underline"
-                  href="https://github.com/epfl-si/barcode.dev"
+                  href={config.githubUrl}
                 >
                   Code source
                 </a>
-                <a
-                  className="hover:underline"
-                  href={`https://github.com/epfl-si/barcode.dev/releases/tag/v${version}`}
-                >
-                  v{version}
-                </a>
+                v{version}
                 <p>© 2026 EPFL – Tous droits réservés</p>
               </div>
             </div>
-          </div>
         </div>
       </div>
     </footer>
