@@ -6,16 +6,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-
-
-interface User {
-  username?: string;
-  image?: string;
-  [key: string]: any;
-}
+import type {UserType} from "@/lib/types.tsx";
 
 interface HeaderProps {
-  user: User | null | undefined;
+  user: UserType | null | undefined;
   onLogin?: () => void;
   onLogout?: () => void;
 }
