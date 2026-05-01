@@ -6,6 +6,7 @@ import {Layout} from "@/components/layout/layout.tsx";
 import {BrowserRouter, Route, Routes} from "react-router";
 import {Body} from "@/components/layout/body.tsx";
 import { RequireAuth } from "@/components/auth/RequireAuth.tsx";
+import { BarcodeDetailPage } from "@/components/BarcodeDetailPage";
 
 function App() {
   const oidc = useOpenIDConnectContext();
@@ -40,7 +41,8 @@ function App() {
         <Routes>
           <Route element={<Layout user={connectedUser} oidc={oidc} />}>
             <Route element={<RequireAuth oidc={oidc} />}>
-              <Route path="/" element={<Body />} />
+              <Route path="/" element={<Body oidc={oidc} />} />
+              <Route path="/code/:barcode" element={<BarcodeDetailPage oidc={oidc} />} />
             </Route>
           </Route>
         </Routes>
