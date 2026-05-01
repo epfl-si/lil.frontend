@@ -1,8 +1,15 @@
 {
   "name": "temp-lil-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "config": {
+    "appName": "Laboratory Inventory Locations",
+    "githubUrl": "https://github.com/epfl-si/barcode.dev",
+    "address": "EPFL CH-1015 Lausanne",
+    "telephone": "+41 21 693 11 11",
+    "supportEmail": "support@acme.com"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
