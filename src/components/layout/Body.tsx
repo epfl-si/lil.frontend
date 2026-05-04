@@ -2,24 +2,6 @@ import {StorageTable} from "@/components/pages/StorageTable.tsx";
 import type {State} from "@epfl-si/react-appauth";
 
 export const Body = ({ oidc }: { oidc: State }) => {
-  const [storages, setStorages] = useState<StorageType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const loadStorages = async () => {
-    setIsLoading(true);
-    const response = await fetchStorage(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
-      oidc.accessToken
-    );
-    if (response.status === 200 && response.data) {
-      setStorages(response.data);
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    loadStorages();
-  }, [oidc.accessToken]); // Recharge si le token change
 
   return (
     <div className="p-4 sm:p-8 max-w-6xl mx-auto w-full">
@@ -30,7 +12,7 @@ export const Body = ({ oidc }: { oidc: State }) => {
         </div>
       </div>
 
-      <StorageTable storages={storages} isLoading={isLoading} />
+      <StorageTable oidc={oidc} />
     </div>
   );
 }

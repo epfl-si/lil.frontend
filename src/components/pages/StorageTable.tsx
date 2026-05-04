@@ -12,20 +12,38 @@ import type {State} from "@epfl-si/react-appauth";
 import type {StorageType} from "@/lib/types.tsx";
 import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
 
-interface StorageTableProps {
-  storages: any[];
-  isLoading: boolean;
-}
+export const StorageTable = ({ oidc }: { oidc: State }) => {
+  const [storages, setStorages] = useState<StorageType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-export const StorageTable = ({ storages, isLoading }: StorageTableProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const itemsPerPage = 50;
   const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get("page") || "1", 10));
-  const itemsPerPage = 15;
-  const totalPages = Math.max(1, Math.ceil(storages.length / itemsPerPage));
   const startIndex = (currentPage - 1) * itemsPerPage;
+  const [totalPages, setTotalPages] = useState<number>(0);
   const paginatedStorages = storages.slice(startIndex, startIndex + itemsPerPage);
+
   const goToNextPage = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
   const goToPreviousPage = () => setCurrentPage((p) => Math.max(p - 1, 1));
+
+
+  useEffect(() => {
+    loadStorages();
+  }, [oidc.accessToken]); // Recharge si le token change
+
+  const loadStorages = async () => {
+    setIsLoading(true);
+    const response = await fetchStorage(
+      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      oidc.accessToken
+    );
+    if (response.status === 200 && response.data) {
+      setStorages(response.data);
+      setTotalPages(Math.max(1, Math.ceil(storages.length / itemsPerPage)));
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div className="space-y-4">
       <div className="border rounded-md bg-white">
