@@ -2,11 +2,11 @@ import {useEffect, useState} from 'react'
 import './App.css'
 import {StateEnum, useOpenIDConnectContext} from "@epfl-si/react-appauth";
 import {fetchConnectedUser} from "./lib/graphql/fetchingTools.ts";
-import {Layout} from "@/components/layout/layout.tsx";
+import {Layout} from "@/components/layout/Layout.tsx";
 import {BrowserRouter, Route, Routes} from "react-router";
-import {Body} from "@/components/layout/body.tsx";
+import {Body} from "@/components/layout/Body.tsx";
 import { RequireAuth } from "@/components/auth/RequireAuth.tsx";
-import { BarcodeDetailPage } from "@/components/BarcodeDetailPage";
+import { BarcodeDetailPage } from "@/components/pages/BarcodeDetailPage.tsx";
 import type {UserType} from "@/lib/types.tsx";
 
 function App() {

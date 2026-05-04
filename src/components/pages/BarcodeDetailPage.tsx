@@ -1,16 +1,14 @@
-import { useParams, useNavigate } from "react-router";
-import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router";
-// import { fetchStorageDetails } from "@/lib/graphql/fetchingTools";
+import {Link, useParams} from "react-router";
+import {useEffect} from "react";
+import {ArrowLeft} from "lucide-react";
+import type {State} from "@epfl-si/react-appauth";
 
-export const BarcodeDetailPage = ({ oidc }: { oidc: any }) => {
+export const BarcodeDetailPage = ({ oidc }: { oidc: State }) => {
   const { barcode } = useParams();
+
   console.log("Voici le codebarre dans l'url", barcode)
   useEffect(() => {
     console.log("Fetch info for :", barcode);
-    // loadBarcodeData(codebarre, oidc.accessToken);
   }, [barcode]);
 
   return (

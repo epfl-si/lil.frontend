@@ -1,16 +1,16 @@
-import { useState } from "react";
-import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from "@/components/ui/table";
+import {useEffect, useState} from "react";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table.tsx";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-import { useSearchParams, Link } from "react-router";
+} from "@/components/ui/pagination.tsx";
+import {Link, useSearchParams} from "react-router";
+import type {State} from "@epfl-si/react-appauth";
+import type {StorageType} from "@/lib/types.tsx";
+import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
 
 interface StorageTableProps {
   storages: any[];

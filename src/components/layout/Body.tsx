@@ -1,7 +1,4 @@
-import { useEffect, useState } from "react";
-import { fetchStorage } from "@/lib/graphql/fetchingTools";
-import { StorageTable } from "@/components/StorageTable";
-import type {StorageType} from "@/lib/types.tsx";
+import {StorageTable} from "@/components/pages/StorageTable.tsx";
 import type {State} from "@epfl-si/react-appauth";
 
 export const Body = ({ oidc }: { oidc: State }) => {
