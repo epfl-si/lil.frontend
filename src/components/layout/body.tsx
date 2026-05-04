@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchStorage } from "@/lib/graphql/fetchingTools";
 import { StorageTable } from "@/components/StorageTable";
+import type {StorageType} from "@/lib/types.tsx";
+import type {State} from "@epfl-si/react-appauth";
 
-export const Body = ({ oidc }: { oidc: any }) => {
-  const [storages, setStorages] = useState<any[]>([]);
+export const Body = ({ oidc }: { oidc: State }) => {
+  const [storages, setStorages] = useState<StorageType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const loadStorages = async () => {
