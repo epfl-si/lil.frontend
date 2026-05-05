@@ -30,6 +30,22 @@ export const fetchStorage = async (
       createdBy
       deletedBy
       roomDisplay
+      roomType {
+        shortName
+        name
+      }
+      productType {
+        shortName
+        name
+      }
+      storageType {
+        shortName
+        name
+      }
+      storageSubType {
+        shortName
+        name
+      }
     }
   }`;
   const result = await doGraphQL(query, {}, address, authToken);
