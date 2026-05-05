@@ -51,17 +51,22 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
           <TableHeader>
             <TableRow>
               <TableHead>Barcode</TableHead>
+              <TableHead>Room</TableHead>
+              <TableHead>Room type</TableHead>
+              <TableHead>Product type</TableHead>
+              <TableHead>Storage type</TableHead>
+              <TableHead>Storage subtype</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={2} className="text-center py-8">Chargement des données...</TableCell>
+                <TableCell colSpan={7} className="text-center py-8">Chargement des données...</TableCell>
               </TableRow>
             ) : storages.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={2} className="text-center py-8 text-gray-500">Aucun Storage actuellement.</TableCell>
+                <TableCell colSpan={7} className="text-center py-8 text-gray-500">Aucun Storage actuellement.</TableCell>
               </TableRow>
             ) : (
               paginatedStorages.map((storage, index) => (
@@ -73,6 +78,21 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
                     >
                       {storage.barcode}
                     </Link>
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {storage.roomDisplay}
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {storage.roomType.name} ({storage.roomType.shortName})
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {storage.productType.name} ({storage.productType.shortName})
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {storage.storageType.name} ({storage.storageType.shortName})
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {storage.storageSubType.name} ({storage.storageSubType.shortName})
                   </TableCell>
                   <TableCell className="text-right">
                                                       ...
