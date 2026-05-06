@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type {UserType} from "@/lib/types.tsx";
 import { useTranslation } from 'react-i18next';
+import { LanguageSelector } from "@/components/language-selector";
 
 interface HeaderProps {
   user: UserType | null | undefined;
@@ -76,6 +77,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout }) => {
                 {t('header.signIn')}
               </button>
             )}
+            <LanguageSelector />
           </div>
 
           {/* Mobile burger button */}
