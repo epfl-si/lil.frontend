@@ -101,12 +101,12 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <SortableHeader label={t('app.storage')} sortKey="barcode" />
               <SortableHeader label={t('app.room')} sortKey="roomDisplay" />
               <SortableHeader label={t('app.roomType')} sortKey="roomType" />
               <SortableHeader label={t('app.productType')} sortKey="productType" />
               <SortableHeader label={t('app.storageType')} sortKey="storageType" />
               <SortableHeader label={t('app.storageSubType')} sortKey="storageSubType" />
+              <SortableHeader label={t('app.storage')} sortKey="barcode" />
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -122,6 +122,12 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
             ) : (
               paginatedStorages.map((storage, index) => (
                 <TableRow key={index}>
+                  <TableCell className="font-medium">{storage.roomDisplay}</TableCell>
+                  <TableCell className="font-medium">{t(`roomType.${storage.roomType.symbol}`)} ({storage.roomType.shortName})</TableCell>
+                  <TableCell className="font-medium">{t(`productType.${storage.productType.symbol}`)} ({storage.productType.shortName})</TableCell>
+                  <TableCell className="font-medium">{t(`storageType.${storage.storageType.symbol}`)} ({storage.storageType.shortName})</TableCell>
+                  <TableCell className="font-medium">{t(`storageSubType.${storage.storageSubType.symbol}`)} ({storage.storageSubType.shortName})
+                  </TableCell>
                   <TableCell className="font-medium">
                     <Link
                       to={`/code/${storage.barcode}`}
@@ -129,12 +135,6 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
                     >
                       {storage.barcode}
                     </Link>
-                  </TableCell>
-                  <TableCell className="font-medium">{storage.roomDisplay}</TableCell>
-                  <TableCell className="font-medium">{t(`roomType.${storage.roomType.symbol}`)} ({storage.roomType.shortName})</TableCell>
-                  <TableCell className="font-medium">{t(`productType.${storage.productType.symbol}`)} ({storage.productType.shortName})</TableCell>
-                  <TableCell className="font-medium">{t(`storageType.${storage.storageType.symbol}`)} ({storage.storageType.shortName})</TableCell>
-                  <TableCell className="font-medium">{t(`storageSubType.${storage.storageSubType.symbol}`)} ({storage.storageSubType.shortName})
                   </TableCell>
                   <TableCell className="text-right">
                     ...
