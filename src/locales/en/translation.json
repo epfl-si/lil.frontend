@@ -1,0 +1,10 @@
+{
+  "header": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
+  },
+  "footer": {
+    "sourceCode": "Code Source",
+    "rights": "All rights reserved"
+  }
+}

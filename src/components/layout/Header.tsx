@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import type {UserType} from "@/lib/types.tsx";
+import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
   user: UserType | null | undefined;
@@ -18,6 +19,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
+  const { t, i18n } = useTranslation();
 
   return (
     <div className="relative select-none border-b-2">
@@ -61,7 +63,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onSelect={onLogout} className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50">
-                    Sign out
+                    {t('header.signOut')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -71,7 +73,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout }) => {
                 onClick={onLogin}
                 className="text-muted-foreground hover:text-foreground hover:cursor-pointer font-medium px-4 py-2"
               >
-                Sign in
+                {t('header.signIn')}
               </button>
             )}
           </div>
@@ -115,7 +117,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout }) => {
                   }}
                   className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors"
                 >
-                  Sign out
+                  {t('header.signOut')}
                 </button>
               </>
             ) : (
@@ -127,7 +129,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout }) => {
                 }}
                 className="w-full text-left px-3 py-2 text-sm font-medium hover:bg-slate-100 rounded-md transition-colors"
               >
-                Sign in
+                 {t('header.signIn')}
               </button>
             )}
           </nav>

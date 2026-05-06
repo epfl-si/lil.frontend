@@ -1,7 +1,9 @@
 import type React from "react";
 import {config, version} from '../../../package.json';
+import { useTranslation } from 'react-i18next';
 
 export const Footer: React.FC = () => {
+  const { t, i18n } = useTranslation();
   return (
     <footer className="bg-muted">
       <div className="container mx-auto px-4 py-8">
@@ -33,10 +35,10 @@ export const Footer: React.FC = () => {
                   className="hover:underline"
                   href={config.githubUrl}
                 >
-                  Code source
+                  {t('footer.sourceCode')}
                 </a>
                 v{version}
-                <p>© 2026 EPFL – Tous droits réservés</p>
+                <p>© 2026 EPFL – {t('footer.rights')}</p>
               </div>
             </div>
         </div>
