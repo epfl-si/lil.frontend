@@ -1,0 +1,26 @@
+{
+  "header": {
+    "signIn": "Se connecter",
+    "signOut": "se déconnecter"
+  },
+  "footer": {
+    "sourceCode": "Source Code",
+    "rights": "Tous droits réservés",
+    "contact": "Contact"
+  },
+  "app": {
+    "storage": "Stockage",
+    "room": "Salle",
+    "roomType": "Type de salle",
+    "productType": "Type de produit",
+    "storageType": "Type de stockage",
+    "storageSubType": "Sous-type de stockage",
+    "loadingData": "Chargement des données...",
+    "PageCurrentOfTotal": "Page {{currentPage}} sur {{totalPages}}",
+    "noStorageCurrentlyAvailable": "Aucun Storage actuellement.",
+    "manageYourLocation": "Gérez vos emplacements.",
+    "storageFacilityManagement": "Gestion des lieux de Stockage",
+    "backToStorage": "Retour aux storages",
+    "detailsOfBarcode": "Détails du Code-barre {{barcode}}"
+  }
+}

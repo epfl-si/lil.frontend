@@ -11,8 +11,10 @@ import {Link, useSearchParams} from "react-router";
 import type {State} from "@epfl-si/react-appauth";
 import type {StorageType} from "@/lib/types.tsx";
 import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
+import { useTranslation } from 'react-i18next';
 
 export const StorageTable = ({ oidc }: { oidc: State }) => {
+  const { t, i18n } = useTranslation();
   const [storages, setStorages] = useState<StorageType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -50,23 +52,23 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Barcode</TableHead>
-              <TableHead>Room</TableHead>
-              <TableHead>Room type</TableHead>
-              <TableHead>Product type</TableHead>
-              <TableHead>Storage type</TableHead>
-              <TableHead>Storage subtype</TableHead>
+              <TableHead>{t('app.storage')}</TableHead>
+              <TableHead>{t('app.room')}</TableHead>
+              <TableHead>{t('app.roomType')}</TableHead>
+              <TableHead>{t('app.productType')}</TableHead>
+              <TableHead>{t('app.storageType')}</TableHead>
+              <TableHead>{t('app.storageSubType')}</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center py-8">Chargement des données...</TableCell>
+                <TableCell colSpan={7} className="text-center py-8">{t('app.loadingData')}</TableCell>
               </TableRow>
             ) : storages.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center py-8 text-gray-500">Aucun Storage actuellement.</TableCell>
+                <TableCell colSpan={7} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
               </TableRow>
             ) : (
               paginatedStorages.map((storage, index) => (
@@ -115,7 +117,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
 
             <PaginationItem>
               <span className="text-sm text-gray-600 px-4">
-                                                             Page {currentPage} sur {totalPages}
+                                                            {t('app.PageCurrentOfTotal', { currentPage: currentPage, totalPages: totalPages })}
               </span>
             </PaginationItem>
             <PaginationItem>
