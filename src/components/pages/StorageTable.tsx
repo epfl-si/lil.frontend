@@ -128,11 +128,14 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
                     </Link>
                   </TableCell>
                   <TableCell className="font-medium">{storage.roomDisplay}</TableCell>
-                  <TableCell className="font-medium">{storage.roomType.name} ({storage.roomType.shortName})</TableCell>
-                  <TableCell className="font-medium">{storage.productType.name} ({storage.productType.shortName})</TableCell>
-                  <TableCell className="font-medium">{storage.storageType.name} ({storage.storageType.shortName})</TableCell>
-                  <TableCell className="font-medium">{storage.storageSubType.name} ({storage.storageSubType.shortName})</TableCell>
-                  <TableCell className="text-right">...</TableCell>
+                  <TableCell className="font-medium">{t(`roomType.${storage.roomType.symbol}`)} ({storage.roomType.shortName})</TableCell>
+                  <TableCell className="font-medium">{t(`productType.${storage.productType.symbol}`)} ({storage.productType.shortName})</TableCell>
+                  <TableCell className="font-medium">{t(`storageType.${storage.storageType.symbol}`)} ({storage.storageType.shortName})</TableCell>
+                  <TableCell className="font-medium">{t(`storageSubType.${storage.storageSubType.symbol}`)} ({storage.storageSubType.shortName})
+                  </TableCell>
+                  <TableCell className="text-right">
+                    ...
+                  </TableCell>
                 </TableRow>
               ))
             )}

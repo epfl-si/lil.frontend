@@ -60,7 +60,7 @@ export const fetchStorage = async (
 export const fetchRoomType = async (
   address: string | undefined,
   authToken: string | undefined
-): Promise<FetchRoomType> => {
+): Promise<FetchType> => {
   const query = `query getRoomType {
     roomTypes {
         shortName

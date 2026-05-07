@@ -14,7 +14,7 @@ export type FetchUserType = {
 
 export type Type = {
   shortName: string,
-  name: string
+  symbol: string
 }
 
 export type StorageType = {
@@ -36,13 +36,8 @@ export type FetchStoragesType = {
   errors?: any;
 };
 
-export type FetchRoomType = {
+export type FetchType = {
   status?: number;
-  data?: RoomType[];
+  data?: Type[];
   errors?: any;
 };
-
-export type RoomType = {
-  shortName: string;
-  symbol: string;
-}
