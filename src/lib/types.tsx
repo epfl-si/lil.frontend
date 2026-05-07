@@ -35,3 +35,14 @@ export type FetchStoragesType = {
   data?: StorageType[];
   errors?: any;
 };
+
+export type FetchRoomType = {
+  status?: number;
+  data?: RoomType[];
+  errors?: any;
+};
+
+export type RoomType = {
+  shortName: string;
+  symbol: string;
+}
