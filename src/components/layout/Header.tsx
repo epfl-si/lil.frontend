@@ -20,7 +20,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div className="relative select-none border-b-2">
