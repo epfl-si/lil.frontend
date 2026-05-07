@@ -1,5 +1,5 @@
 import {doGraphQL} from "./utils.ts";
-import type {FetchStoragesType, FetchUserType} from "@/lib/types.tsx";
+import type {FetchRoomType, FetchStoragesType, FetchUserType} from "@/lib/types.tsx";
 
 export const fetchConnectedUser = async (
   address: string | undefined,
@@ -20,6 +20,7 @@ export const fetchConnectedUser = async (
     errors: result.errors
   };
 };
+
 export const fetchStorage = async (
   address: string | undefined,
   authToken: string | undefined
@@ -52,6 +53,24 @@ export const fetchStorage = async (
   return {
     status: result.status,
     data: result.data?.storages,
+    errors: result.errors
+  };
+};
+
+export const fetchRoomType = async (
+  address: string | undefined,
+  authToken: string | undefined
+): Promise<FetchRoomType> => {
+  const query = `query getRoomType {
+    roomTypes {
+        shortName
+        symbol
+    }
+  }`;
+  const result = await doGraphQL(query, {}, address, authToken);
+  return {
+    status: result.status,
+    data: result.data?.roomTypes,
     errors: result.errors
   };
 };
