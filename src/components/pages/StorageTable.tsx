@@ -14,9 +14,10 @@ import type { StorageType } from "@/lib/types.tsx";
 import { fetchStorage } from "@/lib/graphql/fetchingTools.ts";
 import { useTranslation } from "react-i18next";
 type SortKey = "barcode" | "roomDisplay" | "roomType" | "productType" | "storageType" | "storageSubType";
+import {Filters} from "@/components/parts/filters.tsx";
 
 export const StorageTable = ({ oidc }: { oidc: State }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [storages, setStorages] = useState<StorageType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -94,6 +95,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
 
   return (
     <div className="space-y-4">
+      <Filters oidc={oidc} />
       <div className="border rounded-md bg-white">
         <Table>
           <TableHeader>

@@ -21,6 +21,36 @@
     "manageYourLocation": "Manage your locations.",
     "storageFacilityManagement": "Storage Facility Management",
     "backToStorage": "Back to Storage",
-    "detailsOfBarcode": "Details of Barcode {{barcode}}"
+    "detailsOfBarcode": "Details of Barcode {{barcode}}",
+    "reset": " - "
+  },
+  "roomType": {
+    "LABO":  "Laboratory",
+    "RCVLC": "Receiving location",
+    "STKRM": "Stockroom",
+    "STRRM": "Storeroom"
+  },
+  "productType": {
+    "GASBP": "Gas bottle",
+    "CHEMP": "Chemical",
+    "OTHER": "Other"
+  },
+  "storageType": {
+    "ARMRE": "Cabinet",
+    "GLVBX": "Glove box",
+    "FREEZ": "Freezer",
+    "EXLOC": "Outdoor room",
+    "INLOC": "Indoor room",
+    "SHLVG": "Shelving",
+    "FRDGE": "Fridge",
+    "OTHER": "Other"
+  },
+  "storageSubType": {
+    "ATEX": "ATEX",
+    "FR90": "Fire resistant (EI90)",
+    "STDRD": "Standard",
+    "VENTD": "Ventilated",
+    "VFR90": "Ventilated fire resistant (EI90)",
+    "OTHER": "Other"
   }
 }

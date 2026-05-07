@@ -21,6 +21,36 @@
     "manageYourLocation": "Gérez vos emplacements.",
     "storageFacilityManagement": "Gestion des lieux de Stockage",
     "backToStorage": "Retour aux storages",
-    "detailsOfBarcode": "Détails du Code-barre {{barcode}}"
+    "detailsOfBarcode": "Détails du Code-barre {{barcode}}",
+    "reset": " - "
+  },
+  "roomType": {
+    "LABO":  "Laboratoire",
+    "RCVLC": "Lieu de réception",
+    "STKRM": "Magasin",
+    "STRRM": "Débarras"
+  },
+  "productType": {
+    "GASBP": "Bouteille de gaz",
+    "CHEMP": "Produit chimique",
+    "OTHER": "Autres articles"
+  },
+  "storageType": {
+    "ARMRE": "Armoire",
+    "GLVBX": "Boite à gants",
+    "FREEZ": "Congélateur",
+    "EXLOC": "Local extérieur",
+    "INLOC": "Local intérieur",
+    "SHLVG": "Rayonnage",
+    "FRDGE": "Réfrigérateur",
+    "OTHER": "Autre"
+  },
+  "storageSubType": {
+    "ATEX": "ATEX",
+    "FR90": "Résistant au feu (EI90)",
+    "STDRD": "Standard",
+    "VENTD": "Ventilé",
+    "VFR90": "Ventilé et résistant au feu (EI90)",
+    "OTHER": "Autre"
   }
 }
