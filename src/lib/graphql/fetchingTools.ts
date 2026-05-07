@@ -1,5 +1,5 @@
 import {doGraphQL} from "./utils.ts";
-import type {FetchRoomType, FetchStoragesType, FetchUserType} from "@/lib/types.tsx";
+import type {FetchType, FetchStoragesType, FetchUserType} from "@/lib/types.tsx";
 
 export const fetchConnectedUser = async (
   address: string | undefined,
@@ -71,6 +71,60 @@ export const fetchRoomType = async (
   return {
     status: result.status,
     data: result.data?.roomTypes,
+    errors: result.errors
+  };
+};
+
+export const fetchProductType = async (
+  address: string | undefined,
+  authToken: string | undefined
+): Promise<FetchType> => {
+  const query = `query getProductType {
+    productTypes {
+        shortName
+        symbol
+    }
+  }`;
+  const result = await doGraphQL(query, {}, address, authToken);
+  return {
+    status: result.status,
+    data: result.data?.productTypes,
+    errors: result.errors
+  };
+};
+
+export const fetchStorageType = async (
+  address: string | undefined,
+  authToken: string | undefined
+): Promise<FetchType> => {
+  const query = `query getStorageTypes {
+    storageTypes {
+        shortName
+        symbol
+    }
+  }`;
+  const result = await doGraphQL(query, {}, address, authToken);
+  return {
+    status: result.status,
+    data: result.data?.storageTypes,
+    errors: result.errors
+  };
+};
+
+export const fetchStorageSubType = async (
+  address: string | undefined,
+  authToken: string | undefined
+): Promise<FetchType> => {
+  const query = `query getStorageSubTypes {
+    storageSubTypes {
+        shortName
+        symbol
+    }
+  }`;
+  const result = await doGraphQL(query, {}, address, authToken);
+  return {
+    status: result.status,
+    data: result.data?.storageSubTypes,
     errors: result.errors
   };
 };
