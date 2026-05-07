@@ -7,5 +7,20 @@
     "sourceCode": "Code Source",
     "rights": "All rights reserved",
     "contact": "Contact"
+  },
+  "app": {
+    "storage": "Storage",
+    "room": "Room",
+    "roomType": "Room type",
+    "productType": "Product type",
+    "storageType": "Storage type",
+    "storageSubType": "Storage subtype",
+    "loadingData": "Loading Data...",
+    "PageCurrentOfTotal": "Page {{currentPage}} of {{totalPages}}",
+    "noStorageCurrentlyAvailable": "No storage currently available.",
+    "manageYourLocation": "Manage your locations.",
+    "storageFacilityManagement": "Storage Facility Management",
+    "backToStorage": "Back to Storage",
+    "detailsOfBarcode": "Details of Barcode {{barcode}}"
   }
 }
