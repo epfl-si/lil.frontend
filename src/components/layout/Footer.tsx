@@ -22,7 +22,7 @@ export const Footer: React.FC = () => {
                 <ul className="flex flex-wrap justify-center md:justify-start items-center gap-x-4 gap-y-1 text-sm">
                   <li>
                     <a href="mailto:1234@epfl.ch" className="font-medium hover:underline">
-                      Contact
+                       {t('footer.contact')}
                     </a>
                   </li>
                   <li className="text-gray-500">{config.address}</li>
