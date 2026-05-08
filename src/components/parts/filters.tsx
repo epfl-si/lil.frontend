@@ -4,99 +4,65 @@ import {fetchProductType, fetchRoomType, fetchStorageSubType, fetchStorageType} 
 import {useEffect, useState} from "react";
 import {FilterSelect} from "@/components/parts/filterSelect.tsx";
 import type {Type} from "@/lib/types.tsx";
+import type { ActiveFilters } from "@/components/pages/StorageTable"
 
-export const Filters = ({ oidc }: { oidc: State }) => {
+
+interface FilterOptions {
+  roomType: Type[];
+  productType: Type[];
+  storageType: Type[];
+  storageSubType: Type[];
+}
+
+export const Filters = ({ oidc, activeFilters, onFilterChange }: { oidc: State, activeFilters: ActiveFilters, onFilterChange: (key: keyof ActiveFilters, value: string | null) => void }) => {
   const { t } = useTranslation();
-  const [roomTypes, setRoomTypes] = useState<Type[]>([]);
-  const [roomType, setRoomType] = useState<Type>();
-  const [productTypes, setProductTypes] = useState<Type[]>([]);
-  const [productType, setProductType] = useState<Type>();
-  const [storageTypes, setStorageTypes] = useState<Type[]>([]);
-  const [storageType, setStorageType] = useState<Type>();
-  const [storageSubTypes, setStorageSubTypes] = useState<Type[]>([]);
-  const [storageSubType, setStorageSubType] = useState<Type>();
+  const [options, setOptions] = useState<FilterOptions>({
+    roomType: [],
+    productType: [],
+    storageType: [],
+    storageSubType: [],
+  });
+
+  const loadAllOptions = async () => {
+    const baseUrl = import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL;
+    const token = oidc.accessToken;
+
+    const [rtRes, ptRes, stRes, sstRes] = await Promise.all([
+      fetchRoomType(baseUrl, token),
+      fetchProductType(baseUrl, token),
+      fetchStorageType(baseUrl, token),
+      fetchStorageSubType(baseUrl, token)
+    ]);
+
+    setOptions({
+      roomType: rtRes.status === 200 ? rtRes.data || [] : [],
+      productType: ptRes.status === 200 ? ptRes.data || [] : [],
+      storageType: stRes.status === 200 ? stRes.data || [] : [],
+      storageSubType: sstRes.status === 200 ? sstRes.data || [] : [],
+    });
+  };
+  const filterConfigs: { key: keyof ActiveFilters; label: string }[] = [
+    { key: 'roomType', label: 'app.roomType' },
+    { key: 'productType', label: 'app.productType' },
+    { key: 'storageType', label: 'app.storageType' },
+    { key: 'storageSubType', label: 'app.storageSubType' },
+  ];
 
   useEffect(() => {
-    loadRoomType();
-    loadProductType();
-    loadStorageType();
-    loadSubstorageType();
+    loadAllOptions();
   }, [oidc.accessToken]); // Recharge si le token change
-
-  const loadRoomType = async () => {
-    const response = await fetchRoomType(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
-      oidc.accessToken
-    );
-    if (response.status === 200 && response.data) {
-      setRoomTypes(response.data);
-    }
-  };
-
-  const loadProductType = async () => {
-    const response = await fetchProductType(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
-      oidc.accessToken
-    );
-    if (response.status === 200 && response.data) {
-      setProductTypes(response.data);
-    }
-  };
-
-  const loadStorageType = async () => {
-    const response = await fetchStorageType(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
-      oidc.accessToken
-    );
-    if (response.status === 200 && response.data) {
-      setStorageTypes(response.data);
-    }
-  };
-
-  const loadSubstorageType = async () => {
-    const response = await fetchStorageSubType(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
-      oidc.accessToken
-    );
-    if (response.status === 200 && response.data) {
-      setStorageSubTypes(response.data);
-    }
-  };
-
-  const onSelectRoomType = (selectedValue: string) => {
-    const rt = roomTypes.find(rt => rt.symbol === selectedValue);
-    setRoomType(rt);
-    console.log(rt);
-  }
-
-  const onSelectProductType = (selectedValue: string) => {
-    const rt = productTypes.find(rt => rt.symbol === selectedValue);
-    setProductType(rt);
-    console.log(rt);
-  }
-
-  const onSelectStorageType = (selectedValue: string) => {
-    const rt = storageTypes.find(rt => rt.symbol === selectedValue);
-    setStorageType(rt);
-    console.log(rt);
-  }
-
-  const onSelectSubstorageType = (selectedValue: string) => {
-    const rt = storageSubTypes.find(rt => rt.symbol === selectedValue);
-    setStorageSubType(rt);
-    console.log(rt);
-  }
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row"}}>
-      <FilterSelect placeholder={t("app.roomType")} data={roomTypes} value={roomType?.symbol ?? null}
-                    setValue={onSelectRoomType} listName={'roomType'} />
-      <FilterSelect placeholder={t("app.productType")} data={productTypes} value={productType?.symbol ?? null}
-                    setValue={onSelectProductType} listName={'productType'} />
-      <FilterSelect placeholder={t("app.storageType")} data={storageTypes} value={storageType?.symbol ?? null}
-                    setValue={onSelectStorageType} listName={'storageType'} />
-      <FilterSelect placeholder={t("app.storageSubType")} data={storageSubTypes} value={storageSubType?.symbol ?? null}
-                    setValue={onSelectSubstorageType} listName={'storageSubType'} />
+      {filterConfigs.map(({ key, label }) => (
+          <FilterSelect
+            placeholder={t(label)}
+            data={options[key]}
+            value={activeFilters[key]}
+            setValue={(val) => onFilterChange(key, val)}
+            listName={key}
+          />
+      ))}
     </div>
   );
 };
