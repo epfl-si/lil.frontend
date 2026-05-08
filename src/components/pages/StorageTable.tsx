@@ -51,7 +51,10 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
     return [...storages].sort((a, b) => {
       const getValue = (item: any, key: string) => {
         const val = item[key];
-        return String(typeof val === "object" && val !== null ? val.name : val || "");
+        if (typeof val === "object" && val !== null && val.symbol) {
+          return t(`${key}.${val.symbol}`)
+        }
+        return String(val || "")
       };
 
       const valA = getValue(a, sortConfig.key);
