@@ -1,5 +1,5 @@
-import { useEffect, useState, useMemo } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table.tsx";
+import {useEffect, useMemo, useState} from "react";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {
   Pagination,
   PaginationContent,
@@ -7,14 +7,15 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination.tsx";
-import { Link, useSearchParams } from "react-router";
-import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
-import type { State } from "@epfl-si/react-appauth";
-import type { StorageType } from "@/lib/types.tsx";
-import { fetchStorage } from "@/lib/graphql/fetchingTools.ts";
-import { useTranslation } from "react-i18next";
-type SortKey = "barcode" | "roomDisplay" | "roomType" | "productType" | "storageType" | "storageSubType";
+import {Link, useSearchParams} from "react-router";
+import {ArrowDown, ArrowUp, ArrowUpDown} from "lucide-react";
+import type {State} from "@epfl-si/react-appauth";
+import type {StorageType} from "@/lib/types.tsx";
+import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
+import {useTranslation} from "react-i18next";
 import {Filters} from "@/components/parts/filters.tsx";
+
+type SortKey = "barcode" | "roomDisplay" | "roomType" | "productType" | "storageType" | "storageSubType";
 
 export const StorageTable = ({ oidc }: { oidc: State }) => {
   const { t, i18n } = useTranslation();
