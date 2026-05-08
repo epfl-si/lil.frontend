@@ -59,23 +59,23 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
 
   // SORTING LOGIC
   const sortedStorages = useMemo(() => {
-    let filtered = storages;
+    let filteredStorages = storages;
     if (filters.roomType) {
-      filtered = filtered.filter(s => s.roomType?.symbol === filters.roomType)
+      filteredStorages = filteredStorages.filter(s => s.roomType?.symbol === filters.roomType)
     }
     if (filters.productType) {
-      filtered = filtered.filter(s => s.productType?.symbol === filters.productType);
+      filteredStorages = filteredStorages.filter(s => s.productType?.symbol === filters.productType);
     }
     if (filters.storageType) {
-      filtered = filtered.filter(s => s.storageType?.symbol === filters.storageType);
+      filteredStorages = filteredStorages.filter(s => s.storageType?.symbol === filters.storageType);
     }
     if (filters.storageSubType) {
-      filtered = filtered.filter(s => s.storageSubType?.symbol === filters.storageSubType);
+      filteredStorages = filteredStorages.filter(s => s.storageSubType?.symbol === filters.storageSubType);
     }
 
-    if (!sortConfig) return filtered;
+    if (!sortConfig) return filteredStorages;
 
-    return [...filtered].sort((a, b) => {
+    return [...filteredStorages].sort((a, b) => {
       const getValue = (item: any, key: string) => {
         const val = item[key];
         if (typeof val === "object" && val !== null && val.symbol) {
