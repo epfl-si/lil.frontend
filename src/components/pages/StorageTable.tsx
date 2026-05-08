@@ -17,6 +17,13 @@ import {Filters} from "@/components/parts/filters.tsx";
 
 type SortKey = keyof StorageType;
 
+export interface ActiveFilters {
+  roomType: string | null;
+  productType: string | null;
+  storageType: string | null;
+  storageSubType: string | null;
+}
+
 export const StorageTable = ({ oidc }: { oidc: State }) => {
   const { t, i18n } = useTranslation();
   const [storages, setStorages] = useState<StorageType[]>([]);
@@ -27,6 +34,12 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
   const [searchParams] = useSearchParams();
   const itemsPerPage = 50;
   const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get("page") || "1", 10));
+  const [filters, setFilters] = useState<ActiveFilters>({
+    roomType: null,
+    productType: null,
+    storageType: null,
+    storageSubType: null,
+  });
 
   useEffect(() => {
     loadStorages();
@@ -46,9 +59,23 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
 
   // SORTING LOGIC
   const sortedStorages = useMemo(() => {
-    if (!sortConfig) return storages;
+    let filtered = storages;
+    if (filters.roomType) {
+      filtered = filtered.filter(s => s.roomType?.symbol === filters.roomType)
+    }
+    if (filters.productType) {
+      filtered = filtered.filter(s => s.productType?.symbol === filters.productType);
+    }
+    if (filters.storageType) {
+      filtered = filtered.filter(s => s.storageType?.symbol === filters.storageType);
+    }
+    if (filters.storageSubType) {
+      filtered = filtered.filter(s => s.storageSubType?.symbol === filters.storageSubType);
+    }
 
-    return [...storages].sort((a, b) => {
+    if (!sortConfig) return filtered;
+
+    return [...filtered].sort((a, b) => {
       const getValue = (item: any, key: string) => {
         const val = item[key];
         if (typeof val === "object" && val !== null && val.symbol) {
@@ -64,7 +91,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
 
       return isAsc * valA.localeCompare(valB, i18n.language, { numeric: true, sensitivity: 'base' });
     });
-  }, [storages, sortConfig, i18n.language]);
+  }, [storages, sortConfig, filters, t, i18n.language]);
 
   // PAGINATION
   const totalPages = Math.max(1, Math.ceil(sortedStorages.length / itemsPerPage));
@@ -97,9 +124,15 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
     </TableHead>
   );
 
+  // Drop down filtering handler
+  const handleFilterChange = (key: keyof ActiveFilters, value: string | null) => {
+    setFilters((prev) => ({ ...prev, [key]: value}));
+    setCurrentPage(1);
+  }
+
   return (
     <div className="space-y-4">
-      <Filters oidc={oidc} />
+      <Filters oidc={oidc} activeFilters={filters} onFilterChange={handleFilterChange} />
       <div className="border rounded-md bg-white">
         <Table>
           <TableHeader>
