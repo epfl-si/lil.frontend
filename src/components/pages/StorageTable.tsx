@@ -17,7 +17,7 @@ type SortKey = "barcode" | "roomDisplay" | "roomType" | "productType" | "storage
 import {Filters} from "@/components/parts/filters.tsx";
 
 export const StorageTable = ({ oidc }: { oidc: State }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [storages, setStorages] = useState<StorageType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
