@@ -15,7 +15,7 @@ import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
 import {useTranslation} from "react-i18next";
 import {Filters} from "@/components/parts/filters.tsx";
 
-type SortKey = "barcode" | "roomDisplay" | "roomType" | "productType" | "storageType" | "storageSubType";
+type SortKey = keyof StorageType;
 
 export const StorageTable = ({ oidc }: { oidc: State }) => {
   const { t, i18n } = useTranslation();
