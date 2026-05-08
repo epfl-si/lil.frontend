@@ -33,19 +33,19 @@ export const fetchStorage = async (
       roomDisplay
       roomType {
         shortName
-        name
+        symbol
       }
       productType {
         shortName
-        name
+        symbol
       }
       storageType {
         shortName
-        name
+        symbol
       }
       storageSubType {
         shortName
-        name
+        symbol
       }
     }
   }`;
