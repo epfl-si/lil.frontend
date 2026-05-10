@@ -24,6 +24,38 @@ export interface ActiveFilters {
   storageSubType?: string;
 }
 
+interface SortableHeaderProps {
+  label: string;
+  sortKey: SortKey;
+  sortConfig: { key: SortKey; direction: "asc" | "desc" } | null;
+  handleSort: (key: SortKey) => void;
+}
+
+const SortableHeader = ({
+  label,
+  sortKey,
+  sortConfig,
+  handleSort,
+}: SortableHeaderProps) => (
+  <TableHead
+    onClick={() => handleSort(sortKey)}
+    className="cursor-pointer select-none hover:bg-slate-50 transition-colors"
+  >
+    <div className="flex items-center gap-2">
+      {label}
+      {sortConfig?.key === sortKey ? (
+        sortConfig.direction === "asc" ? (
+          <ArrowUp className="w-4 h-4" />
+        ) : (
+          <ArrowDown className="w-4 h-4" />
+        )
+      ) : (
+        <ArrowUpDown className="w-4 h-4 opacity-30" />
+      )}
+    </div>
+  </TableHead>
+);
+
 export const StorageTable = ({ oidc }: { oidc: State }) => {
   const { t, i18n } = useTranslation();
   const [storages, setStorages] = useState<StorageType[]>([]);
@@ -110,20 +142,6 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
     setCurrentPage(1);
   };
 
-  // HEADER COMPONENT
-  const SortableHeader = ({ label, sortKey }: { label: string; sortKey: SortKey }) => (
-    <TableHead onClick={() => handleSort(sortKey)} className="cursor-pointer select-none hover:bg-slate-50 transition-colors">
-      <div className="flex items-center gap-2">
-        {label}
-        {sortConfig?.key === sortKey ? (
-          sortConfig.direction === "asc" ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />
-        ) : (
-          <ArrowUpDown className="w-4 h-4 opacity-30" />
-        )}
-      </div>
-    </TableHead>
-  );
-
   // Drop down filtering handler
   const handleFilterChange = (key: keyof ActiveFilters, value: string) => {
     setActiveFilters((prev) => ({ ...prev, [key]: value}));
@@ -137,12 +155,12 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <SortableHeader label={t('app.room')} sortKey="roomDisplay" />
-              <SortableHeader label={t('app.roomType')} sortKey="roomType" />
-              <SortableHeader label={t('app.productType')} sortKey="productType" />
-              <SortableHeader label={t('app.storageType')} sortKey="storageType" />
-              <SortableHeader label={t('app.storageSubType')} sortKey="storageSubType" />
-              <SortableHeader label={t('app.storage')} sortKey="barcode" />
+              <SortableHeader label={t('app.room')} sortKey="roomDisplay" sortConfig={sortConfig} handleSort={handleSort}/>
+              <SortableHeader label={t('app.roomType')} sortKey="roomType" sortConfig={sortConfig} handleSort={handleSort}/>
+              <SortableHeader label={t('app.productType')} sortKey="productType" sortConfig={sortConfig} handleSort={handleSort}/>
+              <SortableHeader label={t('app.storageType')} sortKey="storageType" sortConfig={sortConfig} handleSort={handleSort}/>
+              <SortableHeader label={t('app.storageSubType')} sortKey="storageSubType" sortConfig={sortConfig} handleSort={handleSort}/>
+              <SortableHeader label={t('app.storage')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
