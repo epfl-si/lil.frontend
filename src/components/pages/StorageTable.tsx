@@ -18,10 +18,10 @@ import {Filters} from "@/components/parts/filters.tsx";
 type SortKey = keyof StorageType;
 
 export interface ActiveFilters {
-  roomType: string | null;
-  productType: string | null;
-  storageType: string | null;
-  storageSubType: string | null;
+  roomType?: string;
+  productType?: string;
+  storageType?: string;
+  storageSubType?: string;
 }
 
 export const StorageTable = ({ oidc }: { oidc: State }) => {
@@ -35,10 +35,10 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
   const itemsPerPage = 50;
   const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get("page") || "1", 10));
   const [filters, setFilters] = useState<ActiveFilters>({
-    roomType: null,
-    productType: null,
-    storageType: null,
-    storageSubType: null,
+    roomType: "",
+    productType: "",
+    storageType: "",
+    storageSubType: "",
   });
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
   );
 
   // Drop down filtering handler
-  const handleFilterChange = (key: keyof ActiveFilters, value: string | null) => {
+  const handleFilterChange = (key: keyof ActiveFilters, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value}));
     setCurrentPage(1);
   }
