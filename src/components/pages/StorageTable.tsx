@@ -34,7 +34,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
   const [searchParams] = useSearchParams();
   const itemsPerPage = 50;
   const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get("page") || "1", 10));
-  const [filters, setFilters] = useState<ActiveFilters>({
+  const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
     roomType: "",
     productType: "",
     storageType: "",
@@ -60,17 +60,17 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
   // SORTING LOGIC
   const sortedStorages = useMemo(() => {
     let filteredStorages = storages;
-    if (filters.roomType) {
-      filteredStorages = filteredStorages.filter(s => s.roomType?.symbol === filters.roomType)
+    if (activeFilters.roomType) {
+      filteredStorages = filteredStorages.filter(s => s.roomType?.symbol === activeFilters.roomType)
     }
-    if (filters.productType) {
-      filteredStorages = filteredStorages.filter(s => s.productType?.symbol === filters.productType);
+    if (activeFilters.productType) {
+      filteredStorages = filteredStorages.filter(s => s.productType?.symbol === activeFilters.productType);
     }
-    if (filters.storageType) {
-      filteredStorages = filteredStorages.filter(s => s.storageType?.symbol === filters.storageType);
+    if (activeFilters.storageType) {
+      filteredStorages = filteredStorages.filter(s => s.storageType?.symbol === activeFilters.storageType);
     }
-    if (filters.storageSubType) {
-      filteredStorages = filteredStorages.filter(s => s.storageSubType?.symbol === filters.storageSubType);
+    if (activeFilters.storageSubType) {
+      filteredStorages = filteredStorages.filter(s => s.storageSubType?.symbol === activeFilters.storageSubType);
     }
 
     if (!sortConfig) return filteredStorages;
@@ -91,7 +91,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
 
       return isAsc * valA.localeCompare(valB, i18n.language, { numeric: true, sensitivity: 'base' });
     });
-  }, [storages, sortConfig, filters, t, i18n.language]);
+  }, [storages, sortConfig, activeFilters, t, i18n.language]);
 
   // PAGINATION
   const totalPages = Math.max(1, Math.ceil(sortedStorages.length / itemsPerPage));
@@ -126,13 +126,13 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
 
   // Drop down filtering handler
   const handleFilterChange = (key: keyof ActiveFilters, value: string) => {
-    setFilters((prev) => ({ ...prev, [key]: value}));
+    setActiveFilters((prev) => ({ ...prev, [key]: value}));
     setCurrentPage(1);
   }
 
   return (
     <div className="space-y-4">
-      <Filters oidc={oidc} activeFilters={filters} onFilterChange={handleFilterChange} />
+      <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} />
       <div className="border rounded-md bg-white">
         <Table>
           <TableHeader>
