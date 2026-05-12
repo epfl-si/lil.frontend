@@ -23,10 +23,38 @@ export const fetchConnectedUser = async (
 
 export const fetchStorage = async (
   address: string | undefined,
-  authToken: string | undefined
+  authToken: string | undefined,
+  variables: {
+    roomTypeSymbol?: string;
+    productTypeSymbol?: string;
+    storageTypeSymbol?: string;
+    storageSubTypeSymbol?: string;
+    page?: number;
+    pageSize?: number;
+    sortField?: string;
+    sortDirection?: string;
+  }
 ): Promise<FetchStoragesType> => {
-  const query = `query getStorage {
-    storages {
+  const query = `query getStorage (
+    $roomTypeSymbol: String,
+    $productTypeSymbol: String,
+    $storageTypeSymbol: String,
+    $storageSubTypeSymbol: String,
+    $page: Int,
+    $pageSize: Int,
+    $sortField: String,
+    $sortDirection: String
+  ) {
+    storages(
+      roomTypeSymbol: $roomTypeSymbol,
+      productTypeSymbol: $productTypeSymbol,
+      storageTypeSymbol: $storageTypeSymbol,
+      storageSubTypeSymbol: $storageSubTypeSymbol,
+      page: $page,
+      pageSize: $pageSize,
+      sortField: $sortField,
+      sortDirection: $sortDirection
+    ) {
       barcode
       createdBy
       deletedBy
@@ -49,7 +77,7 @@ export const fetchStorage = async (
       }
     }
   }`;
-  const result = await doGraphQL(query, {}, address, authToken);
+  const result = await doGraphQL(query, variables, address, authToken);
   return {
     status: result.status,
     data: result.data?.storages,
@@ -95,7 +123,7 @@ export const fetchProductType = async (
 
 export const fetchStorageType = async (
   address: string | undefined,
-  authToken: string | undefined
+  authToken: string | undefined,
 ): Promise<FetchType> => {
   const query = `query getStorageTypes {
     storageTypes {
