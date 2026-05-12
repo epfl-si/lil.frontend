@@ -22,7 +22,8 @@
     "storageFacilityManagement": "Storage Facility Management",
     "backToStorage": "Back to Storage",
     "detailsOfBarcode": "Details of Barcode {{barcode}}",
-    "reset": " - "
+    "reset": " - ",
+    "addNewLocation": "Add a new barcode"
   },
   "roomType": {
     "LABO":  "Laboratory",

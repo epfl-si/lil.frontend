@@ -22,7 +22,8 @@
     "storageFacilityManagement": "Gestion des lieux de Stockage",
     "backToStorage": "Retour aux storages",
     "detailsOfBarcode": "Détails du Code-barre {{barcode}}",
-    "reset": " - "
+    "reset": " - ",
+    "addNewLocation": "Ajouter un nouveau barcode"
   },
   "roomType": {
     "LABO":  "Laboratoire",
