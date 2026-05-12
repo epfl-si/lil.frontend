@@ -44,6 +44,7 @@ function App() {
           <Route element={<Layout user={connectedUser} oidc={oidc} />}>
             <Route element={<RequireAuth oidc={oidc} />}>
               <Route path="/" element={<Body oidc={oidc} />} />
+              <Route path="/code/new" element={<BarcodeDetailPage oidc={oidc} />} />
               <Route path="/code/:barcode" element={<BarcodeDetailPage oidc={oidc} />} />
             </Route>
           </Route>
