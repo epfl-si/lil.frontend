@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {
   Pagination,
@@ -64,7 +64,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: "asc" | "desc" } | null>(null);
 
   const [searchParams] = useSearchParams();
-  const itemsPerPage = 50;
+  const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get("page") || "1", 10));
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
     roomType: "",
@@ -75,13 +75,28 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
 
   useEffect(() => {
     loadStorages();
-  }, [oidc.accessToken]);
+  }, [
+    oidc.accessToken,
+    currentPage,
+    sortConfig,
+    activeFilters
+  ]);
 
   const loadStorages = async () => {
     setIsLoading(true);
     const response = await fetchStorage(
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
-      oidc.accessToken
+      oidc.accessToken,
+      {
+        page: currentPage,
+        pageSize: itemsPerPage,
+        sortField: sortConfig?.key,
+        sortDirection: sortConfig?.direction,
+        roomTypeSymbol: activeFilters.roomType,
+        productTypeSymbol: activeFilters.productType,
+        storageTypeSymbol: activeFilters.storageType,
+        storageSubTypeSymbol: activeFilters.storageSubType,
+      }
     );
     if (response.status === 200 && response.data) {
       setStorages(response.data);
@@ -89,47 +104,9 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
     setIsLoading(false);
   };
 
-  // SORTING LOGIC
-  const sortedStorages = useMemo(() => {
-    let filteredStorages = storages;
-    if (activeFilters.roomType) {
-      filteredStorages = filteredStorages.filter(s => s.roomType?.symbol === activeFilters.roomType)
-    }
-    if (activeFilters.productType) {
-      filteredStorages = filteredStorages.filter(s => s.productType?.symbol === activeFilters.productType);
-    }
-    if (activeFilters.storageType) {
-      filteredStorages = filteredStorages.filter(s => s.storageType?.symbol === activeFilters.storageType);
-    }
-    if (activeFilters.storageSubType) {
-      filteredStorages = filteredStorages.filter(s => s.storageSubType?.symbol === activeFilters.storageSubType);
-    }
-
-    if (!sortConfig) return filteredStorages;
-
-    return [...filteredStorages].sort((a, b) => {
-      const getValue = (item: any, key: string) => {
-        const val = item[key];
-        if (typeof val === "object" && val !== null && val.symbol) {
-          return t(`${key}.${val.symbol}`)
-        }
-        return String(val || "")
-      };
-
-      const valA = getValue(a, sortConfig.key);
-      const valB = getValue(b, sortConfig.key);
-
-      const isAsc = sortConfig.direction === "asc" ? 1 : -1;
-
-      return isAsc * valA.localeCompare(valB, i18n.language, { numeric: true, sensitivity: 'base' });
-    });
-  }, [storages, sortConfig, activeFilters, t, i18n.language]);
-
-  // PAGINATION
-  const totalPages = Math.max(1, Math.ceil(sortedStorages.length / itemsPerPage));
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedStorages = sortedStorages.slice(startIndex, startIndex + itemsPerPage);
-
+  //TODO Get totalCount from backend
+  //const totalPages = Math.ceil(totalCount / itemsPerPage);
+  const totalPages = 2
   const goToNextPage = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
   const goToPreviousPage = () => setCurrentPage((p) => Math.max(p - 1, 1));
 
@@ -169,12 +146,12 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
               <TableRow>
                 <TableCell colSpan={7} className="text-center py-8">{t('app.loadingData')}</TableCell>
               </TableRow>
-            ) : sortedStorages.length === 0 ? (
+            ) : storages.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={7} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
               </TableRow>
             ) : (
-              paginatedStorages.map((storage, index) => (
+              storages.map((storage, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{storage.roomDisplay}</TableCell>
                   <TableCell className="font-medium">{t(`roomType.${storage.roomType.symbol}`)} ({storage.roomType.shortName})</TableCell>
@@ -200,7 +177,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
         </Table>
       </div>
 
-      {!isLoading && sortedStorages.length > 0 && (
+      {!isLoading && storages.length > 0 && (
         <Pagination>
           <PaginationContent>
             <PaginationItem>
