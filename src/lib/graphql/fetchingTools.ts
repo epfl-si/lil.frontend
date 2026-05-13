@@ -105,15 +105,28 @@ export const fetchRoomType = async (
 
 export const fetchProductType = async (
   address: string | undefined,
-  authToken: string | undefined
+  authToken: string | undefined,
+  roomTypeShortName?: string
 ): Promise<FetchType> => {
-  const query = `query getProductType {
-    productTypes {
-        shortName
-        symbol
-    }
-  }`;
-  const result = await doGraphQL(query, {}, address, authToken);
+
+  const query = roomTypeShortName
+    ? `query getProductTypeFiltered($room: String) {
+        productTypes(roomTypeShortName: $room) {
+          shortName
+          symbol
+        }
+      }`
+    : `query getProductType {
+        productTypes {
+          shortName
+          symbol
+        }
+      }`;
+
+  const variables = roomTypeShortName ? { room: roomTypeShortName } : {};
+
+  const result = await doGraphQL(query, variables, address, authToken);
+
   return {
     status: result.status,
     data: result.data?.productTypes,
@@ -124,14 +137,36 @@ export const fetchProductType = async (
 export const fetchStorageType = async (
   address: string | undefined,
   authToken: string | undefined,
+  roomTypeShortName?: string,
+  productTypeShortName?: string
 ): Promise<FetchType> => {
-  const query = `query getStorageTypes {
-    storageTypes {
-        shortName
-        symbol
-    }
-  }`;
-  const result = await doGraphQL(query, {}, address, authToken);
+
+  const hasFilters = roomTypeShortName || productTypeShortName;
+
+  const query = hasFilters
+    ? `query getStorageTypesFiltered($room: String, $product: String) {
+        storageTypes(
+          roomTypeShortName: $room,
+          productTypeShortName: $product
+        ) {
+          shortName
+          symbol
+        }
+      }`
+    : `query getStorageTypes {
+        storageTypes {
+          shortName
+          symbol
+        }
+      }`;
+
+  const variables = hasFilters ? {
+    room: roomTypeShortName || undefined,
+    product: productTypeShortName || undefined
+  } : {};
+
+  const result = await doGraphQL(query, variables, address, authToken);
+
   return {
     status: result.status,
     data: result.data?.storageTypes,
@@ -141,15 +176,40 @@ export const fetchStorageType = async (
 
 export const fetchStorageSubType = async (
   address: string | undefined,
-  authToken: string | undefined
+  authToken: string | undefined,
+  roomTypeShortName?: string,
+  productTypeShortName?: string,
+  storageTypeShortName?: string
 ): Promise<FetchType> => {
-  const query = `query getStorageSubTypes {
-    storageSubTypes {
-        shortName
-        symbol
-    }
-  }`;
-  const result = await doGraphQL(query, {}, address, authToken);
+
+  const hasFilters = roomTypeShortName || productTypeShortName || storageTypeShortName;
+
+  const query = hasFilters
+    ? `query getStorageSubTypesFiltered($room: String, $product: String, $storage: String) {
+        storageSubTypes(
+          roomTypeShortName: $room,
+          productTypeShortName: $product,
+          storageTypeShortName: $storage
+        ) {
+          shortName
+          symbol
+        }
+      }`
+    : `query getStorageSubTypes {
+        storageSubTypes {
+          shortName
+          symbol
+        }
+      }`;
+
+  const variables = hasFilters ? {
+    room: roomTypeShortName || undefined,
+    product: productTypeShortName || undefined,
+    storage: storageTypeShortName || undefined
+  } : {};
+
+  const result = await doGraphQL(query, variables, address, authToken);
+
   return {
     status: result.status,
     data: result.data?.storageSubTypes,

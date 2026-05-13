@@ -8,14 +8,14 @@ export const FilterSelect = (
     placeholder: string,
     data: Type[],
     listName: string,
-    value: string
-    setValue: (value: string) => void
+    value: string | null,
+    setValue: (value: string | null) => void
   }
 ) => {
   const { t } = useTranslation();
 
   return (
-      <Select value={value}
+      <Select value={value ? value : "__all__"}
             onValueChange={(val) => {
               setValue(val === "__all__" ? "" : val);
             }}>

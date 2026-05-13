@@ -127,7 +127,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
 
   return (
     <div className="space-y-4">
-      <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} />
+      <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={false} />
       <div className="border rounded-md bg-white">
         <Table>
           <TableHeader>
