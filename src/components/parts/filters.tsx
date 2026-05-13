@@ -69,11 +69,9 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
     setOptions(prev => ({ ...prev, productType: [], storageType: [], storageSubType: [] }));
 
     if (val) {
-      const selectedRoom = options.roomType.find(r => r.symbol === val);
-      if (selectedRoom?.shortName) {
-        const res = await fetchProductType(baseUrl, token, selectedRoom.shortName);
-        setOptions(prev => ({ ...prev, productType: res.data || [] }));
-      }
+
+      const res = await fetchProductType(baseUrl, token, val);
+      setOptions(prev => ({ ...prev, productType: res.data || [] }));
     }
   };
 
@@ -86,12 +84,8 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
     setOptions(prev => ({ ...prev, storageType: [], storageSubType: [] }));
 
     if (val && activeFilters.roomType) {
-      const room = options.roomType.find(r => r.symbol === activeFilters.roomType)?.shortName;
-      const product = options.productType.find(p => p.symbol === val)?.shortName;
-      if (room && product) {
-        const res = await fetchStorageType(baseUrl, token, room, product);
-        setOptions(prev => ({ ...prev, storageType: res.data || [] }));
-      }
+      const res = await fetchStorageType(baseUrl, token, activeFilters.roomType, val);
+      setOptions(prev => ({ ...prev, storageType: res.data || [] }));
     }
   };
 
@@ -103,13 +97,8 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
     setOptions(prev => ({ ...prev, storageSubType: [] }));
 
     if (val && activeFilters.roomType && activeFilters.productType) {
-      const room = options.roomType.find(r => r.symbol === activeFilters.roomType)?.shortName;
-      const product = options.productType.find(p => p.symbol === activeFilters.productType)?.shortName;
-      const storage = options.storageType.find(s => s.symbol === val)?.shortName;
-      if (room && product && storage) {
-        const res = await fetchStorageSubType(baseUrl, token, room, product, storage);
-        setOptions(prev => ({ ...prev, storageSubType: res.data || [] }));
-      }
+      const res = await fetchStorageSubType(baseUrl, token, activeFilters.roomType, activeFilters.productType, val);
+      setOptions(prev => ({ ...prev, storageSubType: res.data || [] }));
     }
   };
 
