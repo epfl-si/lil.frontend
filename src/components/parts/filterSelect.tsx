@@ -15,7 +15,7 @@ export const FilterSelect = (
   const { t } = useTranslation();
 
   return (
-      <Select value={value ? value : "__all__"}
+      <Select value={value || undefined}
             onValueChange={(val) => {
               setValue(val === "__all__" ? "" : val);
             }}>
