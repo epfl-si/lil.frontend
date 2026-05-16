@@ -55,32 +55,36 @@ export const fetchStorage = async (
       sortField: $sortField,
       sortDirection: $sortDirection
     ) {
-      barcode
-      createdBy
-      deletedBy
-      roomDisplay
-      roomType {
-        shortName
-        symbol
-      }
-      productType {
-        shortName
-        symbol
-      }
-      storageType {
-        shortName
-        symbol
-      }
-      storageSubType {
-        shortName
-        symbol
+      totalCount
+      storages {
+        barcode
+        createdBy
+        deletedBy
+        roomDisplay
+        roomType {
+          shortName
+          symbol
+        }
+        productType {
+          shortName
+          symbol
+        }
+        storageType {
+          shortName
+          symbol
+        }
+        storageSubType {
+          shortName
+          symbol
+        }
       }
     }
   }`;
   const result = await doGraphQL(query, variables, address, authToken);
   return {
     status: result.status,
-    data: result.data?.storages,
+    data: result.data?.storages.storages ?? [],
+    totalCount: result.data?.storages.totalCount ?? 0,
     errors: result.errors
   };
 };
