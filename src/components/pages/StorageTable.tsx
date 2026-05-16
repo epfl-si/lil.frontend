@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {
   Pagination,
@@ -15,7 +15,46 @@ import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
 import {useTranslation} from "react-i18next";
 import {Filters} from "@/components/parts/filters.tsx";
 
-type SortKey = "barcode" | "roomDisplay" | "roomType" | "productType" | "storageType" | "storageSubType";
+type SortKey = keyof StorageType;
+
+export interface ActiveFilters {
+  roomType?: string;
+  productType?: string;
+  storageType?: string;
+  storageSubType?: string;
+}
+
+interface SortableHeaderProps {
+  label: string;
+  sortKey: SortKey;
+  sortConfig: { key: SortKey; direction: "asc" | "desc" } | null;
+  handleSort: (key: SortKey) => void;
+}
+
+const SortableHeader = ({
+  label,
+  sortKey,
+  sortConfig,
+  handleSort,
+}: SortableHeaderProps) => (
+  <TableHead
+    onClick={() => handleSort(sortKey)}
+    className="cursor-pointer select-none hover:bg-slate-50 transition-colors"
+  >
+    <div className="flex items-center gap-2">
+      {label}
+      {sortConfig?.key === sortKey ? (
+        sortConfig.direction === "asc" ? (
+          <ArrowUp className="w-4 h-4" />
+        ) : (
+          <ArrowDown className="w-4 h-4" />
+        )
+      ) : (
+        <ArrowUpDown className="w-4 h-4 opacity-30" />
+      )}
+    </div>
+  </TableHead>
+);
 
 export const StorageTable = ({ oidc }: { oidc: State }) => {
   const { t, i18n } = useTranslation();
@@ -25,49 +64,50 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: "asc" | "desc" } | null>(null);
 
   const [searchParams] = useSearchParams();
-  const itemsPerPage = 50;
+  const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get("page") || "1", 10));
+  const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
+    roomType: "",
+    productType: "",
+    storageType: "",
+    storageSubType: "",
+  });
 
   useEffect(() => {
     loadStorages();
-  }, [oidc.accessToken]);
+  }, [
+    oidc.accessToken,
+    currentPage,
+    sortConfig,
+    activeFilters
+  ]);
 
   const loadStorages = async () => {
     setIsLoading(true);
     const response = await fetchStorage(
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
-      oidc.accessToken
+      oidc.accessToken,
+      {
+        page: currentPage,
+        pageSize: itemsPerPage,
+        sortField: sortConfig?.key,
+        sortDirection: sortConfig?.direction,
+        roomTypeSymbol: activeFilters.roomType,
+        productTypeSymbol: activeFilters.productType,
+        storageTypeSymbol: activeFilters.storageType,
+        storageSubTypeSymbol: activeFilters.storageSubType,
+      }
     );
     if (response.status === 200 && response.data) {
       setStorages(response.data);
+      setTotalCount(response.totalCount);
     }
     setIsLoading(false);
   };
 
-  // SORTING LOGIC
-  const sortedStorages = useMemo(() => {
-    if (!sortConfig) return storages;
 
-    return [...storages].sort((a, b) => {
-      const getValue = (item: any, key: string) => {
-        const val = item[key];
-        return String(typeof val === "object" && val !== null ? val.name : val || "");
-      };
-
-      const valA = getValue(a, sortConfig.key);
-      const valB = getValue(b, sortConfig.key);
-
-      const isAsc = sortConfig.direction === "asc" ? 1 : -1;
-
-      return isAsc * valA.localeCompare(valB, i18n.language, { numeric: true, sensitivity: 'base' });
-    });
-  }, [storages, sortConfig, i18n.language]);
-
-  // PAGINATION
-  const totalPages = Math.max(1, Math.ceil(sortedStorages.length / itemsPerPage));
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedStorages = sortedStorages.slice(startIndex, startIndex + itemsPerPage);
-
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
   const goToNextPage = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
   const goToPreviousPage = () => setCurrentPage((p) => Math.max(p - 1, 1));
 
@@ -80,33 +120,25 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
     setCurrentPage(1);
   };
 
-  // HEADER COMPONENT
-  const SortableHeader = ({ label, sortKey }: { label: string; sortKey: SortKey }) => (
-    <TableHead onClick={() => handleSort(sortKey)} className="cursor-pointer select-none hover:bg-slate-50 transition-colors">
-      <div className="flex items-center gap-2">
-        {label}
-        {sortConfig?.key === sortKey ? (
-          sortConfig.direction === "asc" ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />
-        ) : (
-          <ArrowUpDown className="w-4 h-4 opacity-30" />
-        )}
-      </div>
-    </TableHead>
-  );
+  // Drop down filtering handler
+  const handleFilterChange = (key: keyof ActiveFilters, value: string) => {
+    setActiveFilters((prev) => ({ ...prev, [key]: value}));
+    setCurrentPage(1);
+  }
 
   return (
     <div className="space-y-4">
-      <Filters oidc={oidc} />
+      <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={false} />
       <div className="border rounded-md bg-white">
         <Table>
           <TableHeader>
             <TableRow>
-              <SortableHeader label={t('app.room')} sortKey="roomDisplay" />
-              <SortableHeader label={t('app.roomType')} sortKey="roomType" />
-              <SortableHeader label={t('app.productType')} sortKey="productType" />
-              <SortableHeader label={t('app.storageType')} sortKey="storageType" />
-              <SortableHeader label={t('app.storageSubType')} sortKey="storageSubType" />
-              <SortableHeader label={t('app.storage')} sortKey="barcode" />
+              <SortableHeader label={t('app.room')} sortKey="roomDisplay" sortConfig={sortConfig} handleSort={handleSort}/>
+              <SortableHeader label={t('app.roomType')} sortKey="roomType" sortConfig={sortConfig} handleSort={handleSort}/>
+              <SortableHeader label={t('app.productType')} sortKey="productType" sortConfig={sortConfig} handleSort={handleSort}/>
+              <SortableHeader label={t('app.storageType')} sortKey="storageType" sortConfig={sortConfig} handleSort={handleSort}/>
+              <SortableHeader label={t('app.storageSubType')} sortKey="storageSubType" sortConfig={sortConfig} handleSort={handleSort}/>
+              <SortableHeader label={t('app.storage')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -115,12 +147,12 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
               <TableRow>
                 <TableCell colSpan={7} className="text-center py-8">{t('app.loadingData')}</TableCell>
               </TableRow>
-            ) : sortedStorages.length === 0 ? (
+            ) : storages.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={7} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
               </TableRow>
             ) : (
-              paginatedStorages.map((storage, index) => (
+              storages.map((storage, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{storage.roomDisplay}</TableCell>
                   <TableCell className="font-medium">{t(`roomType.${storage.roomType.symbol}`)} ({storage.roomType.shortName})</TableCell>
@@ -146,7 +178,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
         </Table>
       </div>
 
-      {!isLoading && sortedStorages.length > 0 && (
+      {!isLoading && storages.length > 0 && (
         <Pagination>
           <PaginationContent>
             <PaginationItem>

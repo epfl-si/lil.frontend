@@ -22,7 +22,7 @@
     "storageFacilityManagement": "Storage Facility Management",
     "backToStorage": "Back to Storage",
     "detailsOfBarcode": "Details of Barcode {{barcode}}",
-    "reset": " - "
+    "all": "All"
   },
   "roomType": {
     "LABO":  "Laboratory",
