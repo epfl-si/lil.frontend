@@ -100,13 +100,14 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
     );
     if (response.status === 200 && response.data) {
       setStorages(response.data);
+      setTotalCount(response.totalCount);
     }
     setIsLoading(false);
   };
 
-  //TODO Get totalCount from backend
-  //const totalPages = Math.ceil(totalCount / itemsPerPage);
-  const totalPages = 2
+
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
   const goToNextPage = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
   const goToPreviousPage = () => setCurrentPage((p) => Math.max(p - 1, 1));
 
