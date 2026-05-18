@@ -25,7 +25,9 @@
     "all": "All",
     "addNewLocation": "Add a new barcode",
     "addNewShelf": "Add a new shelf",
-    "addNewBox": "Add a new box"
+    "addNewBox": "Add a new box",
+    "deleteShelf": "Delete shelf",
+    "deleteBox": "Delete box"
   },
   "roomType": {
     "LABO":  "Laboratory",

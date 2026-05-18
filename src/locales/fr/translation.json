@@ -25,7 +25,9 @@
     "all": "Tous",
     "addNewLocation": "Ajouter un nouveau barcode",
     "addNewShelf": "Ajouter une nouvelle étagère",
-    "addNewBox": "Ajouter une nouvelle boite"
+    "addNewBox": "Ajouter une nouvelle boite",
+    "deleteShelf": "Supprimer l'étagère",
+    "deleteBox": "Supprimer la boite"
   },
   "roomType": {
     "LABO":  "Laboratoire",
