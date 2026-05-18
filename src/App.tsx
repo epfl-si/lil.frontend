@@ -4,10 +4,10 @@ import {StateEnum, useOpenIDConnectContext} from "@epfl-si/react-appauth";
 import {fetchConnectedUser} from "./lib/graphql/fetchingTools.ts";
 import {Layout} from "@/components/layout/Layout.tsx";
 import {BrowserRouter, Route, Routes} from "react-router";
-import {Body} from "@/components/layout/Body.tsx";
-import { RequireAuth } from "@/components/auth/RequireAuth.tsx";
-import { BarcodeDetailPage } from "@/components/pages/BarcodeDetailPage.tsx";
+import {RequireAuth} from "@/components/auth/RequireAuth.tsx";
+import {BarcodeDetailPage} from "@/components/pages/BarcodeDetailPage.tsx";
 import type {UserType} from "@/lib/types.tsx";
+import {StorageTable} from "@/components/pages/StorageTable.tsx";
 
 function App() {
   const oidc = useOpenIDConnectContext();
@@ -43,7 +43,7 @@ function App() {
         <Routes>
           <Route element={<Layout user={connectedUser} oidc={oidc} />}>
             <Route element={<RequireAuth oidc={oidc} />}>
-              <Route path="/" element={<Body oidc={oidc} />} />
+              <Route path="/" element={<StorageTable oidc={oidc} />} />
               <Route path="/code/new" element={<BarcodeDetailPage oidc={oidc} />} />
               <Route path="/code/:barcode" element={<BarcodeDetailPage oidc={oidc} />} />
             </Route>
