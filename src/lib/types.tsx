@@ -58,3 +58,9 @@ export type FetchType = {
   data?: Type[];
   errors?: any;
 };
+
+export type PostBarcodeType = {
+  status?: number;
+  barcode?: string;
+  errors?: any;
+};
