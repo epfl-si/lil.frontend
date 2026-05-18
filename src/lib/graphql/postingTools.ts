@@ -1,4 +1,4 @@
-import type {PostBarcodeType} from "@/lib/types.tsx";
+import type {DeleteBarcodeType, PostBarcodeType} from "@/lib/types.tsx";
 import {doGraphQL} from "@/lib/graphql/utils.ts";
 
 export const createShelf = async (
@@ -35,6 +35,44 @@ export const createBox = async (
   return {
     status: result.status,
     barcode: result.data?.createBox,
+    errors: result.errors
+  };
+};
+
+export const deleteShelf = async (
+  address: string | undefined,
+  authToken: string | undefined,
+  variables: {
+    barcode: string
+  }
+): Promise<DeleteBarcodeType> => {
+  const query = `mutation DeleteShelf ( $barcode: String ) {
+      deleteShelf ( barcode: $barcode )
+  }`;
+
+  const result = await doGraphQL(query, variables, address, authToken);
+  return {
+    status: result.status,
+    deleted: result.data?.deleteShelf,
+    errors: result.errors
+  };
+};
+
+export const deleteBox = async (
+  address: string | undefined,
+  authToken: string | undefined,
+  variables: {
+    barcode: string
+  }
+): Promise<DeleteBarcodeType> => {
+  const query = `mutation DeleteBox ( $barcode: String ) {
+      deleteBox ( barcode: $barcode )
+  }`;
+
+  const result = await doGraphQL(query, variables, address, authToken);
+  return {
+    status: result.status,
+    deleted: result.data?.deleteBox,
     errors: result.errors
   };
 };
