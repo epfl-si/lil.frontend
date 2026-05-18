@@ -185,7 +185,7 @@ export const fetchStorageType = async (
   roomSymbol?: string,
   productSymbol?: string
 ): Promise<FetchType> => {
-  const hasFilters = roomSymbol || productSymbol;
+  const hasFilters = roomSymbol && productSymbol;
 
   const query = hasFilters
     ? `query getStorageTypesFiltered($room: String, $product: String) {
@@ -202,8 +202,8 @@ export const fetchStorageType = async (
       }`;
 
   const variables = hasFilters ? {
-    room: roomSymbol || undefined,
-    product: productSymbol || undefined
+    room: roomSymbol,
+    product: productSymbol
   } : {};
 
   const result = await doGraphQL(query, variables, address, authToken);
@@ -217,7 +217,7 @@ export const fetchStorageSubType = async (
   productSymbol?: string,
   storageSymbol?: string
 ): Promise<FetchType> => {
-  const hasFilters = roomSymbol || productSymbol || storageSymbol;
+  const hasFilters = roomSymbol && productSymbol && storageSymbol;
 
   const query = hasFilters
     ? `query getStorageSubTypesFiltered($room: String, $product: String, $storage: String) {
@@ -234,9 +234,9 @@ export const fetchStorageSubType = async (
       }`;
 
   const variables = hasFilters ? {
-    room: roomSymbol || undefined,
-    product: productSymbol || undefined,
-    storage: storageSymbol || undefined
+    room: roomSymbol,
+    product: productSymbol,
+    storage: storageSymbol
   } : {};
 
   const result = await doGraphQL(query, variables, address, authToken);
