@@ -27,7 +27,10 @@
     "addNewShelf": "Add a new shelf",
     "addNewBox": "Add a new box",
     "deleteShelf": "Delete shelf",
-    "deleteBox": "Delete box"
+    "deleteBox": "Delete box",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "deleteShelfTitle": "Are you sur to delete {{barcode}}?"
   },
   "roomType": {
     "LABO":  "Laboratory",

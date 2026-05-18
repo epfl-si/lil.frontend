@@ -27,7 +27,10 @@
     "addNewShelf": "Ajouter une nouvelle étagère",
     "addNewBox": "Ajouter une nouvelle boite",
     "deleteShelf": "Supprimer l'étagère",
-    "deleteBox": "Supprimer la boite"
+    "deleteBox": "Supprimer la boite",
+    "cancel": "Annuler",
+    "continue": "Continuer",
+    "deleteShelfTitle": "Vous êtes sûrs de supprimer {{barcode}}?"
   },
   "roomType": {
     "LABO":  "Laboratoire",

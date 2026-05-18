@@ -4,7 +4,8 @@ import type {ShelfType} from "@/lib/types.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
 import {createBox, deleteShelf} from "@/lib/graphql/postingTools.ts";
-import {ListPlus, Trash2} from "lucide-react";
+import {ListPlus} from "lucide-react";
+import {Alert} from "@/components/parts/Alert.tsx";
 
 export const Shelf = ({ oidc, shelves, setShelves }: {
   oidc: State,
@@ -56,9 +57,8 @@ export const Shelf = ({ oidc, shelves, setShelves }: {
                  setShelves={setShelves} />
           </CardContent>
           <CardFooter className="left-div">
-            <span title={t("app.deleteShelf")}>
-              <Trash2 onClick={() => onDeleteShelf(shelf.barcode)} style={{marginRight: "10px"}} />
-            </span>
+            <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
+                   onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>
             <span title={t("app.addNewBox")}>
               <ListPlus onClick={() => onAddBox(shelf.barcode)} />
             </span>

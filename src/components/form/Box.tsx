@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {Card, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import type {BoxType, ShelfType} from "@/lib/types.tsx";
 import {deleteBox} from "@/lib/graphql/postingTools.ts";
-import {Trash2} from "lucide-react";
+import {Alert} from "@/components/parts/Alert.tsx";
 
 export const Box = ({ oidc, shelf, boxes, shelves, setShelves }: { oidc: State, shelf: string, boxes: BoxType[],
   shelves: ShelfType[], setShelves: (shelves: ShelfType[]) => void }) => {
@@ -31,13 +31,12 @@ export const Box = ({ oidc, shelf, boxes, shelves, setShelves }: { oidc: State, 
   return (
     <div>
       {boxes.map(box =>
-        <Card size="sm" className="mx-auto w-full max-w-sm">
+        <Card size="sm" className="mx-auto w-full max-w-sm" key={box.barcode}>
           <CardHeader>
             <CardTitle className="justify-div">
               {box.barcode}
-              <span title={t("app.deleteBox")}>
-              <Trash2 onClick={() => onDeleteBox(box.barcode)} />
-              </span>
+              <Alert title={t("app.deleteShelfTitle", {barcode: box.barcode})}
+                     onSubmit={() => onDeleteBox(box.barcode)} tooltip={t("app.deleteBox")}/>
             </CardTitle>
           </CardHeader>
         </Card>
