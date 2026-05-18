@@ -1,9 +1,9 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
-import {Card, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {Button} from "@/components/ui/button.tsx";
+import {Card, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import type {BoxType, ShelfType} from "@/lib/types.tsx";
 import {deleteBox} from "@/lib/graphql/postingTools.ts";
+import {Trash2} from "lucide-react";
 
 export const Box = ({ oidc, shelf, boxes, shelves, setShelves }: { oidc: State, shelf: string, boxes: BoxType[],
   shelves: ShelfType[], setShelves: (shelves: ShelfType[]) => void }) => {
@@ -33,13 +33,13 @@ export const Box = ({ oidc, shelf, boxes, shelves, setShelves }: { oidc: State, 
       {boxes.map(box =>
         <Card size="sm" className="mx-auto w-full max-w-sm">
           <CardHeader>
-            <CardTitle>{box.barcode}</CardTitle>
+            <CardTitle className="justify-div">
+              {box.barcode}
+              <span title={t("app.deleteBox")}>
+              <Trash2 onClick={() => onDeleteBox(box.barcode)} />
+              </span>
+            </CardTitle>
           </CardHeader>
-          <CardFooter>
-            <Button variant="outline" size="sm" className="w-full" onClick={() => onDeleteBox(box.barcode)}>
-              {t("app.deleteBox")}
-            </Button>
-          </CardFooter>
         </Card>
       )}
     </div>

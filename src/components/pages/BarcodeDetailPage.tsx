@@ -55,7 +55,7 @@ export const BarcodeDetailPage = ({ oidc }: { oidc: State }) => {
   return (
     <div className="p-8 w-full">
       <Link to={`/`} className="mb-6">
-        <div className="backDiv">
+        <div className="back-div">
           <ArrowLeft className="mr-2 h-4 w-4" />
           {t('app.backToStorage')}
         </div>

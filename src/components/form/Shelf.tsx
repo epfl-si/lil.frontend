@@ -1,10 +1,10 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
-import {Button} from "@/components/ui/button.tsx";
 import type {ShelfType} from "@/lib/types.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
 import {createBox, deleteShelf} from "@/lib/graphql/postingTools.ts";
+import {ListPlus, Trash2} from "lucide-react";
 
 export const Shelf = ({ oidc, shelves, setShelves }: {
   oidc: State,
@@ -55,15 +55,13 @@ export const Shelf = ({ oidc, shelves, setShelves }: {
             <Box oidc={oidc} boxes={shelf.boxes} shelf={shelf.barcode} shelves={shelves}
                  setShelves={setShelves} />
           </CardContent>
-          <CardFooter>
-            <div>
-              <Button variant="outline" size="sm" className="w-full" onClick={() => onAddBox(shelf.barcode)}>
-                {t("app.addNewBox")}
-              </Button>
-              <Button variant="outline" size="sm" className="w-full" onClick={() => onDeleteShelf(shelf.barcode)}>
-                {t("app.deleteShelf")}
-              </Button>
-            </div>
+          <CardFooter className="left-div">
+            <span title={t("app.deleteShelf")}>
+              <Trash2 onClick={() => onDeleteShelf(shelf.barcode)} style={{marginRight: "10px"}} />
+            </span>
+            <span title={t("app.addNewBox")}>
+              <ListPlus onClick={() => onAddBox(shelf.barcode)} />
+            </span>
           </CardFooter>
         </Card>
       )}
