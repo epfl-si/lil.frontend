@@ -47,6 +47,12 @@ export type FetchStoragesType = {
   errors?: any;
 };
 
+export type FetchStorageType = {
+  status?: number;
+  data?: StorageType;
+  errors?: any;
+};
+
 export type FetchType = {
   status?: number;
   data?: Type[];

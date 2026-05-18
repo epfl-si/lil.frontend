@@ -1,5 +1,5 @@
 import {doGraphQL} from "./utils.ts";
-import type {FetchType, FetchStoragesType, FetchUserType} from "@/lib/types.tsx";
+import type {FetchStoragesType, FetchStorageType, FetchType, FetchUserType} from "@/lib/types.tsx";
 
 export const fetchConnectedUser = async (
   address: string | undefined,
@@ -83,8 +83,55 @@ export const fetchStorage = async (
   const result = await doGraphQL(query, variables, address, authToken);
   return {
     status: result.status,
-    data: result.data?.storages.storages ?? [],
-    totalCount: result.data?.storages.totalCount ?? 0,
+    data: result.data?.storages?.storages ?? [],
+    totalCount: result.data?.storages?.totalCount ?? 0,
+    errors: result.errors
+  };
+};
+
+export const fetchStorageDetails = async (
+  address: string | undefined,
+  authToken: string | undefined,
+  variables: {
+    barcode: string
+  }
+): Promise<FetchStorageType> => {
+  const query = `query getStorage ( $barcode: String ) {
+    storage ( barcode: $barcode ) {
+      barcode
+      createdBy
+      createdOn
+      deletedBy
+      deletedOn
+      roomDisplay
+      productType {
+          shortName
+          symbol
+      }
+      roomType {
+          shortName
+          symbol
+      }
+      shelves {
+          barcode
+          boxes {
+              barcode
+          }
+      }
+      storageSubType {
+          shortName
+          symbol
+      }
+      storageType {
+          shortName
+          symbol
+      }
+    }
+  }`;
+  const result = await doGraphQL(query, variables, address, authToken);
+  return {
+    status: result.status,
+    data: result.data?.storage,
     errors: result.errors
   };
 };
