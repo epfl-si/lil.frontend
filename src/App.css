@@ -195,8 +195,19 @@
   font-weight: bold;
 }
 
-.backDiv {
+.back-div {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.justify-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.left-div {
+  display: flex;
+  flex-direction: row;
 }
