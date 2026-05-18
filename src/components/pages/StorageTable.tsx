@@ -64,6 +64,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: "asc" | "desc" } | null>(null);
 
   const [searchParams] = useSearchParams();
+  const [totalCount, setTotalCount] = useState<number>(0);
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get("page") || "1", 10));
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
@@ -105,8 +106,6 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
     setIsLoading(false);
   };
 
-
-  const [totalCount, setTotalCount] = useState<number>(0);
   const totalPages = Math.ceil(totalCount / itemsPerPage);
   const goToNextPage = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
   const goToPreviousPage = () => setCurrentPage((p) => Math.max(p - 1, 1));
