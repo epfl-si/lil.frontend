@@ -7,13 +7,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination.tsx";
-import {Link, useSearchParams} from "react-router";
-import {ArrowDown, ArrowUp, ArrowUpDown} from "lucide-react";
+import {Link, useNavigate, useSearchParams} from "react-router";
+import {ArrowDown, ArrowUp, ArrowUpDown, ListPlus} from "lucide-react";
 import type {State} from "@epfl-si/react-appauth";
 import type {StorageType} from "@/lib/types.tsx";
 import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
 import {useTranslation} from "react-i18next";
 import {Filters} from "@/components/parts/filters.tsx";
+import {Button} from "@/components/ui/button.tsx";
 
 type SortKey = keyof StorageType;
 
@@ -58,6 +59,7 @@ const SortableHeader = ({
 
 export const StorageTable = ({ oidc }: { oidc: State }) => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [storages, setStorages] = useState<StorageType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -127,6 +129,15 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
 
   return (
     <div className="space-y-4">
+      <Button
+        variant="outline"
+        size="lg"
+        className="primary-buttons"
+        onClick={() => navigate("/code/new")}
+      >
+        <ListPlus />
+        {t('app.addNewLocation')}
+      </Button>
       <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={false} />
       <div className="border rounded-md bg-white">
         <Table>
