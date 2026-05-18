@@ -112,9 +112,9 @@ export const fetchStorageDetails = async (
           shortName
           symbol
       }
-      shelves {
+      shelves (includeDeleted: false) {
           barcode
-          boxes {
+          boxes (includeDeleted: false) {
               barcode
           }
       }
