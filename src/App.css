@@ -188,3 +188,15 @@
   color: white;
   font-weight: bold
 }
+
+.title {
+  color: black;
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.backDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
