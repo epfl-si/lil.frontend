@@ -6,17 +6,14 @@ import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} f
 import {Box} from "@/components/form/Box.tsx";
 import {createBox, deleteShelf} from "@/lib/graphql/postingTools.ts";
 
-export const Shelf = ({ oidc, shelves, setShelves, setIsLoading }: {
+export const Shelf = ({ oidc, shelves, setShelves }: {
   oidc: State,
   shelves: ShelfType[],
   setShelves: (shelves: ShelfType[]) => void,
-  setIsLoading: (isLoading: boolean) => void,
 }) => {
   const { t } = useTranslation();
 
   const onAddBox = async (parentBarcode: string) => {
-    setIsLoading(true);
-    debugger;
     const response = await createBox(
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
@@ -32,7 +29,6 @@ export const Shelf = ({ oidc, shelves, setShelves, setIsLoading }: {
       });
       setShelves([...newShelves]);
     }
-    setIsLoading(false);
   };
 
   const onDeleteShelf = async (barcode: string) => {

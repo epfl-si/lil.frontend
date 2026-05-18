@@ -38,7 +38,6 @@ export const BarcodeDetailPage = ({ oidc }: { oidc: State }) => {
   };
 
   const onAddShelf = async () => {
-    setIsLoading(true);
     if (details) {
       const response = await createShelf(
         import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
@@ -51,7 +50,6 @@ export const BarcodeDetailPage = ({ oidc }: { oidc: State }) => {
     } else {
 
     }
-    setIsLoading(false);
   };
 
   return (
@@ -66,8 +64,7 @@ export const BarcodeDetailPage = ({ oidc }: { oidc: State }) => {
         <div>
           <div className="title">{details ? details.barcode : t("app.addNewLocation")}</div>
           <Details oidc={oidc} details={details} />
-          <Shelf oidc={oidc} shelves={shelves} setIsLoading={setIsLoading}
-                 setShelves={setShelves} />
+          <Shelf oidc={oidc} shelves={shelves} setShelves={setShelves} />
           <Button
             variant="outline"
             size="lg"
