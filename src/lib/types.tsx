@@ -64,3 +64,9 @@ export type PostBarcodeType = {
   barcode?: string;
   errors?: any;
 };
+
+export type DeleteBarcodeType = {
+  status?: number;
+  deleted?: boolean;
+  errors?: any;
+};
