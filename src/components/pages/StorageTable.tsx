@@ -58,7 +58,7 @@ const SortableHeader = ({
 );
 
 export const StorageTable = ({ oidc }: { oidc: State }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [storages, setStorages] = useState<StorageType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -128,83 +128,91 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
   }
 
   return (
-    <div className="space-y-4">
-      <Button
-        variant="outline"
-        size="lg"
-        className="primary-buttons"
-        onClick={() => navigate("/code/new")}
-      >
-        <ListPlus />
-        {t('app.addNewLocation')}
-      </Button>
-      <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={false} />
-      <div className="border rounded-md bg-white">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <SortableHeader label={t('app.room')} sortKey="roomDisplay" sortConfig={sortConfig} handleSort={handleSort}/>
-              <SortableHeader label={t('app.roomType')} sortKey="roomType" sortConfig={sortConfig} handleSort={handleSort}/>
-              <SortableHeader label={t('app.productType')} sortKey="productType" sortConfig={sortConfig} handleSort={handleSort}/>
-              <SortableHeader label={t('app.storageType')} sortKey="storageType" sortConfig={sortConfig} handleSort={handleSort}/>
-              <SortableHeader label={t('app.storageSubType')} sortKey="storageSubType" sortConfig={sortConfig} handleSort={handleSort}/>
-              <SortableHeader label={t('app.storage')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {isLoading ? (
-              <TableRow>
-                <TableCell colSpan={7} className="text-center py-8">{t('app.loadingData')}</TableCell>
-              </TableRow>
-            ) : storages.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={7} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
-              </TableRow>
-            ) : (
-              storages.map((storage, index) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">{storage.roomDisplay}</TableCell>
-                  <TableCell className="font-medium">{t(`roomType.${storage.roomType.symbol}`)} ({storage.roomType.shortName})</TableCell>
-                  <TableCell className="font-medium">{t(`productType.${storage.productType.symbol}`)} ({storage.productType.shortName})</TableCell>
-                  <TableCell className="font-medium">{t(`storageType.${storage.storageType.symbol}`)} ({storage.storageType.shortName})</TableCell>
-                  <TableCell className="font-medium">{t(`storageSubType.${storage.storageSubType.symbol}`)} ({storage.storageSubType.shortName})
-                  </TableCell>
-                  <TableCell className="font-medium">
-                    <Link
-                      to={`/code/${storage.barcode}`}
-                      className="text-blue-600 hover:underline cursor-pointer"
-                    >
-                      {storage.barcode}
-                    </Link>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    ...
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
+    <div>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold">{t('app.storageFacilityManagement')}</h1>
+          <p className="text-gray-500 text-sm mt-1">{t('app.manageYourLocation')}</p>
+        </div>
       </div>
+      <div className="space-y-4">
+        <Button
+          variant="outline"
+          size="lg"
+          className="primary-buttons"
+          onClick={() => navigate("/code/new")}
+        >
+          <ListPlus />
+          {t('app.addNewLocation')}
+        </Button>
+        <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={false} />
+        <div className="border rounded-md bg-white">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <SortableHeader label={t('app.room')} sortKey="roomDisplay" sortConfig={sortConfig} handleSort={handleSort}/>
+                <SortableHeader label={t('app.roomType')} sortKey="roomType" sortConfig={sortConfig} handleSort={handleSort}/>
+                <SortableHeader label={t('app.productType')} sortKey="productType" sortConfig={sortConfig} handleSort={handleSort}/>
+                <SortableHeader label={t('app.storageType')} sortKey="storageType" sortConfig={sortConfig} handleSort={handleSort}/>
+                <SortableHeader label={t('app.storageSubType')} sortKey="storageSubType" sortConfig={sortConfig} handleSort={handleSort}/>
+                <SortableHeader label={t('app.storage')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center py-8">{t('app.loadingData')}</TableCell>
+                </TableRow>
+              ) : storages.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
+                </TableRow>
+              ) : (
+                storages.map((storage, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium">{storage.roomDisplay}</TableCell>
+                    <TableCell className="font-medium">{t(`roomType.${storage.roomType.symbol}`)} ({storage.roomType.shortName})</TableCell>
+                    <TableCell className="font-medium">{t(`productType.${storage.productType.symbol}`)} ({storage.productType.shortName})</TableCell>
+                    <TableCell className="font-medium">{t(`storageType.${storage.storageType.symbol}`)} ({storage.storageType.shortName})</TableCell>
+                    <TableCell className="font-medium">{t(`storageSubType.${storage.storageSubType.symbol}`)} ({storage.storageSubType.shortName})
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      <Link
+                        to={`/code/${storage.barcode}`}
+                        className="text-blue-600 hover:underline cursor-pointer"
+                      >
+                        {storage.barcode}
+                      </Link>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      ...
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
 
-      {!isLoading && storages.length > 0 && (
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious onClick={goToPreviousPage} className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"} />
-            </PaginationItem>
-            <PaginationItem>
-              <span className="text-sm text-gray-600 px-4">
-                {t('app.PageCurrentOfTotal', { currentPage: currentPage, totalPages: totalPages })}
-              </span>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext onClick={goToNextPage} className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"} />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      )}
+        {!isLoading && storages.length > 0 && (
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious onClick={goToPreviousPage} className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"} />
+              </PaginationItem>
+              <PaginationItem>
+                <span className="text-sm text-gray-600 px-4">
+                  {t('app.PageCurrentOfTotal', { currentPage: currentPage, totalPages: totalPages })}
+                </span>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext onClick={goToNextPage} className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"} />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )}
+      </div>
     </div>
   );
 };
