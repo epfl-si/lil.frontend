@@ -23,7 +23,9 @@
     "backToStorage": "Retour aux storages",
     "detailsOfBarcode": "Détails du Code-barre {{barcode}}",
     "all": "Tous",
-    "addNewLocation": "Ajouter un nouveau barcode"
+    "addNewLocation": "Ajouter un nouveau barcode",
+    "addNewShelf": "Ajouter une nouvelle étagère",
+    "addNewBox": "Ajouter une nouvelle boite"
   },
   "roomType": {
     "LABO":  "Laboratoire",
