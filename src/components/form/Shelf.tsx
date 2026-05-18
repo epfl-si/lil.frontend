@@ -4,7 +4,7 @@ import {Button} from "@/components/ui/button.tsx";
 import type {ShelfType} from "@/lib/types.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
-import {createBox} from "@/lib/graphql/postingTools.ts";
+import {createBox, deleteShelf} from "@/lib/graphql/postingTools.ts";
 
 export const Shelf = ({ oidc, shelves, setShelves, setIsLoading }: {
   oidc: State,
@@ -35,6 +35,17 @@ export const Shelf = ({ oidc, shelves, setShelves, setIsLoading }: {
     setIsLoading(false);
   };
 
+  const onDeleteShelf = async (barcode: string) => {
+    const response = await deleteShelf(
+      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      oidc.accessToken,
+      {barcode}
+    );
+    if (response.status === 200 && response.deleted) {
+      setShelves([...shelves.filter(sh => sh.barcode !== barcode)]);
+    }
+  };
+
   return (
     <div>
       {shelves.map(shelf =>
@@ -45,14 +56,15 @@ export const Shelf = ({ oidc, shelves, setShelves, setIsLoading }: {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Box oidc={oidc} boxes={shelf.boxes}/>
+            <Box oidc={oidc} boxes={shelf.boxes} shelf={shelf.barcode} shelves={shelves}
+                 setShelves={setShelves} />
           </CardContent>
           <CardFooter>
             <div>
               <Button variant="outline" size="sm" className="w-full" onClick={() => onAddBox(shelf.barcode)}>
                 {t("app.addNewBox")}
               </Button>
-              <Button variant="outline" size="sm" className="w-full">
+              <Button variant="outline" size="sm" className="w-full" onClick={() => onDeleteShelf(shelf.barcode)}>
                 {t("app.deleteShelf")}
               </Button>
             </div>
