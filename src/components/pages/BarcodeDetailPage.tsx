@@ -1,6 +1,6 @@
 import {Link, useParams} from "react-router";
 import {useEffect, useState} from "react";
-import {ArrowLeft, ListPlus} from "lucide-react";
+import {ArrowLeft, ListPlus, Trash2} from "lucide-react";
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import {Details} from "@/components/form/Details.tsx";
@@ -8,7 +8,7 @@ import {fetchStorageDetails} from "@/lib/graphql/fetchingTools.ts";
 import type {ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {Shelf} from "@/components/form/Shelf.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {createShelf, undeleteStorage} from "@/lib/graphql/postingTools.ts";
+import {createShelf, deleteStorage, undeleteStorage} from "@/lib/graphql/postingTools.ts";
 import {Undo} from "@/components/parts/Undo.tsx";
 
 export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
@@ -61,7 +61,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
     }
   };
 
-  const undoDeletion = async (barcode: string) => {
+  const undoDeletion = async () => {
     const response = await undeleteStorage(
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
@@ -98,21 +98,32 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
             <div>
               <div className="title">{details.barcode}</div>
               {details.deletedBy && <Undo title={t("app.storageDeleted")}
-                                          undoDeletion={() => undoDeletion(details.barcode)}
+                                          undoDeletion={undoDeletion}
                                           isIcon={false} />}
             </div>
           : t("app.addNewLocation")}
           <Details oidc={oidc} details={details} />
           <Shelf oidc={oidc} shelves={shelves} setShelves={setShelves} connectedUser={connectedUser} storage={details}/>
-          <Button
-            variant="outline"
-            size="lg"
-            className="primary-buttons"
-            onClick={onAddShelf}
-          >
-            <ListPlus />
-            {t('app.addNewShelf')}
-          </Button>
+          {details?.deletedBy === null &&
+            <div>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={onDeleteStorage}
+              >
+                <Trash2 />
+                {t('app.deleteStorage')}
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="primary-buttons"
+                onClick={onAddShelf}
+              >
+                <ListPlus />
+                {t('app.addNewShelf')}
+              </Button>
+            </div>}
         </div>
       }
     </div>
