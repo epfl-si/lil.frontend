@@ -111,6 +111,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
                 size="lg"
                 className="primary-buttons"
                 onClick={onAddShelf}
+                style={{margin: "10px"}}
               >
                 <ListPlus />
                 {t('app.addNewShelf')}
