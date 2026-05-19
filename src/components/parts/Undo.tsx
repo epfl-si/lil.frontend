@@ -1,15 +1,16 @@
 import {RotateCcw} from "lucide-react";
 
-export const Undo = ({ title, undoDeletion, isIcon}: {
+export const Undo = ({ title, undoDeletion, isIcon, disabled}: {
   title: string,
   undoDeletion: () => void,
-  isIcon: boolean
+  isIcon: boolean,
+  disabled?: boolean
 }) => {
 
   return (
-    <div className="left-div" style={{color: "red", margin: "10px"}}>
+    <div className="left-div" style={{color: disabled ? "gray" : "red", margin: "10px"}}>
       <span title={title}>
-        <RotateCcw onClick={undoDeletion}/>
+        <RotateCcw onClick={disabled ? () => {} : undoDeletion}/>
       </span>
       {isIcon ? '' : title}
     </div>
