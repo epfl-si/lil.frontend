@@ -1,16 +1,17 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
-import type {ShelfType} from "@/lib/types.tsx";
+import type {ShelfType, UserType} from "@/lib/types.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
 import {createBox, deleteShelf} from "@/lib/graphql/postingTools.ts";
 import {ListPlus} from "lucide-react";
 import {Alert} from "@/components/parts/Alert.tsx";
 
-export const Shelf = ({ oidc, shelves, setShelves }: {
+export const Shelf = ({ oidc, shelves, setShelves, connectedUser }: {
   oidc: State,
   shelves: ShelfType[],
   setShelves: (shelves: ShelfType[]) => void,
+  connectedUser: UserType
 }) => {
   const { t } = useTranslation();
 

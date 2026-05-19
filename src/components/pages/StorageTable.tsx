@@ -10,7 +10,7 @@ import {
 import {Link, useNavigate, useSearchParams} from "react-router";
 import {ArrowDown, ArrowUp, ArrowUpDown, ListPlus} from "lucide-react";
 import type {State} from "@epfl-si/react-appauth";
-import type {StorageType} from "@/lib/types.tsx";
+import type {StorageType, UserType} from "@/lib/types.tsx";
 import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
 import {useTranslation} from "react-i18next";
 import {Filters} from "@/components/parts/filters.tsx";
@@ -57,7 +57,7 @@ const SortableHeader = ({
   </TableHead>
 );
 
-export const StorageTable = ({ oidc }: { oidc: State }) => {
+export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [storages, setStorages] = useState<StorageType[]>([]);
@@ -82,7 +82,8 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
     oidc.accessToken,
     currentPage,
     sortConfig,
-    activeFilters
+    activeFilters,
+    connectedUser
   ]);
 
   const loadStorages = async () => {
@@ -91,6 +92,7 @@ export const StorageTable = ({ oidc }: { oidc: State }) => {
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {
+        isAdmin: connectedUser.isAdmin,
         page: currentPage,
         pageSize: itemsPerPage,
         sortField: sortConfig?.key,

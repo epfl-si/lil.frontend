@@ -5,12 +5,12 @@ import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import {Details} from "@/components/form/Details.tsx";
 import {fetchStorageDetails} from "@/lib/graphql/fetchingTools.ts";
-import type {ShelfType, StorageType} from "@/lib/types.tsx";
+import type {ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {Shelf} from "@/components/form/Shelf.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {createShelf} from "@/lib/graphql/postingTools.ts";
 
-export const BarcodeDetailPage = ({ oidc }: { oidc: State }) => {
+export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
   const { t } = useTranslation();
   const { barcode } = useParams();
   const [isLoading, setIsLoading] = useState(false);
@@ -21,14 +21,17 @@ export const BarcodeDetailPage = ({ oidc }: { oidc: State }) => {
     if (barcode) {
       loadDetails();
     }
-  }, [oidc.accessToken, barcode]);
+  }, [oidc.accessToken, barcode, connectedUser]);
 
   const loadDetails = async () => {
     setIsLoading(true);
     const response = await fetchStorageDetails(
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
-      {barcode}
+      {
+        barcode,
+        isAdmin: connectedUser.isAdmin
+      }
     );
     if (response.status === 200 && response.data) {
       setDetails(response.data);
@@ -64,7 +67,7 @@ export const BarcodeDetailPage = ({ oidc }: { oidc: State }) => {
         <div>
           <div className="title">{details ? details.barcode : t("app.addNewLocation")}</div>
           <Details oidc={oidc} details={details} />
-          <Shelf oidc={oidc} shelves={shelves} setShelves={setShelves} />
+          <Shelf oidc={oidc} shelves={shelves} setShelves={setShelves} connectedUser={connectedUser} />
           <Button
             variant="outline"
             size="lg"
