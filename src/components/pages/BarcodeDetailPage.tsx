@@ -72,6 +72,18 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
     }
   };
 
+  const onDeleteStorage = async () => {
+    const response = await deleteStorage(
+      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      oidc.accessToken,
+      {barcode}
+    );
+    console.log(response)
+    if (response.status === 200 && response.deleted) {
+      setDetails({...details, deletedBy: connectedUser.username, deletedOn: new Date()});
+    }
+  };
+
   return (
     <div className="p-8 w-full">
       <Link to={`/`} className="mb-6">
