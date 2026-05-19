@@ -1,21 +1,21 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
-import type {ShelfType, StorageType, UserType} from "@/lib/types.tsx";
+import type {ShelfType, StorageType} from "@/lib/types.tsx";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
 import {createBox, deleteShelf, undeleteShelf} from "@/lib/graphql/postingTools.ts";
-import {ListPlus} from "lucide-react";
+import {ListPlus, Trash2} from "lucide-react";
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 
-export const Shelf = ({ oidc, shelves, setShelves, connectedUser, storage }: {
+export const Shelf = ({ oidc, shelves, storage, load }: {
   oidc: State,
   shelves: ShelfType[],
-  setShelves: (shelves: ShelfType[]) => void,
-  connectedUser: UserType,
-  storage: StorageType
+  storage: StorageType,
+  load: () => void
 }) => {
   const { t } = useTranslation();
+  const disabled = storage?.deletedBy !== null;
 
   const onAddBox = async (parentBarcode: string) => {
     const response = await createBox(
@@ -24,18 +24,7 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser, storage }: {
       {parentBarcode}
     );
     if (response.status === 200 && response.barcode) {
-      const newShelves = shelves.map(sh => {
-        if (sh.barcode === parentBarcode) {
-          sh.boxes.push({
-            barcode: response.barcode,
-            createdBy: connectedUser.username,
-            createdOn: new Date()
-          });
-          return sh;
-        } else
-          return sh;
-      });
-      setShelves([...newShelves]);
+      load();
     }
   };
 
@@ -46,11 +35,7 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser, storage }: {
       {barcode}
     );
     if (response.status === 200 && response.deleted) {
-      if (connectedUser.isAdmin) {
-        setShelves([...getNewShelves(barcode, connectedUser.username, new Date(), true)]);
-      } else {
-        setShelves([...shelves.filter(sh => sh.barcode !== barcode)]);
-      }
+      load();
     }
   };
 
@@ -61,28 +46,9 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser, storage }: {
       {barcode}
     );
     if (response.status === 200 && response.deleted) {
-      setShelves([...getNewShelves(barcode, null, null, false)]);
+      load();
     }
   };
-
-  const getNewShelves = (barcode: string, deletedBy: string, deletedOn: Date, isDeletion: boolean) => {
-    return shelves.map(sh => {
-      if (sh.barcode === barcode) {
-        sh.deletedBy = deletedBy;
-        sh.deletedOn = deletedOn;
-        if (isDeletion) {
-          sh.boxes = sh.boxes.map(box => {
-            box.deletedBy = deletedBy;
-            box.deletedOn = deletedOn;
-            return box;
-          })
-        }
-        return sh;
-      } else {
-        return sh
-      }
-    })
-  }
 
   return (
     <div>
@@ -94,11 +60,14 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser, storage }: {
                 {shelf.barcode}
                 {shelf.deletedBy ?
                   <Undo undoDeletion={() => undoDeletion(shelf.barcode)} isIcon={true} title={t("app.shelfDeleted")}
-                        disabled={storage.deletedBy !== null}/>
+                        disabled={disabled}/>
+                  : disabled ?
+                    <Trash2 style={{color: "gray"}}/>
                   : <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
                            onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>}
                 <span title={t("app.addNewBox")}>
-              <ListPlus onClick={() => onAddBox(shelf.barcode)} />
+              <ListPlus onClick={disabled || shelf.deletedBy ? () => {} : () => onAddBox(shelf.barcode)}
+                        style={{color: disabled || shelf.deletedBy ? "gray" : "black"}}/>
             </span>
               </div>
             </CardTitle>
@@ -106,8 +75,7 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser, storage }: {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} shelves={shelves}
-                 setShelves={setShelves} connectedUser={connectedUser} />
+            <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} load={load}/>
           </CardContent>
         </Card>
       )}
