@@ -1,7 +1,7 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import type {ShelfType, StorageType, UserType} from "@/lib/types.tsx";
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../ui/card";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
 import {createBox, deleteShelf, undeleteShelf} from "@/lib/graphql/postingTools.ts";
 import {ListPlus} from "lucide-react";
@@ -89,7 +89,19 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser, storage }: {
       {shelves.map(shelf =>
         <Card size="sm" className="mx-auto w-full max-w-sm" key={shelf.barcode}>
           <CardHeader>
-            <CardTitle>{shelf.barcode}</CardTitle>
+            <CardTitle>
+              <div className="left-div">
+                {shelf.barcode}
+                {shelf.deletedBy ?
+                  <Undo undoDeletion={() => undoDeletion(shelf.barcode)} isIcon={true} title={t("app.shelfDeleted")}
+                        disabled={storage.deletedBy !== null}/>
+                  : <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
+                           onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>}
+                <span title={t("app.addNewBox")}>
+              <ListPlus onClick={() => onAddBox(shelf.barcode)} />
+            </span>
+              </div>
+            </CardTitle>
             <CardDescription>
             </CardDescription>
           </CardHeader>
@@ -97,16 +109,6 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser, storage }: {
             <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} shelves={shelves}
                  setShelves={setShelves} connectedUser={connectedUser} />
           </CardContent>
-          <CardFooter className="left-div">
-            {shelf.deletedBy ?
-              <Undo undoDeletion={() => undoDeletion(shelf.barcode)} isIcon={true} title={t("app.shelfDeleted")}
-                    disabled={storage.deletedBy !== null}/>
-              : <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
-                   onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>}
-            <span title={t("app.addNewBox")}>
-              <ListPlus onClick={() => onAddBox(shelf.barcode)} />
-            </span>
-          </CardFooter>
         </Card>
       )}
     </div>

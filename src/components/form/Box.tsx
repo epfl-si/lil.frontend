@@ -1,6 +1,5 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
-import {Card, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import type {BoxType, ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {deleteBox, undeleteBox} from "@/lib/graphql/postingTools.ts";
 import {Alert} from "@/components/parts/Alert.tsx";
@@ -70,18 +69,14 @@ export const Box = ({ oidc, storage, shelf, boxes, shelves, setShelves, connecte
   return (
     <div>
       {boxes.map(box =>
-        <Card size="sm" className="mx-auto w-full max-w-sm" key={box.barcode}>
-          <CardHeader>
-            <CardTitle className="justify-div">
-              {box.barcode}
-              {box.deletedBy ?
-                <Undo undoDeletion={() => undoDeletion(box.barcode)} isIcon={true} title={t("app.boxDeleted")}
-                      disabled={shelf.deletedBy !== null || storage.deletedBy !== null}/>
-                : <Alert title={t("app.deleteShelfTitle", {barcode: box.barcode})}
+        <div className="left-div">
+          {box.barcode}
+          {box.deletedBy ?
+            <Undo undoDeletion={() => undoDeletion(box.barcode)} isIcon={true} title={t("app.boxDeleted")}
+                  disabled={shelf.deletedBy !== null || storage.deletedBy !== null}/>
+            : <Alert title={t("app.deleteShelfTitle", {barcode: box.barcode})}
                      onSubmit={() => onDeleteBox(box.barcode)} tooltip={t("app.deleteBox")}/>}
-            </CardTitle>
-          </CardHeader>
-        </Card>
+        </div>
       )}
     </div>
   );
