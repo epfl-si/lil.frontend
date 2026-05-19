@@ -25,6 +25,7 @@ export const fetchStorage = async (
   address: string | undefined,
   authToken: string | undefined,
   variables: {
+    isAdmin: boolean,
     roomTypeSymbol?: string;
     productTypeSymbol?: string;
     storageTypeSymbol?: string;
@@ -95,10 +96,11 @@ export const fetchStorageDetails = async (
   address: string | undefined,
   authToken: string | undefined,
   variables: {
-    barcode: string
+    barcode: string,
+    isAdmin: boolean
   }
 ): Promise<FetchStorageType> => {
-  const query = `query getStorage ( $barcode: String ) {
+  const query = `query getStorage ( $barcode: String, $isAdmin: Boolean ) {
     storage ( barcode: $barcode ) {
       barcode
       createdBy
@@ -114,16 +116,13 @@ export const fetchStorageDetails = async (
         shortName
         symbol
       }
-      shelves (includeDeleted: false) {
-          barcode
-          boxes (includeDeleted: false) {
-              barcode
-          }
+      shelves (includeDeleted: $isAdmin) {
         barcode
         createdBy
         createdOn
         deletedBy
         deletedOn
+        boxes (includeDeleted: $isAdmin) {
           barcode
           createdBy
           createdOn
