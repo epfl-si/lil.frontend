@@ -33,7 +33,8 @@
     "deleteShelfTitle": "Are you sur to delete {{barcode}}?",
     "storageDeleted": "This storage has been deleted",
     "shelfDeleted": "This shelf has been deleted",
-    "boxDeleted": "This box has been deleted"
+    "boxDeleted": "This box has been deleted",
+    "deleteStorage": "Delete storage"
   },
   "roomType": {
     "LABO":  "Laboratory",

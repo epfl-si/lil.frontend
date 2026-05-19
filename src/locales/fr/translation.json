@@ -20,7 +20,7 @@
     "noStorageCurrentlyAvailable": "Aucun Storage actuellement.",
     "manageYourLocation": "Gérez vos emplacements.",
     "storageFacilityManagement": "Gestion des lieux de Stockage",
-    "backToStorage": "Retour aux storages",
+    "backToStorage": "Retour aux stockages",
     "detailsOfBarcode": "Détails du Code-barre {{barcode}}",
     "all": "Tous",
     "addNewLocation": "Ajouter un nouveau barcode",
@@ -33,7 +33,8 @@
     "deleteShelfTitle": "Vous êtes sûrs de supprimer {{barcode}}?",
     "storageDeleted": "Ce stockage a été supprimé",
     "shelfDeleted": "Cette étagère a été supprimée",
-    "boxDeleted": "Cette boite a été supprimée"
+    "boxDeleted": "Cette boite a été supprimée",
+    "deleteStorage": "Supprimer le stockage"
   },
   "roomType": {
     "LABO":  "Laboratoire",

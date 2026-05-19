@@ -133,3 +133,23 @@ export const undeleteStorage = async (
     errors: result.errors
   };
 };
+
+export const deleteStorage = async (
+  address: string | undefined,
+  authToken: string | undefined,
+  variables: {
+    barcode: string
+  }
+): Promise<DeleteBarcodeType> => {
+  const query = `mutation DeleteStorage ( $barcode: String ) {
+      deleteStorage ( barcode: $barcode )
+  }`;
+
+  const result = await doGraphQL(query, variables, address, authToken);
+  console.log(result)
+  return {
+    status: result.status,
+    deleted: result.data?.deleteStorage,
+    errors: result.errors
+  };
+};
