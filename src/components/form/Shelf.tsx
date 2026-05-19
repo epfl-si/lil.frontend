@@ -51,24 +51,26 @@ export const Shelf = ({ oidc, shelves, storage, load }: {
   };
 
   return (
-    <div>
+    <div className="container">
       {shelves.map(shelf =>
-        <Card size="sm" className="mx-auto w-full max-w-sm" key={shelf.barcode}>
+        <Card size="sm" className="mx-auto w-full max-w-sm card" key={shelf.barcode}>
           <CardHeader>
-            <CardTitle>
+            <CardTitle style={{backgroundColor: "lemonchiffon"}}>
               <div className="left-div">
                 {shelf.barcode}
-                {shelf.deletedBy ?
-                  <Undo undoDeletion={() => undoDeletion(shelf.barcode)} isIcon={true} title={t("app.shelfDeleted")}
-                        disabled={disabled}/>
-                  : disabled ?
-                    <Trash2 style={{color: "gray"}}/>
-                  : <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
-                           onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>}
-                <span title={t("app.addNewBox")}>
-              <ListPlus onClick={disabled || shelf.deletedBy ? () => {} : () => onAddBox(shelf.barcode)}
-                        style={{color: disabled || shelf.deletedBy ? "gray" : "black"}}/>
-            </span>
+                <div className="left-div">
+                  {shelf.deletedBy ?
+                    <Undo undoDeletion={() => undoDeletion(shelf.barcode)} isIcon={true} title={t("app.shelfDeleted")}
+                          disabled={disabled}/>
+                    : disabled ?
+                      <Trash2 style={{color: "gray"}}/>
+                    : <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
+                             onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>}
+                  <span title={t("app.addNewBox")}>
+                    <ListPlus onClick={disabled || shelf.deletedBy ? () => {} : () => onAddBox(shelf.barcode)}
+                          style={{color: disabled || shelf.deletedBy ? "gray" : "black"}}/>
+                  </span>
+                </div>
               </div>
             </CardTitle>
             <CardDescription>
