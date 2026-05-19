@@ -34,7 +34,8 @@
     "storageDeleted": "This storage has been deleted",
     "shelfDeleted": "This shelf has been deleted",
     "boxDeleted": "This box has been deleted",
-    "deleteStorage": "Delete storage"
+    "deleteStorage": "Delete storage",
+    "saveStorage": "Save storage"
   },
   "roomType": {
     "LABO":  "Laboratory",
