@@ -30,7 +30,10 @@
     "deleteBox": "Supprimer la boite",
     "cancel": "Annuler",
     "continue": "Continuer",
-    "deleteShelfTitle": "Vous êtes sûrs de supprimer {{barcode}}?"
+    "deleteShelfTitle": "Vous êtes sûrs de supprimer {{barcode}}?",
+    "storageDeleted": "Ce stockage a été supprimé",
+    "shelfDeleted": "Cette étagère a été supprimée",
+    "boxDeleted": "Cette boite a été supprimée"
   },
   "roomType": {
     "LABO":  "Laboratoire",
