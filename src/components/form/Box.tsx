@@ -2,8 +2,9 @@ import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import {Card, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import type {BoxType, ShelfType} from "@/lib/types.tsx";
-import {deleteBox} from "@/lib/graphql/postingTools.ts";
+import {deleteBox, undeleteBox} from "@/lib/graphql/postingTools.ts";
 import {Alert} from "@/components/parts/Alert.tsx";
+import {Undo} from "@/components/parts/Undo.tsx";
 
 export const Box = ({ oidc, shelf, boxes, shelves, setShelves }: { oidc: State, shelf: string, boxes: BoxType[],
   shelves: ShelfType[], setShelves: (shelves: ShelfType[]) => void }) => {
@@ -28,6 +29,32 @@ export const Box = ({ oidc, shelf, boxes, shelves, setShelves }: { oidc: State, 
     }
   };
 
+  const undoDeletion = async (barcode: string) => {
+    const response = await undeleteBox(
+      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      oidc.accessToken,
+      {barcode}
+    );
+    if (response.status === 200 && response.deleted) {
+      const newShelves = shelves.map(sh => {
+        if (sh.barcode === shelf) {
+          sh.boxes = sh.boxes.map(box => {
+            if (box.barcode === barcode) {
+              box.deletedBy = null;
+              box.deletedOn = null;
+              return box;
+            } else {
+              return box;
+            }
+          });
+          return sh;
+        } else
+          return sh;
+      });
+      setShelves([...newShelves]);
+    }
+  };
+
   return (
     <div>
       {boxes.map(box =>
@@ -35,8 +62,10 @@ export const Box = ({ oidc, shelf, boxes, shelves, setShelves }: { oidc: State, 
           <CardHeader>
             <CardTitle className="justify-div">
               {box.barcode}
-              <Alert title={t("app.deleteShelfTitle", {barcode: box.barcode})}
-                     onSubmit={() => onDeleteBox(box.barcode)} tooltip={t("app.deleteBox")}/>
+              {box.deletedBy ?
+                <Undo undoDeletion={() => undoDeletion(box.barcode)} isIcon={true} title={t("app.boxDeleted")}/>
+                : <Alert title={t("app.deleteShelfTitle", {barcode: box.barcode})}
+                     onSubmit={() => onDeleteBox(box.barcode)} tooltip={t("app.deleteBox")}/>}
             </CardTitle>
           </CardHeader>
         </Card>

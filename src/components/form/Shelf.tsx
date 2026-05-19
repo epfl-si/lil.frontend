@@ -3,9 +3,10 @@ import {useTranslation} from 'react-i18next';
 import type {ShelfType, UserType} from "@/lib/types.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
-import {createBox, deleteShelf} from "@/lib/graphql/postingTools.ts";
+import {createBox, deleteShelf, undeleteShelf} from "@/lib/graphql/postingTools.ts";
 import {ListPlus} from "lucide-react";
 import {Alert} from "@/components/parts/Alert.tsx";
+import {Undo} from "@/components/parts/Undo.tsx";
 
 export const Shelf = ({ oidc, shelves, setShelves, connectedUser }: {
   oidc: State,
@@ -24,7 +25,11 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser }: {
     if (response.status === 200 && response.barcode) {
       const newShelves = shelves.map(sh => {
         if (sh.barcode === parentBarcode) {
-          sh.boxes.push({barcode: response.barcode});
+          sh.boxes.push({
+            barcode: response.barcode,
+            createdBy: connectedUser.username,
+            createdOn: new Date()
+          });
           return sh;
         } else
           return sh;
@@ -44,6 +49,25 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser }: {
     }
   };
 
+  const undoDeletion = async (barcode: string) => {
+    const response = await undeleteShelf(
+      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      oidc.accessToken,
+      {barcode}
+    );
+    if (response.status === 200 && response.deleted) {
+      setShelves([...shelves.map(sh => {
+        if (sh.barcode === barcode) {
+          sh.deletedBy = null;
+          sh.deletedOn = null;
+          return sh;
+        }else {
+          return sh
+        }
+      })]);
+    }
+  };
+
   return (
     <div>
       {shelves.map(shelf =>
@@ -58,8 +82,10 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser }: {
                  setShelves={setShelves} />
           </CardContent>
           <CardFooter className="left-div">
-            <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
-                   onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>
+            {shelf.deletedBy ?
+              <Undo undoDeletion={() => undoDeletion(shelf.barcode)} isIcon={true} title={t("app.shelfDeleted")}/>
+              : <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
+                   onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>}
             <span title={t("app.addNewBox")}>
               <ListPlus onClick={() => onAddBox(shelf.barcode)} />
             </span>
