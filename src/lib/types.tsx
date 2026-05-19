@@ -26,18 +26,26 @@ export type StorageType = {
   storageSubType: Type,
   createdBy: string,
   createdOn: Date,
-  deletedBy: string,
-  deletedOn: Date,
+  deletedBy?: string,
+  deletedOn?: Date,
   shelves: ShelfType[]
 }
 
 export type ShelfType = {
   barcode: string,
+  createdBy: string,
+  createdOn: Date,
+  deletedBy?: string,
+  deletedOn?: Date,
   boxes: BoxType[]
 }
 
 export type BoxType = {
   barcode: string,
+  createdBy: string,
+  createdOn: Date,
+  deletedBy?: string,
+  deletedOn?: Date,
 }
 
 export type FetchStoragesType = {
