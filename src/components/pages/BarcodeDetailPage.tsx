@@ -8,7 +8,8 @@ import {fetchStorageDetails} from "@/lib/graphql/fetchingTools.ts";
 import type {ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {Shelf} from "@/components/form/Shelf.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {createShelf} from "@/lib/graphql/postingTools.ts";
+import {createShelf, undeleteStorage} from "@/lib/graphql/postingTools.ts";
+import {Undo} from "@/components/parts/Undo.tsx";
 
 export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
   const { t } = useTranslation();
@@ -48,10 +49,26 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
         {parentBarcode: details.barcode}
       );
       if (response.status === 200 && response.barcode) {
-        setShelves([...shelves, {barcode: response.barcode, boxes: []}]);
+        setShelves([...shelves, {
+          barcode: response.barcode,
+          boxes: [],
+          createdBy: connectedUser.username,
+          createdOn: new Date()
+        }]);
       }
     } else {
 
+    }
+  };
+
+  const undoDeletion = async (barcode: string) => {
+    const response = await undeleteStorage(
+      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      oidc.accessToken,
+      {barcode}
+    );
+    if (response.status === 200 && response.deleted) {
+      setDetails({...details, deletedBy: null, deletedOn: null});
     }
   };
 
@@ -65,7 +82,14 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       </Link>
       {isLoading ? t('app.loadingData') :
         <div>
-          <div className="title">{details ? details.barcode : t("app.addNewLocation")}</div>
+          {details ?
+            <div>
+              <div className="title">{details.barcode}</div>
+              {details.deletedBy && <Undo title={t("app.storageDeleted")}
+                                          undoDeletion={() => undoDeletion(details.barcode)}
+                                          isIcon={false} />}
+            </div>
+          : t("app.addNewLocation")}
           <Details oidc={oidc} details={details} />
           <Shelf oidc={oidc} shelves={shelves} setShelves={setShelves} connectedUser={connectedUser} />
           <Button

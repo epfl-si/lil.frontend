@@ -58,6 +58,25 @@ export const deleteShelf = async (
   };
 };
 
+export const undeleteShelf = async (
+  address: string | undefined,
+  authToken: string | undefined,
+  variables: {
+    barcode: string
+  }
+): Promise<DeleteBarcodeType> => {
+  const query = `mutation UndeleteShelf ( $barcode: String ) {
+      undeleteShelf ( barcode: $barcode )
+  }`;
+
+  const result = await doGraphQL(query, variables, address, authToken);
+  return {
+    status: result.status,
+    deleted: result.data?.undeleteShelf,
+    errors: result.errors
+  };
+};
+
 export const deleteBox = async (
   address: string | undefined,
   authToken: string | undefined,
@@ -73,6 +92,44 @@ export const deleteBox = async (
   return {
     status: result.status,
     deleted: result.data?.deleteBox,
+    errors: result.errors
+  };
+};
+
+export const undeleteBox = async (
+  address: string | undefined,
+  authToken: string | undefined,
+  variables: {
+    barcode: string
+  }
+): Promise<DeleteBarcodeType> => {
+  const query = `mutation UndeleteBox ( $barcode: String ) {
+      undeleteBox ( barcode: $barcode )
+  }`;
+
+  const result = await doGraphQL(query, variables, address, authToken);
+  return {
+    status: result.status,
+    deleted: result.data?.undeleteBox,
+    errors: result.errors
+  };
+};
+
+export const undeleteStorage = async (
+  address: string | undefined,
+  authToken: string | undefined,
+  variables: {
+    barcode: string
+  }
+): Promise<DeleteBarcodeType> => {
+  const query = `mutation UndeleteStorage ( $barcode: String ) {
+      undeleteStorage ( barcode: $barcode )
+  }`;
+
+  const result = await doGraphQL(query, variables, address, authToken);
+  return {
+    status: result.status,
+    deleted: result.data?.undeleteStorage,
     errors: result.errors
   };
 };
