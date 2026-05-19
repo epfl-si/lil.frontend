@@ -59,7 +59,9 @@ export const fetchStorage = async (
       storages {
         barcode
         createdBy
+        createdOn
         deletedBy
+        deletedOn
         roomDisplay
         roomType {
           shortName
@@ -105,26 +107,37 @@ export const fetchStorageDetails = async (
       deletedOn
       roomDisplay
       productType {
-          shortName
-          symbol
+        shortName
+        symbol
       }
       roomType {
-          shortName
-          symbol
+        shortName
+        symbol
       }
       shelves (includeDeleted: false) {
           barcode
           boxes (includeDeleted: false) {
               barcode
           }
+        barcode
+        createdBy
+        createdOn
+        deletedBy
+        deletedOn
+          barcode
+          createdBy
+          createdOn
+          deletedBy
+          deletedOn
+        }
       }
       storageSubType {
-          shortName
-          symbol
+        shortName
+        symbol
       }
       storageType {
-          shortName
-          symbol
+        shortName
+        symbol
       }
     }
   }`;
