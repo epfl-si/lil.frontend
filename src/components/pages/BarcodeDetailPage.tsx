@@ -91,7 +91,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
             </div>
           : t("app.addNewLocation")}
           <Details oidc={oidc} details={details} />
-          <Shelf oidc={oidc} shelves={shelves} setShelves={setShelves} connectedUser={connectedUser} />
+          <Shelf oidc={oidc} shelves={shelves} setShelves={setShelves} connectedUser={connectedUser} storage={details}/>
           <Button
             variant="outline"
             size="lg"

@@ -1,6 +1,6 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
-import type {ShelfType, UserType} from "@/lib/types.tsx";
+import type {ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
 import {createBox, deleteShelf, undeleteShelf} from "@/lib/graphql/postingTools.ts";
@@ -8,11 +8,12 @@ import {ListPlus} from "lucide-react";
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 
-export const Shelf = ({ oidc, shelves, setShelves, connectedUser }: {
+export const Shelf = ({ oidc, shelves, setShelves, connectedUser, storage }: {
   oidc: State,
   shelves: ShelfType[],
   setShelves: (shelves: ShelfType[]) => void,
-  connectedUser: UserType
+  connectedUser: UserType,
+  storage: StorageType
 }) => {
   const { t } = useTranslation();
 
@@ -45,7 +46,11 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser }: {
       {barcode}
     );
     if (response.status === 200 && response.deleted) {
-      setShelves([...shelves.filter(sh => sh.barcode !== barcode)]);
+      if (connectedUser.isAdmin) {
+        setShelves([...getNewShelves(barcode, connectedUser.username, new Date(), true)]);
+      } else {
+        setShelves([...shelves.filter(sh => sh.barcode !== barcode)]);
+      }
     }
   };
 
@@ -56,17 +61,28 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser }: {
       {barcode}
     );
     if (response.status === 200 && response.deleted) {
-      setShelves([...shelves.map(sh => {
-        if (sh.barcode === barcode) {
-          sh.deletedBy = null;
-          sh.deletedOn = null;
-          return sh;
-        }else {
-          return sh
-        }
-      })]);
+      setShelves([...getNewShelves(barcode, null, null, false)]);
     }
   };
+
+  const getNewShelves = (barcode: string, deletedBy: string, deletedOn: Date, isDeletion: boolean) => {
+    return shelves.map(sh => {
+      if (sh.barcode === barcode) {
+        sh.deletedBy = deletedBy;
+        sh.deletedOn = deletedOn;
+        if (isDeletion) {
+          sh.boxes = sh.boxes.map(box => {
+            box.deletedBy = deletedBy;
+            box.deletedOn = deletedOn;
+            return box;
+          })
+        }
+        return sh;
+      } else {
+        return sh
+      }
+    })
+  }
 
   return (
     <div>
@@ -78,12 +94,13 @@ export const Shelf = ({ oidc, shelves, setShelves, connectedUser }: {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Box oidc={oidc} boxes={shelf.boxes} shelf={shelf.barcode} shelves={shelves}
-                 setShelves={setShelves} />
+            <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} shelves={shelves}
+                 setShelves={setShelves} connectedUser={connectedUser} />
           </CardContent>
           <CardFooter className="left-div">
             {shelf.deletedBy ?
-              <Undo undoDeletion={() => undoDeletion(shelf.barcode)} isIcon={true} title={t("app.shelfDeleted")}/>
+              <Undo undoDeletion={() => undoDeletion(shelf.barcode)} isIcon={true} title={t("app.shelfDeleted")}
+                    disabled={storage.deletedBy !== null}/>
               : <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
                    onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>}
             <span title={t("app.addNewBox")}>
