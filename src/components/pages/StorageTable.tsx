@@ -158,34 +158,38 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                 <SortableHeader label={t('app.storageType')} sortKey="storageType" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.storageSubType')} sortKey="storageSubType" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.storage')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
-                <TableHead className="text-right">Actions</TableHead>
+                <SortableHeader label={t('app.createdHeader')} sortKey="createdOn" sortConfig={sortConfig} handleSort={handleSort}/>
+                <TableHead className="text-right">{t('app.Actions')}</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="font-medium">
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center py-8">{t('app.loadingData')}</TableCell>
+                  <TableCell colSpan={8} className="text-center py-8">{t('app.loadingData')}</TableCell>
                 </TableRow>
               ) : storages.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
+                  <TableCell colSpan={8} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
                 </TableRow>
               ) : (
                 storages.map((storage, index) => (
                   <TableRow key={index}>
-                    <TableCell className="font-medium">{storage.roomDisplay}</TableCell>
-                    <TableCell className="font-medium">{t(`roomType.${storage.roomType.symbol}`)} ({storage.roomType.shortName})</TableCell>
-                    <TableCell className="font-medium">{t(`productType.${storage.productType.symbol}`)} ({storage.productType.shortName})</TableCell>
-                    <TableCell className="font-medium">{t(`storageType.${storage.storageType.symbol}`)} ({storage.storageType.shortName})</TableCell>
-                    <TableCell className="font-medium">{t(`storageSubType.${storage.storageSubType.symbol}`)} ({storage.storageSubType.shortName})
-                    </TableCell>
-                    <TableCell className="font-medium">
+                    <TableCell>{storage.roomDisplay}</TableCell>
+                    <TableCell>{t(`roomType.${storage.roomType.symbol}`)} ({storage.roomType.shortName})</TableCell>
+                    <TableCell>{t(`productType.${storage.productType.symbol}`)} ({storage.productType.shortName})</TableCell>
+                    <TableCell>{t(`storageType.${storage.storageType.symbol}`)} ({storage.storageType.shortName})</TableCell>
+                    <TableCell>{t(`storageSubType.${storage.storageSubType.symbol}`)} ({storage.storageSubType.shortName})</TableCell>
+                    <TableCell>
                       <Link
                         to={`/code/${storage.barcode}`}
                         className="text-blue-600 hover:underline cursor-pointer"
                       >
                         {storage.barcode}
                       </Link>
+                    </TableCell>
+                    <TableCell>
+                      <span>{new Date(storage.createdOn).toLocaleString('fr-CH')}</span><br />
+                      <span className="text-gray-500">{storage.createdBy}</span>
                     </TableCell>
                     <TableCell className="text-right">
                       ...

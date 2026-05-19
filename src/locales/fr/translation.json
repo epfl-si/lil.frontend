@@ -35,7 +35,9 @@
     "shelfDeleted": "Cette étagère a été supprimée",
     "boxDeleted": "Cette boite a été supprimée",
     "deleteStorage": "Supprimer le stockage",
-    "saveStorage": "Sauvegarder le stockage"
+    "saveStorage": "Sauvegarder le stockage",
+    "createdHeader": "Création",
+    "Actions": "Actions"
   },
   "roomType": {
     "LABO":  "Laboratoire",
