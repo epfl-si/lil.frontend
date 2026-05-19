@@ -71,7 +71,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       {barcode}
     );
     if (response.status === 200 && response.deleted) {
-      await loadDetails()
+      await loadDetails();
     }
   };
 
@@ -93,27 +93,31 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
           </div>
         : t("app.addNewLocation")}
         <Details oidc={oidc} details={details} />
-        <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails}/>
-        {details?.deletedBy === null &&
+        {!details ? <></> :
           <div>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={onDeleteStorage}
-            >
-              <Trash2 />
-              {t('app.deleteStorage')}
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="primary-buttons"
-              onClick={onAddShelf}
-            >
-              <ListPlus />
-              {t('app.addNewShelf')}
-            </Button>
-          </div>}
+            <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails}/>
+            {details?.deletedBy === null &&
+            <div>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={onDeleteStorage}
+              >
+                <Trash2 />
+                {t('app.deleteStorage')}
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="primary-buttons"
+                onClick={onAddShelf}
+              >
+                <ListPlus />
+                {t('app.addNewShelf')}
+              </Button>
+            </div>}
+          </div>
+        }
       </div>
     </div>
   );

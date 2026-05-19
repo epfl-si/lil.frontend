@@ -146,10 +146,47 @@ export const deleteStorage = async (
   }`;
 
   const result = await doGraphQL(query, variables, address, authToken);
-  console.log(result)
   return {
     status: result.status,
     deleted: result.data?.deleteStorage,
+    errors: result.errors
+  };
+};
+
+export const saveStorage = async (
+  address: string | undefined,
+  authToken: string | undefined,
+  variables: {
+    roomId: number,
+    roomDisplay: string,
+    roomType: string,
+    productType: string,
+    storageType: string,
+    storageSubType: string,
+  }
+): Promise<PostBarcodeType> => {
+  const query = `mutation CreateStorage (
+    $productType: String,
+     $roomDisplay: String,
+     $roomId: Int,
+     $roomType: String,
+     $storageSubType: String,
+     $storageType: String,
+  ) {
+    createStorage (
+        productType: $productType
+        roomDisplay: $roomDisplay
+        roomId: $roomId
+        roomType: $roomType
+        storageSubType: $storageSubType
+        storageType: $storageType
+    )
+}`;
+
+  const result = await doGraphQL(query, variables, address, authToken);
+  return {
+    status: result.status,
+    barcode: result.data?.createStorage,
     errors: result.errors
   };
 };
