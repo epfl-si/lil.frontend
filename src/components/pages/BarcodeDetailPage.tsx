@@ -14,7 +14,6 @@ import {Undo} from "@/components/parts/Undo.tsx";
 export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
   const { t } = useTranslation();
   const { barcode } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
   const [details, setDetails] = useState<StorageType | undefined>();
   const [shelves, setShelves] = useState<ShelfType[]>(details ? details.shelves : []);
 
@@ -25,7 +24,6 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
   }, [oidc.accessToken, barcode, connectedUser]);
 
   const loadDetails = async () => {
-    setIsLoading(true);
     const response = await fetchStorageDetails(
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
@@ -38,7 +36,6 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       setDetails(response.data);
       setShelves(response.data.shelves);
     }
-    setIsLoading(false);
   };
 
   const onAddShelf = async () => {
@@ -49,12 +46,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
         {parentBarcode: details.barcode}
       );
       if (response.status === 200 && response.barcode) {
-        setShelves([...shelves, {
-          barcode: response.barcode,
-          boxes: [],
-          createdBy: connectedUser.username,
-          createdOn: new Date()
-        }]);
+        await loadDetails()
       }
     } else {
 
@@ -68,7 +60,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       {barcode}
     );
     if (response.status === 200 && response.deleted) {
-      setDetails({...details, deletedBy: null, deletedOn: null});
+      await loadDetails()
     }
   };
 
@@ -78,9 +70,8 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       oidc.accessToken,
       {barcode}
     );
-    console.log(response)
     if (response.status === 200 && response.deleted) {
-      setDetails({...details, deletedBy: connectedUser.username, deletedOn: new Date()});
+      await loadDetails()
     }
   };
 
@@ -92,40 +83,38 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
           {t('app.backToStorage')}
         </div>
       </Link>
-      {isLoading ? t('app.loadingData') :
-        <div>
-          {details ?
-            <div>
-              <div className="title">{details.barcode}</div>
-              {details.deletedBy && <Undo title={t("app.storageDeleted")}
-                                          undoDeletion={undoDeletion}
-                                          isIcon={false} />}
-            </div>
-          : t("app.addNewLocation")}
-          <Details oidc={oidc} details={details} />
-          <Shelf oidc={oidc} shelves={shelves} setShelves={setShelves} connectedUser={connectedUser} storage={details}/>
-          {details?.deletedBy === null &&
-            <div>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={onDeleteStorage}
-              >
-                <Trash2 />
-                {t('app.deleteStorage')}
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="primary-buttons"
-                onClick={onAddShelf}
-              >
-                <ListPlus />
-                {t('app.addNewShelf')}
-              </Button>
-            </div>}
-        </div>
-      }
+      <div>
+        {details ?
+          <div>
+            <div className="title">{details.barcode}</div>
+            {details.deletedBy && <Undo title={t("app.storageDeleted")}
+                                        undoDeletion={undoDeletion}
+                                        isIcon={false} />}
+          </div>
+        : t("app.addNewLocation")}
+        <Details oidc={oidc} details={details} />
+        <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails}/>
+        {details?.deletedBy === null &&
+          <div>
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={onDeleteStorage}
+            >
+              <Trash2 />
+              {t('app.deleteStorage')}
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="primary-buttons"
+              onClick={onAddShelf}
+            >
+              <ListPlus />
+              {t('app.addNewShelf')}
+            </Button>
+          </div>}
+      </div>
     </div>
   );
 };

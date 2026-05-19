@@ -1,19 +1,20 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
-import type {BoxType, ShelfType, StorageType, UserType} from "@/lib/types.tsx";
+import type {BoxType, ShelfType, StorageType} from "@/lib/types.tsx";
 import {deleteBox, undeleteBox} from "@/lib/graphql/postingTools.ts";
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
+import {Trash2} from "lucide-react";
 
-export const Box = ({ oidc, storage, shelf, boxes, shelves, setShelves, connectedUser }: {
+export const Box = ({ oidc, storage, shelf, boxes,load }: {
   oidc: State,
   storage: StorageType,
   shelf: ShelfType,
   boxes: BoxType[],
-  shelves: ShelfType[],
-  setShelves: (shelves: ShelfType[]) => void,
-  connectedUser: UserType}) => {
+  load: () => void
+}) => {
   const { t } = useTranslation();
+  const disabled = shelf?.deletedBy !== null || storage?.deletedBy !== null;
 
   const onDeleteBox = async (barcode: string) => {
     const response = await deleteBox(
@@ -22,18 +23,7 @@ export const Box = ({ oidc, storage, shelf, boxes, shelves, setShelves, connecte
       {barcode}
     );
     if (response.status === 200 && response.deleted) {
-      if (connectedUser.isAdmin) {
-        setShelves([...getNewShelves(barcode, connectedUser.username, new Date())]);
-      } else {
-        setShelves([...shelves.map(sh => {
-          if (sh.barcode === shelf.barcode) {
-            const index = sh.boxes.findIndex(box => box.barcode === barcode);
-            sh.boxes.splice(index, 1);
-            return sh;
-          } else
-            return sh;
-        })]);
-      }
+      load();
     }
   };
 
@@ -44,27 +34,9 @@ export const Box = ({ oidc, storage, shelf, boxes, shelves, setShelves, connecte
       {barcode}
     );
     if (response.status === 200 && response.deleted) {
-      setShelves([...getNewShelves(barcode, null, null)]);
+      load();
     }
   };
-
-  const getNewShelves = (barcode: string, deletedBy: string, deletedOn: Date) => {
-    return shelves.map(sh => {
-      if (sh.barcode === shelf.barcode) {
-        sh.boxes = sh.boxes.map(box => {
-          if (box.barcode === barcode) {
-            box.deletedBy = deletedBy;
-            box.deletedOn = deletedOn;
-            return box;
-          } else {
-            return box;
-          }
-        });
-        return sh;
-      } else
-        return sh;
-    });
-  }
 
   return (
     <div>
@@ -73,9 +45,11 @@ export const Box = ({ oidc, storage, shelf, boxes, shelves, setShelves, connecte
           {box.barcode}
           {box.deletedBy ?
             <Undo undoDeletion={() => undoDeletion(box.barcode)} isIcon={true} title={t("app.boxDeleted")}
-                  disabled={shelf.deletedBy !== null || storage.deletedBy !== null}/>
-            : <Alert title={t("app.deleteShelfTitle", {barcode: box.barcode})}
-                     onSubmit={() => onDeleteBox(box.barcode)} tooltip={t("app.deleteBox")}/>}
+                  disabled={disabled}/>
+            : disabled ?
+            <Trash2 style={{color: "gray"}}/> :
+            <Alert title={t("app.deleteShelfTitle", {barcode: box.barcode})}
+                     onSubmit={() => onDeleteBox(box.barcode)} tooltip={t("app.deleteBox")} />}
         </div>
       )}
     </div>
