@@ -1,7 +1,7 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import type {BoxType, ShelfType, StorageType} from "@/lib/types.tsx";
-import {deleteBox, undeleteBox} from "@/lib/graphql/postingTools.ts";
+import {deleteBox, restoreBox} from "@/lib/graphql/postingTools.ts";
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 import {Trash2} from "lucide-react";
@@ -28,7 +28,7 @@ export const Box = ({ oidc, storage, shelf, boxes,load }: {
   };
 
   const undoDeletion = async (barcode: string) => {
-    const response = await undeleteBox(
+    const response = await restoreBox(
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {barcode}

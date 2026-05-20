@@ -58,21 +58,21 @@ export const deleteShelf = async (
   };
 };
 
-export const undeleteShelf = async (
+export const restoreShelf = async (
   address: string | undefined,
   authToken: string | undefined,
   variables: {
     barcode: string
   }
 ): Promise<DeleteBarcodeType> => {
-  const query = `mutation UndeleteShelf ( $barcode: String ) {
-      undeleteShelf ( barcode: $barcode )
+  const query = `mutation RestoreShelf ( $barcode: String ) {
+      restoreShelf ( barcode: $barcode )
   }`;
 
   const result = await doGraphQL(query, variables, address, authToken);
   return {
     status: result.status,
-    deleted: result.data?.undeleteShelf,
+    deleted: result.data?.restoreShelf,
     errors: result.errors
   };
 };
@@ -96,40 +96,40 @@ export const deleteBox = async (
   };
 };
 
-export const undeleteBox = async (
+export const restoreBox = async (
   address: string | undefined,
   authToken: string | undefined,
   variables: {
     barcode: string
   }
 ): Promise<DeleteBarcodeType> => {
-  const query = `mutation UndeleteBox ( $barcode: String ) {
-      undeleteBox ( barcode: $barcode )
+  const query = `mutation RestoreBox ( $barcode: String ) {
+      restoreBox ( barcode: $barcode )
   }`;
 
   const result = await doGraphQL(query, variables, address, authToken);
   return {
     status: result.status,
-    deleted: result.data?.undeleteBox,
+    deleted: result.data?.restoreBox,
     errors: result.errors
   };
 };
 
-export const undeleteStorage = async (
+export const restoreStorage = async (
   address: string | undefined,
   authToken: string | undefined,
   variables: {
     barcode: string
   }
 ): Promise<DeleteBarcodeType> => {
-  const query = `mutation UndeleteStorage ( $barcode: String ) {
-      undeleteStorage ( barcode: $barcode )
+  const query = `mutation RestoreStorage ( $barcode: String ) {
+      restoreStorage ( barcode: $barcode )
   }`;
 
   const result = await doGraphQL(query, variables, address, authToken);
   return {
     status: result.status,
-    deleted: result.data?.undeleteStorage,
+    deleted: result.data?.restoreStorage,
     errors: result.errors
   };
 };

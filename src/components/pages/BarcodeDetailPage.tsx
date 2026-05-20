@@ -8,7 +8,7 @@ import {fetchStorageDetails} from "@/lib/graphql/fetchingTools.ts";
 import type {ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {Shelf} from "@/components/form/Shelf.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {createShelf, deleteStorage, undeleteStorage} from "@/lib/graphql/postingTools.ts";
+import {createShelf, deleteStorage, restoreStorage} from "@/lib/graphql/postingTools.ts";
 import {Undo} from "@/components/parts/Undo.tsx";
 
 export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
@@ -50,7 +50,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
   };
 
   const undoDeletion = async () => {
-    const response = await undeleteStorage(
+    const response = await restoreStorage(
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {barcode}
