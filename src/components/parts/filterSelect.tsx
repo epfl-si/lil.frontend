@@ -3,13 +3,14 @@ import type {Type} from "@/lib/types.tsx";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 
 export const FilterSelect = (
-  { placeholder, data, listName, value, setValue }:
+  { placeholder, data, listName, value, setValue, disable }:
   {
     placeholder: string,
     data: Type[],
     listName: string,
-    value: string | null,
+    value: string | null,
     setValue: (value: string | null) => void
+    disable?: boolean;
   }
 ) => {
   const { t } = useTranslation();
@@ -18,7 +19,9 @@ export const FilterSelect = (
       <Select value={value || undefined}
             onValueChange={(val) => {
               setValue(val === "__all__" ? "" : val);
-            }}>
+            }}
+              disabled={disable}
+      >
       <SelectTrigger className="w-1/2 m-1">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

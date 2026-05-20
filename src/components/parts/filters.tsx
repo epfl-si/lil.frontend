@@ -24,9 +24,10 @@ interface Props {
   activeFilters: ActiveFilters;
   onFilterChange: (key: keyof ActiveFilters, value: string) => void;
   isCascading?: boolean;
+  disable?: boolean;
 }
 
-export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = false }: Props) => {
+export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = false, disable = false }: Props) => {
   const { t } = useTranslation();
   const [options, setOptions] = useState<FilterOptions>({
     roomType: [],
@@ -57,7 +58,6 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
       fetchRoomType(baseUrl, token).then(res => setOptions(prev => ({ ...prev, roomType: res.data || [] })));
     }
   }, [oidc.accessToken, isCascading])
-
 
   const handleRoomChange = async (val: string) => {
     onFilterChange('roomType', val);
@@ -107,11 +107,13 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row", gap: "16px" }}>
-      <FilterSelect placeholder={t('app.roomType')} data={options.roomType} value={activeFilters.roomType || null} setValue={handleRoomChange} listName="roomType" />
-      <FilterSelect placeholder={t('app.productType')} data={options.productType} value={activeFilters.productType || null} setValue={handleProductChange} listName="productType" />
-      <FilterSelect placeholder={t('app.storageType')} data={options.storageType} value={activeFilters.storageType || null} setValue={handleStorageChange} listName="storageType" />
-      <FilterSelect placeholder={t('app.storageSubType')} data={options.storageSubType} value={activeFilters.storageSubType || null} setValue={handleSubStorageChange} listName="storageSubType" />
+    <div>
+      {activeFilters && <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row", gap: "16px" }}>
+        <FilterSelect placeholder={t('app.roomType')} data={options.roomType} value={activeFilters.roomType} setValue={handleRoomChange} listName="roomType" disable={disable}/>
+        <FilterSelect placeholder={t('app.productType')} data={options.productType} value={activeFilters.productType} setValue={handleProductChange} listName="productType" disable={disable}/>
+        <FilterSelect placeholder={t('app.storageType')} data={options.storageType} value={activeFilters.storageType} setValue={handleStorageChange} listName="storageType" disable={disable}/>
+        <FilterSelect placeholder={t('app.storageSubType')} data={options.storageSubType} value={activeFilters.storageSubType} setValue={handleSubStorageChange} listName="storageSubType" disable={disable}/>
+      </div>}
     </div>
   );
 };
