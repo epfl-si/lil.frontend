@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import type {ShelfType, StorageType} from "@/lib/types.tsx";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
-import {createBox, deleteShelf, undeleteShelf} from "@/lib/graphql/postingTools.ts";
+import {createBox, deleteShelf, restoreShelf} from "@/lib/graphql/postingTools.ts";
 import {ListPlus, Trash2} from "lucide-react";
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
@@ -40,7 +40,7 @@ export const Shelf = ({ oidc, shelves, storage, load }: {
   };
 
   const undoDeletion = async (barcode: string) => {
-    const response = await undeleteShelf(
+    const response = await restoreShelf(
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {barcode}
