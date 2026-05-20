@@ -39,17 +39,13 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
   };
 
   const onAddShelf = async () => {
-    if (details) {
-      const response = await createShelf(
-        import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
-        oidc.accessToken,
-        {parentBarcode: details.barcode}
-      );
-      if (response.status === 200 && response.barcode) {
-        await loadDetails()
-      }
-    } else {
-
+    const response = await createShelf(
+      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      oidc.accessToken,
+      {parentBarcode: details.barcode}
+    );
+    if (response.status === 200 && response.barcode) {
+      await loadDetails()
     }
   };
 
