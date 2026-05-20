@@ -9,7 +9,8 @@
     "contact": "Contact"
   },
   "app": {
-    "storage": "Storage",
+    "BarcodeHeader": "Barcode",
+    "ShelvesAndBoxesHeader": "Shelves / Boxes",
     "room": "Room",
     "roomType": "Room type",
     "productType": "Product type",
