@@ -157,7 +157,8 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                 <SortableHeader label={t('app.productType')} sortKey="productType" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.storageType')} sortKey="storageType" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.storageSubType')} sortKey="storageSubType" sortConfig={sortConfig} handleSort={handleSort}/>
-                <SortableHeader label={t('app.storage')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
+                <SortableHeader label={t('app.BarcodeHeader')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
+                <SortableHeader label={t('app.ShelvesAndBoxesHeader')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.createdHeader')} sortKey="createdOn" sortConfig={sortConfig} handleSort={handleSort}/>
                 <TableHead className="text-right">{t('app.Actions')}</TableHead>
               </TableRow>
@@ -165,11 +166,11 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
             <TableBody className="font-medium">
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={8} className="text-center py-8">{t('app.loadingData')}</TableCell>
+                  <TableCell colSpan={9} className="text-center py-8">{t('app.loadingData')}</TableCell>
                 </TableRow>
               ) : storages.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={8} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
+                  <TableCell colSpan={9} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
                 </TableRow>
               ) : (
                 storages.map((storage, index) => (
@@ -186,6 +187,16 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                       >
                         {storage.barcode}
                       </Link>
+                    </TableCell>
+                    <TableCell>
+                      {storage.shelves?.map((shelf) => (
+                        <div key={shelf.barcode}>
+                          {shelf.barcode}
+                          {shelf.boxes?.map((box) => (
+                            <div key={box.barcode}>{box.barcode}</div>
+                          ))}
+                        </div>
+                      ))}
                     </TableCell>
                     <TableCell>
                       <span>{new Date(storage.createdOn).toLocaleString('fr-CH')}</span><br />

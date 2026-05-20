@@ -9,7 +9,8 @@
     "contact": "Contact"
   },
   "app": {
-    "storage": "Stockage",
+    "BarcodeHeader": "Code-barres",
+    "ShelvesAndBoxesHeader": "Étagères / Boîtes",
     "room": "Salle",
     "roomType": "Type de salle",
     "productType": "Type de produit",
@@ -21,9 +22,9 @@
     "manageYourLocation": "Gérez vos emplacements.",
     "storageFacilityManagement": "Gestion des lieux de Stockage",
     "backToStorage": "Retour aux stockages",
-    "detailsOfBarcode": "Détails du Code-barre {{barcode}}",
+    "detailsOfBarcode": "Détails du Code-barres {{barcode}}",
     "all": "Tous",
-    "addNewLocation": "Ajouter un nouveau barcode",
+    "addNewLocation": "Ajouter un nouveau code-barres",
     "addNewShelf": "Ajouter une nouvelle étagère",
     "addNewBox": "Ajouter une nouvelle boite",
     "deleteShelf": "Supprimer l'étagère",

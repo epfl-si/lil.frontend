@@ -80,6 +80,14 @@ export const fetchStorage = async (
           shortName
           symbol
         }
+        shelves (includeDeleted: false) {
+          barcode
+          deletedOn
+          boxes (includeDeleted: false){
+            barcode
+            deletedOn
+          }
+        }
       }
     }
   }`;
