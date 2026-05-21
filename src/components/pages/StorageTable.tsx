@@ -93,6 +93,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
         productTypeSymbol: activeFilters.productType,
         storageTypeSymbol: activeFilters.storageType,
         storageSubTypeSymbol: activeFilters.storageSubType,
+        roomDisplay: activeFilters.roomDisplay,
       }
     );
     if (response.status === 200 && response.data) {

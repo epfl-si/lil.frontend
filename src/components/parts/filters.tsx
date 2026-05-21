@@ -10,6 +10,8 @@ import {
 import {useEffect, useState} from "react";
 import {FilterSelect} from "@/components/parts/filterSelect.tsx";
 import type {ActiveFilters, FilterOptions} from "@/lib/types.tsx";
+import { fetchStorageSuggestions } from "@/lib/graphql/fetchingTools";
+import { SearchFieldAutoComplete } from "@/components/parts/searchFieldAutoComplete";
 
 interface Props {
   oidc: State;
@@ -106,6 +108,18 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
 
   return (
     <div>
+    <div className="flex gap-4">
+      <SearchFieldAutoComplete
+        placeholder={t("app.searchRoom")}
+        value={activeFilters.roomDisplay || ""}
+        onChange={(val: any) => onFilterChange('roomDisplay', val)}
+
+        fetchData={async (searchTerm: any) => {
+          const res = await fetchStorageSuggestions(baseUrl, oidc.accessToken, 'roomDisplay', searchTerm);
+          return res.data;
+        }}
+      />
+    </div>
       {activeFilters && <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-4">
         <FilterSelect placeholder={t('app.roomType')} data={options.roomType} value={activeFilters.roomType} setValue={handleRoomChange} listName="roomType" disable={disable}/>
         <FilterSelect placeholder={t('app.productType')} data={options.productType} value={activeFilters.productType} setValue={handleProductChange} listName="productType" disable={disable}/>
