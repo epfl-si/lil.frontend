@@ -9,8 +9,8 @@
     "contact": "Contact"
   },
   "app": {
-    "BarcodeHeader": "Code-barres",
-    "ShelvesAndBoxesHeader": "Étagères / Boîtes",
+    "barcodeHeader": "Code-barres",
+    "shelvesAndBoxesHeader": "Étagères / Boîtes",
     "room": "Salle",
     "roomType": "Type de salle",
     "productType": "Type de produit",
@@ -38,7 +38,7 @@
     "deleteStorage": "Supprimer le stockage",
     "saveStorage": "Sauvegarder le stockage",
     "createdHeader": "Création",
-    "Actions": "Actions"
+    "actions": "Actions"
   },
   "roomType": {
     "LABO":  "Laboratoire",

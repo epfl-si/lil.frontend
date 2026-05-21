@@ -9,8 +9,8 @@
     "contact": "Contact"
   },
   "app": {
-    "BarcodeHeader": "Barcode",
-    "ShelvesAndBoxesHeader": "Shelves / Boxes",
+    "barcodeHeader": "Barcode",
+    "shelvesAndBoxesHeader": "Shelves / Boxes",
     "room": "Room",
     "roomType": "Room type",
     "productType": "Product type",
@@ -38,7 +38,7 @@
     "deleteStorage": "Delete storage",
     "saveStorage": "Save storage",
     "createdHeader": "Created",
-    "Actions": "Actions"
+    "actions": "Actions"
   },
   "roomType": {
     "LABO":  "Laboratory",
