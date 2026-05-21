@@ -82,10 +82,8 @@ export const fetchStorage = async (
         }
         shelves (includeDeleted: false) {
           barcode
-          deletedOn
           boxes (includeDeleted: false){
             barcode
-            deletedOn
           }
         }
       }
