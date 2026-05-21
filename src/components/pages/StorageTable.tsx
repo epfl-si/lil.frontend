@@ -157,10 +157,10 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                 <SortableHeader label={t('app.productType')} sortKey="productType" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.storageType')} sortKey="storageType" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.storageSubType')} sortKey="storageSubType" sortConfig={sortConfig} handleSort={handleSort}/>
-                <SortableHeader label={t('app.BarcodeHeader')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
-                <SortableHeader label={t('app.ShelvesAndBoxesHeader')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
+                <SortableHeader label={t('app.barcodeHeader')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
+                <SortableHeader label={t('app.shelvesAndBoxesHeader')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.createdHeader')} sortKey="createdOn" sortConfig={sortConfig} handleSort={handleSort}/>
-                <TableHead className="text-right">{t('app.Actions')}</TableHead>
+                <TableHead className="text-right">{t('app.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="font-medium">
