@@ -109,8 +109,9 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
   return (
     <div>
     <div className="flex gap-4">
+      {isCascading ?
       <SearchFieldAutoComplete
-        placeholder={t("app.searchTerm")}
+        placeholder={t("app.selectRoom")}
         value={activeFilters.searchTerm || ""}
         onChange={(val: any) => onFilterChange('searchTerm', val)}
         isAutoComplete={true}
@@ -120,6 +121,14 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
           return res.data;
         }}
       />
+        :
+      <SearchFieldAutoComplete
+        placeholder={t("app.searchTerm")}
+        value={activeFilters.searchTerm || ""}
+        onChange={(val: any) => onFilterChange('searchTerm', val)}
+        isAutoComplete={false}
+      />
+      }
     </div>
       {activeFilters && <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-4">
         <FilterSelect placeholder={t('app.roomType')} data={options.roomType} value={activeFilters.roomType} setValue={handleRoomChange} listName="roomType" disable={disable}/>

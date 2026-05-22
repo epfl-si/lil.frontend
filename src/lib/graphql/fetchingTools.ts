@@ -334,7 +334,6 @@ export const fetchRoomApiSuggestions = async (
   };
 
   const result = await doGraphQL(query, variables, address, authToken);
-  console.log(result);
   return {
     status: result.status,
     data: result.data?.suggestRoomApi || [],
