@@ -22,7 +22,7 @@ export const Alert = ({ title, body, tooltip, onSubmit}: {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <span title={tooltip}>
+        <span title={tooltip} className="cursor-pointer">
           <Trash2 style={{color: "black"}}/>
         </span>
       </AlertDialogTrigger>

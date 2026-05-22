@@ -8,8 +8,8 @@ export const Undo = ({ title, undoDeletion, isIcon, disabled}: {
 }) => {
 
   return (
-    <div className="left-div" style={{color: disabled ? "gray" : "black", margin: "10px"}}>
-      <span title={title}>
+    <div style={{color: disabled ? "gray" : "black"}}>
+      <span title={title} className="cursor-pointer">
         <RotateCcw onClick={disabled ? () => {} : undoDeletion}/>
       </span>
       {isIcon ? '' : title}
