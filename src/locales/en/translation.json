@@ -42,7 +42,8 @@
     "actions": "Actions",
     "shelvesNoteAllowed": "Shelves not allowed",
     "boxesNoteAllowed": "Boxes not allowed",
-    "searchTerm": "Search..."
+    "searchTerm": "Search...",
+    "selectRoom": "Choose a room..."
   },
   "roomType": {
     "LABO":  "Laboratory",
