@@ -98,6 +98,8 @@ export interface ActiveFilters {
   storageSubType?: string;
   allowsBoxes?: boolean;
   allowsShelves?: boolean;
+  roomDisplay?: string;
+  searchTerm?: string;
 }
 
 export interface FilterOptions {

@@ -35,6 +35,7 @@ export const fetchStorage = async (
     sortField?: string;
     sortDirection?: string;
     roomDisplay?: string;
+    searchTerm?: string;
   }
 ): Promise<FetchStoragesType> => {
   const query = `query getStorage (
@@ -47,6 +48,7 @@ export const fetchStorage = async (
     $sortField: String,
     $sortDirection: String
     $roomDisplay: String
+    $searchTerm: String
   ) {
     storages(
       roomTypeSymbol: $roomTypeSymbol,
@@ -58,6 +60,7 @@ export const fetchStorage = async (
       sortField: $sortField,
       sortDirection: $sortDirection,
       roomDisplay: $roomDisplay
+      searchTerm: $searchTerm
     ) {
       totalCount
       storages {
@@ -310,6 +313,29 @@ export const fetchStorageSuggestions = async (
   return {
     status: result.status,
     data: result.data?.suggestStorage || [],
+    errors: result.errors
+  };
+};
+
+export const fetchRoomApiSuggestions = async (
+  address: string | undefined,
+  authToken: string | undefined,
+  roomSearch: string
+): Promise<{ status: number; data: string[]; errors: any }> => {
+
+  const query = `query getRoomApiSuggestions($roomSearch: String!) {
+    suggestRoomApi(roomSearch: $roomSearch)
+  }`;
+
+  const variables = {
+    roomSearch: roomSearch
+  };
+
+  const result = await doGraphQL(query, variables, address, authToken);
+  console.log(result);
+  return {
+    status: result.status,
+    data: result.data?.suggestRoomApi || [],
     errors: result.errors
   };
 };

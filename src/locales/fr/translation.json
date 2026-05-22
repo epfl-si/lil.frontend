@@ -40,7 +40,8 @@
     "createdHeader": "Création",
     "actions": "Actions",
     "shelvesNoteAllowed": "Étagères non admises",
-    "boxesNoteAllowed": "Boîtes non admises"
+    "boxesNoteAllowed": "Boîtes non admises",
+    "searchTerm": "Rechercher..."
   },
   "roomType": {
     "LABO":  "Laboratoire",
