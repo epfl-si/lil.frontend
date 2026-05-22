@@ -8,8 +8,8 @@ export const FilterSelect = (
     placeholder: string,
     data: Type[],
     listName: string,
-    value: string | null,
-    setValue: (value: string | null) => void
+    value: string | undefined,
+    setValue: (value: string) => void
     disable?: boolean;
   }
 ) => {
