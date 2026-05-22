@@ -68,6 +68,17 @@ export type FetchType = {
   errors?: any;
 };
 
+export type FetchAllowedType = {
+  status?: number;
+  data?: AllowedType;
+  errors?: any;
+};
+
+export type AllowedType = {
+  allowsBoxes?: boolean;
+  allowsShelves?: boolean;
+};
+
 export type PostBarcodeType = {
   status?: number;
   barcode?: string;
@@ -79,3 +90,19 @@ export type DeleteBarcodeType = {
   deleted?: boolean;
   errors?: any;
 };
+
+export interface ActiveFilters {
+  roomType?: string;
+  productType?: string;
+  storageType?: string;
+  storageSubType?: string;
+  allowsBoxes?: boolean;
+  allowsShelves?: boolean;
+}
+
+export interface FilterOptions {
+  roomType: Type[];
+  productType: Type[];
+  storageType: Type[];
+  storageSubType: Type[];
+}

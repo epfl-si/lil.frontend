@@ -10,20 +10,13 @@ import {
 import {Link, useNavigate, useSearchParams} from "react-router";
 import {ArrowDown, ArrowUp, ArrowUpDown, ListPlus} from "lucide-react";
 import type {State} from "@epfl-si/react-appauth";
-import type {StorageType, UserType} from "@/lib/types.tsx";
+import type {ActiveFilters, StorageType, UserType} from "@/lib/types.tsx";
 import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
 import {useTranslation} from "react-i18next";
 import {Filters} from "@/components/parts/filters.tsx";
 import {Button} from "@/components/ui/button.tsx";
 
 type SortKey = keyof StorageType;
-
-export interface ActiveFilters {
-  roomType?: string;
-  productType?: string;
-  storageType?: string;
-  storageSubType?: string;
-}
 
 interface SortableHeaderProps {
   label: string;

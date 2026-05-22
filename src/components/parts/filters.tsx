@@ -1,28 +1,20 @@
 import type {State} from '@epfl-si/react-appauth';
 import {useTranslation} from 'react-i18next';
-import {fetchProductType, fetchRoomType, fetchStorageSubType, fetchStorageType} from "@/lib/graphql/fetchingTools.ts";
+import {
+  fetchAllowedTypeValue,
+  fetchProductType,
+  fetchRoomType,
+  fetchStorageSubType,
+  fetchStorageType
+} from "@/lib/graphql/fetchingTools.ts";
 import {useEffect, useState} from "react";
 import {FilterSelect} from "@/components/parts/filterSelect.tsx";
-import type {Type} from "@/lib/types.tsx";
-
-export interface ActiveFilters {
-  roomType?: string;
-  productType?: string;
-  storageType?: string;
-  storageSubType?: string;
-}
-
-interface FilterOptions {
-  roomType: Type[];
-  productType: Type[];
-  storageType: Type[];
-  storageSubType: Type[];
-}
+import type {ActiveFilters, FilterOptions} from "@/lib/types.tsx";
 
 interface Props {
   oidc: State;
   activeFilters: ActiveFilters;
-  onFilterChange: (key: keyof ActiveFilters, value: string) => void;
+  onFilterChange: (key: keyof ActiveFilters, value: string | boolean) => void;
   isCascading?: boolean;
   disable?: boolean;
 }
@@ -69,7 +61,6 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
     setOptions(prev => ({ ...prev, productType: [], storageType: [], storageSubType: [] }));
 
     if (val) {
-
       const res = await fetchProductType(baseUrl, token, val);
       setOptions(prev => ({ ...prev, productType: res.data || [] }));
     }
@@ -102,8 +93,15 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
     }
   };
 
-  const handleSubStorageChange = (val: string) => {
+  const handleSubStorageChange = async (val: string) => {
     onFilterChange('storageSubType', val);
+
+    if (val && activeFilters.roomType && activeFilters.productType && activeFilters.storageType) {
+      const res = await fetchAllowedTypeValue(baseUrl, token, activeFilters.roomType, activeFilters.productType, activeFilters.storageType, val);
+
+      onFilterChange('allowsBoxes', res.data.allowsBoxes);
+      onFilterChange('allowsShelves', res.data.allowsShelves);
+    }
   };
 
   return (

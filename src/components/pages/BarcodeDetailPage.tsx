@@ -5,7 +5,7 @@ import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import {Details} from "@/components/form/Details.tsx";
 import {fetchStorageDetails} from "@/lib/graphql/fetchingTools.ts";
-import type {ShelfType, StorageType, UserType} from "@/lib/types.tsx";
+import type {ActiveFilters, ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {Shelf} from "@/components/form/Shelf.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {deleteStorage, restoreStorage} from "@/lib/graphql/postingTools.ts";
@@ -16,6 +16,14 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
   const { barcode } = useParams();
   const [details, setDetails] = useState<StorageType | undefined>();
   const [shelves, setShelves] = useState<ShelfType[]>(details ? details.shelves : []);
+  const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
+    roomType: details?.roomType.symbol,
+    productType: details?.productType.symbol,
+    storageType: details?.storageType.symbol,
+    storageSubType: details?.storageSubType.symbol,
+    allowsBoxes: true,
+    allowsShelves: true
+  });
 
   useEffect(() => {
     if (barcode) {
@@ -99,11 +107,12 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
           </div>
         )}
 
-        <Details oidc={oidc} details={details} connectedUser={connectedUser}/>
+        <Details oidc={oidc} details={details} connectedUser={connectedUser}  activeFilters={activeFilters} setActiveFilters={setActiveFilters}/>
         {!details ? <></> :
           <div>
             <hr className="border-gray-200 mb-4" />
-            <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails} connectedUser={connectedUser} />
+            <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails} connectedUser={connectedUser}
+                   allowsBoxes={activeFilters.allowsBoxes}/>
           </div>
         }
       </div>
