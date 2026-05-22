@@ -6,9 +6,10 @@ interface SmartAutocompleteProps {
   value: string | null;
   onChange: (val: string) => void;
 
-  fetchData: (searchTerm: string) => Promise<string[]>;
+  fetchData?: (searchTerm: string) => Promise<string[]>;
 
   disable?: boolean;
+  isAutoComplete?: boolean;
 }
 
 export const SearchFieldAutoComplete = ({
@@ -16,7 +17,8 @@ export const SearchFieldAutoComplete = ({
   value,
   onChange,
   fetchData,
-  disable
+  disable,
+  isAutoComplete
 }: SmartAutocompleteProps) => {
 
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -24,7 +26,7 @@ export const SearchFieldAutoComplete = ({
   const handleSearch = async (searchTerm: string) => {
     onChange(searchTerm);
 
-    if (searchTerm.length >= 2) {
+    if (isAutoComplete && fetchData && searchTerm.length >= 2) {
       try {
         const results = await fetchData(searchTerm);
         setSuggestions(results);

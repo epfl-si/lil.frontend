@@ -41,7 +41,8 @@
     "deletedHeader": "Deleted",
     "actions": "Actions",
     "shelvesNoteAllowed": "Shelves not allowed",
-    "boxesNoteAllowed": "Boxes not allowed"
+    "boxesNoteAllowed": "Boxes not allowed",
+    "searchTerm": "Search..."
   },
   "roomType": {
     "LABO":  "Laboratory",
