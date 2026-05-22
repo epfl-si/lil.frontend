@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input.tsx";
 
 export const FilterDebouncedInput = ({
@@ -15,14 +15,21 @@ export const FilterDebouncedInput = ({
   disable?: boolean;
 }) => {
   const [localValue, setLocalValue] = useState(value || "");
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
     setLocalValue(value || "");
   }, [value]);
 
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     const timeoutId = setTimeout(() => {
-      onSearch(localValue);
+      if (localValue !== (value || "")) {
+        onSearch(localValue);
+      }
     }, 1000);
 
     return () => clearTimeout(timeoutId);
