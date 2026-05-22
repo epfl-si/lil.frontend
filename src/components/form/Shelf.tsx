@@ -1,6 +1,6 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
-import type {ShelfType, StorageType} from "@/lib/types.tsx";
+import type {ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {Card, CardContent, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
 import {Button} from "@/components/ui/button.tsx";
@@ -9,11 +9,12 @@ import {Plus as AddIcon, QrCode as BarcodeIcon, Rows2 as ShelfIcon, Trash2} from
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 
-export const Shelf = ({ oidc, shelves, storage, load }: {
+export const Shelf = ({ oidc, shelves, storage, load, connectedUser }: {
   oidc: State,
   shelves: ShelfType[],
   storage: StorageType,
-  load: () => void
+  load: () => void,
+  connectedUser: UserType
 }) => {
   const { t } = useTranslation();
   const disabled = storage?.deletedBy !== null;
@@ -72,20 +73,21 @@ export const Shelf = ({ oidc, shelves, storage, load }: {
                 <ShelfIcon color="#ee6b00" />
                 <BarcodeIcon size={16} color="#212121" />
                 <span className={`font-bold ${shelf.deletedBy ? 'line-through opacity-50' : ''} flex-1`}>{shelf.barcode}</span>
-                <div>
+                {!connectedUser.isReadOnly && <div>
                   {shelf.deletedBy ?
                     <Undo undoDeletion={() => undoDeletion(shelf.barcode)} isIcon={true} title={t("app.shelfDeleted")}
                           disabled={disabled}/>
                     : disabled ?
                       <Trash2 className="text-gray-400" />
-                    : <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
-                             onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>}
-                </div>
+                      : <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
+                               onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>}
+
+                </div>}
               </div>
             </CardTitle>
           </CardHeader>
           <CardContent className={shelf.deletedBy ? 'opacity-50' : ''}>
-            <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} load={load}/>
+            <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} load={load} connectedUser={connectedUser}/>
             <Button className={`w-full mb-4 ${shelf.boxes.length > 0 ? 'mt-4' : ''}`}
                 variant="outline"
                 size="lg"

@@ -10,6 +10,7 @@ export const fetchConnectedUser = async (
       groups
       username
       isAdmin
+      isReadOnly
     }
   }`;
 
