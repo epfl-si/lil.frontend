@@ -92,7 +92,6 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {
-        isAdmin: connectedUser.isAdmin,
         page: currentPage,
         pageSize: itemsPerPage,
         sortField: sortConfig?.key,

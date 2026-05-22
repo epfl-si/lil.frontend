@@ -29,7 +29,6 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       oidc.accessToken,
       {
         barcode,
-        isAdmin: connectedUser.isAdmin
       }
     );
     if (response.status === 200 && response.data) {
