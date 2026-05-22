@@ -9,12 +9,13 @@ import {Plus as AddIcon, QrCode as BarcodeIcon, Rows2 as ShelfIcon, Trash2} from
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 
-export const Shelf = ({ oidc, shelves, storage, load, connectedUser }: {
+export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes }: {
   oidc: State,
   shelves: ShelfType[],
   storage: StorageType,
   load: () => void,
-  connectedUser: UserType
+  connectedUser: UserType,
+  allowsBoxes: boolean
 }) => {
   const { t } = useTranslation();
   const disabled = storage?.deletedBy !== null;
@@ -88,7 +89,7 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser }: {
           </CardHeader>
           <CardContent className={shelf.deletedBy ? 'opacity-50' : ''}>
             <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} load={load} connectedUser={connectedUser}/>
-            {!connectedUser.isReadOnly && <Button className={`w-full mb-4 ${shelf.boxes.length > 0 ? 'mt-4' : ''}`}
+            {!connectedUser.isReadOnly && <Button className={`w-full mb-4 ${shelf.boxes.length > 0 ? 'mt-4' : ''} ${allowsBoxes ? 'visible' : 'invisible'}`}
                      variant="outline"
                      size="lg"
                      disabled={disabled || !!shelf.deletedBy}
@@ -100,7 +101,7 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser }: {
           </CardContent>
         </Card>
       )}
-      {!connectedUser.isReadOnly && <Button className="cursor-pointer"
+      {!connectedUser.isReadOnly && <Button className={`cursor-pointer ${allowsShelves ? 'visible' : 'invisible'}`}
                variant="outline"
                size="lg"
                disabled={disabled}

@@ -1,5 +1,5 @@
 import {doGraphQL} from "./utils.ts";
-import type {FetchStoragesType, FetchStorageType, FetchType, FetchUserType} from "@/lib/types.tsx";
+import type {FetchAllowedType, FetchStoragesType, FetchStorageType, FetchType, FetchUserType} from "@/lib/types.tsx";
 
 export const fetchConnectedUser = async (
   address: string | undefined,
@@ -258,4 +258,30 @@ export const fetchStorageSubType = async (
 
   const result = await doGraphQL(query, variables, address, authToken);
   return { status: result.status, data: result.data?.storageSubTypes, errors: result.errors };
+};
+
+export const fetchAllowedTypeValue = async (
+  address: string | undefined,
+  authToken: string | undefined,
+  roomSymbol: string,
+  productSymbol: string,
+  storageSymbol: string,
+  subStorageSymbol: string
+): Promise<FetchAllowedType> => {
+  const query = `query getAllowedTypeValue($room: String, $product: String, $storage: String, $subStorage: String) {
+        allowedTypeValue(roomSymbol: $room, productSymbol: $product, storageSymbol: $storage, subStorageSymbol: $subStorage) {
+          allowsBoxes
+          allowsShelves
+        }
+      }`;
+
+  const variables = {
+    room: roomSymbol,
+    product: productSymbol,
+    storage: storageSymbol,
+    subStorage: subStorageSymbol
+  };
+
+  const result = await doGraphQL(query, variables, address, authToken);
+  return { status: result.status, data: result.data?.allowedTypeValue, errors: result.errors };
 };

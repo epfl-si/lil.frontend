@@ -1,26 +1,23 @@
 import type {State} from "@epfl-si/react-appauth";
-import type {StorageType, UserType} from "@/lib/types.tsx";
-import {useState} from "react";
+import type {ActiveFilters, StorageType, UserType} from "@/lib/types.tsx";
 import {Filters} from "@/components/parts/filters.tsx";
-import type {ActiveFilters} from "@/components/pages/StorageTable.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Save} from "lucide-react";
 import {useTranslation} from "react-i18next";
 import {saveStorage} from "@/lib/graphql/postingTools.ts";
 import {useNavigate} from "react-router";
 
-export const Details = ({ oidc, details, connectedUser }: {
-  oidc: State, details: StorageType | undefined, connectedUser: UserType }) => {
+export const Details = ({ oidc, details, connectedUser, activeFilters, setActiveFilters }: {
+  oidc: State,
+  details: StorageType | undefined,
+  connectedUser: UserType,
+  activeFilters: ActiveFilters,
+  setActiveFilters: (filters: (prev) => ActiveFilters) => void
+}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
-    roomType: details?.roomType.symbol,
-    productType: details?.productType.symbol,
-    storageType: details?.storageType.symbol,
-    storageSubType: details?.storageSubType.symbol,
-  });
 
-  const handleFilterChange = (key: keyof ActiveFilters, value: string) => {
+  const handleFilterChange = (key: keyof ActiveFilters, value: string | boolean) => {
     setActiveFilters((prev) => ({ ...prev, [key]: value}));
   }
 
