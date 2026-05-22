@@ -1,5 +1,5 @@
 import type {State} from "@epfl-si/react-appauth";
-import type {StorageType} from "@/lib/types.tsx";
+import type {StorageType, UserType} from "@/lib/types.tsx";
 import {useState} from "react";
 import {Filters} from "@/components/parts/filters.tsx";
 import type {ActiveFilters} from "@/components/pages/StorageTable.tsx";
@@ -9,7 +9,8 @@ import {useTranslation} from "react-i18next";
 import {saveStorage} from "@/lib/graphql/postingTools.ts";
 import {useNavigate} from "react-router";
 
-export const Details = ({ oidc, details }: { oidc: State, details: StorageType | undefined }) => {
+export const Details = ({ oidc, details, connectedUser }: {
+  oidc: State, details: StorageType | undefined, connectedUser: UserType }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
@@ -44,7 +45,7 @@ export const Details = ({ oidc, details }: { oidc: State, details: StorageType |
   return (
     <div>
       { activeFilters && <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={true} disable={!!details}/>}
-      {!details &&
+      {!details && !connectedUser.isReadOnly &&
           <Button
             variant="outline"
             size="lg"

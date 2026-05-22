@@ -84,13 +84,13 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
             <Button className="primary-buttons"
               variant="outline"
               size="lg"
-              disabled={!!details?.deletedBy}
+              disabled={!!details?.deletedBy || connectedUser.isReadOnly}
               onClick={onDeleteStorage}
             >
               <Trash2 />
               {t('app.deleteStorage')}
             </Button>
-            {details?.deletedBy && (
+            {details?.deletedBy && !connectedUser.isReadOnly && (
               <>
                 <p className="text-red-500 text-sm font-medium">{t("app.storageDeleted")}</p>
                 <Undo title={t("app.storageDeleted")} undoDeletion={undoDeletion} isIcon={true} />
@@ -99,11 +99,11 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
           </div>
         )}
 
-        <Details oidc={oidc} details={details} />
+        <Details oidc={oidc} details={details}  connectedUser={connectedUser}/>
         {!details ? <></> :
           <div>
             <hr className="border-gray-200 mb-4" />
-            <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails}/>
+            <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails} connectedUser={connectedUser} />
           </div>
         }
       </div>

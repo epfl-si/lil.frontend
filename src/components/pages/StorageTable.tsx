@@ -137,15 +137,15 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
         </div>
       </div>
       <div className="space-y-4">
-        <Button
+        {!connectedUser.isReadOnly && <Button
           variant="outline"
           size="lg"
           className="primary-buttons"
           onClick={() => navigate("/code/new")}
         >
-          <ListPlus />
+          <ListPlus/>
           {t('app.addNewLocation')}
-        </Button>
+        </Button>}
         <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={false} />
         <div className="border rounded-md bg-white">
           <Table>
@@ -159,7 +159,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                 <SortableHeader label={t('app.barcodeHeader')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.shelvesAndBoxesHeader')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.createdHeader')} sortKey="createdOn" sortConfig={sortConfig} handleSort={handleSort}/>
-                <TableHead className="text-right">{t('app.actions')}</TableHead>
+                <TableHead className="text-right" style={{visibility: connectedUser.isReadOnly ? 'hidden' : 'visible'}}>{t('app.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="font-medium">
@@ -201,7 +201,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                       <span>{new Date(storage.createdOn).toLocaleString('fr-CH')}</span><br />
                       <span className="text-gray-500">{storage.createdBy}</span>
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-right" style={{visibility: connectedUser.isReadOnly ? 'hidden' : 'visible'}}>
                       ...
                     </TableCell>
                   </TableRow>

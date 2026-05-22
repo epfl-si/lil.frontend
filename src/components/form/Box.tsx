@@ -1,17 +1,18 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
-import type {BoxType, ShelfType, StorageType} from "@/lib/types.tsx";
+import type {BoxType, ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {deleteBox, restoreBox} from "@/lib/graphql/postingTools.ts";
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 import {QrCode as BarcodeIcon, Archive as BoxIcon, Trash2} from "lucide-react";
 
-export const Box = ({ oidc, storage, shelf, boxes,load }: {
+export const Box = ({ oidc, storage, shelf, boxes,load, connectedUser }: {
   oidc: State,
   storage: StorageType,
   shelf: ShelfType,
   boxes: BoxType[],
-  load: () => void
+  load: () => void,
+  connectedUser: UserType
 }) => {
   const { t } = useTranslation();
   const disabled = shelf?.deletedBy !== null || storage?.deletedBy !== null;
@@ -45,7 +46,7 @@ export const Box = ({ oidc, storage, shelf, boxes,load }: {
           <BoxIcon color="#007480" />
           <BarcodeIcon size={16} color="#212121" />
           <span className={`text-sm ${box.deletedBy ? 'line-through opacity-50' : ''} flex-1`}>{box.barcode}</span>
-          {box.deletedBy ? (
+          {!connectedUser.isReadOnly ? (box.deletedBy ? (
             <Undo
               undoDeletion={() => undoDeletion(box.barcode)}
               isIcon={true}
@@ -60,7 +61,7 @@ export const Box = ({ oidc, storage, shelf, boxes,load }: {
               onSubmit={() => onDeleteBox(box.barcode)}
               tooltip={t("app.deleteBox")}
             />
-          )}
+          )) : ''}
         </div>
       ))}
     </div>
