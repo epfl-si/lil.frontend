@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FilterDebouncedInput } from "@/components/parts/filterCombobox";
+import { FilterDebouncedInput } from "@/components/parts/filterDebouncedInput";
 
 interface SmartAutocompleteProps {
   placeholder: string;
