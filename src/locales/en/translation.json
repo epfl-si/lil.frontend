@@ -9,7 +9,7 @@
     "contact": "Contact"
   },
   "app": {
-    "barcodeHeader": "Barcode",
+    "barcodeHeader": "Code",
     "shelvesAndBoxesHeader": "Shelves / Boxes",
     "room": "Room",
     "roomType": "Room type",
@@ -22,9 +22,9 @@
     "manageYourLocation": "Manage your locations.",
     "storageFacilityManagement": "Storage Facility Management",
     "backToStorage": "Back to Storage",
-    "detailsOfBarcode": "Details of Barcode {{barcode}}",
+    "detailsOfBarcode": "Details of code {{barcode}}",
     "all": "All",
-    "addNewLocation": "Add a new barcode",
+    "addNewLocation": "Add code",
     "addNewShelf": "Add shelf",
     "addNewBox": "Add box",
     "deleteShelf": "Delete shelf",
@@ -36,7 +36,7 @@
     "shelfDeleted": "This shelf has been deleted",
     "boxDeleted": "This box has been deleted",
     "deleteStorage": "Delete storage",
-    "saveStorage": "Save storage",
+    "saveStorage": "Save",
     "createdHeader": "Created",
     "actions": "Actions"
   },
