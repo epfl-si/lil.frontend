@@ -1,6 +1,6 @@
 import {Link, useParams} from "react-router";
 import {useEffect, useState} from "react";
-import {ArrowLeft, ListPlus, Trash2} from "lucide-react";
+import {ArrowLeft, ShelvingUnit, Trash2} from "lucide-react";
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import {Details} from "@/components/form/Details.tsx";
@@ -8,7 +8,7 @@ import {fetchStorageDetails} from "@/lib/graphql/fetchingTools.ts";
 import type {ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {Shelf} from "@/components/form/Shelf.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {createShelf, deleteStorage, restoreStorage} from "@/lib/graphql/postingTools.ts";
+import {deleteStorage, restoreStorage} from "@/lib/graphql/postingTools.ts";
 import {Undo} from "@/components/parts/Undo.tsx";
 
 export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
@@ -38,17 +38,6 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
     }
   };
 
-  const onAddShelf = async () => {
-    const response = await createShelf(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
-      oidc.accessToken,
-      {parentBarcode: details.barcode}
-    );
-    if (response.status === 200 && response.barcode) {
-      await loadDetails()
-    }
-  };
-
   const undoDeletion = async () => {
     const response = await restoreStorage(
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
@@ -72,50 +61,49 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
   };
 
   return (
-    <div className="p-8 w-full">
-      <Link to={`/`} className="mb-6">
-        <div className="back-div">
-          <ArrowLeft className="mr-2 h-4 w-4" />
+    <div>
+      <Button className="mb-6" variant="outline" size="lg" asChild>
+        <Link to="/" >
+          <ArrowLeft />
           {t('app.backToStorage')}
+        </Link>
+      </Button>
+
+      <div className="mb-6">
+        <div className={`flex items-center gap-3 mb-2 ${details?.deletedBy ? 'line-through opacity-50' : ''}`}>
+          <div className="bg-[#f0f0f0] rounded-[12px] p-2 h-10 w-10 flex items-center justify-center">
+            <ShelvingUnit size={20} />
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold">
+            {details ? details.barcode : t("app.addNewLocation")}
+          </h1>
         </div>
-      </Link>
-      <div>
-        {details ?
-          <div>
-            <div className="title">{details.barcode}</div>
-            {details.deletedBy && <Undo title={t("app.storageDeleted")}
-                                        undoDeletion={undoDeletion}
-                                        isIcon={false} />}
-          </div>
-        : t("app.addNewLocation")}
-        <Details oidc={oidc} details={details} />
-        {!details ? <></> :
-          <div>
-            <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails}/>
-            {details?.deletedBy === null &&
-            <div>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={onDeleteStorage}
-              >
-                <Trash2 />
-                {t('app.deleteStorage')}
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="primary-buttons"
-                onClick={onAddShelf}
-                style={{margin: "10px"}}
-              >
-                <ListPlus />
-                {t('app.addNewShelf')}
-              </Button>
-            </div>}
-          </div>
-        }
+
+        <div className="flex items-center gap-3 mt-4">
+          <Button className="primary-buttons"
+            variant="outline"
+            size="lg"
+            disabled={!!details?.deletedBy}
+            onClick={onDeleteStorage}
+          >
+            <Trash2 />
+            {t('app.deleteStorage')}
+          </Button>
+          {details?.deletedBy && (
+            <>
+              <p className="text-red-500 text-sm font-medium">{t("app.storageDeleted")}</p>
+              <Undo title={t("app.storageDeleted")} undoDeletion={undoDeletion} isIcon={true} />
+            </>
+          )}
+        </div>
       </div>
+
+      <Details oidc={oidc} details={details} />
+      {!details ? <></> :
+        <div>
+          <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails}/>
+        </div>
+      }
     </div>
   );
 };
