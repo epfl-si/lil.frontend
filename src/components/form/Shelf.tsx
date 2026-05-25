@@ -1,10 +1,11 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import type {ShelfType, StorageType} from "@/lib/types.tsx";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "../ui/card";
+import {Card, CardContent, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
-import {createBox, deleteShelf, restoreShelf} from "@/lib/graphql/postingTools.ts";
-import {ListPlus, Trash2} from "lucide-react";
+import {Button} from "@/components/ui/button.tsx";
+import {createBox, createShelf, deleteShelf, restoreShelf} from "@/lib/graphql/postingTools.ts";
+import {Plus as AddIcon, QrCode as BarcodeIcon, Rows2 as ShelfIcon, Trash2} from "lucide-react";
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 
@@ -22,6 +23,17 @@ export const Shelf = ({ oidc, shelves, storage, load }: {
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {parentBarcode}
+    );
+    if (response.status === 200 && response.barcode) {
+      load();
+    }
+  };
+
+  const onAddShelf = async () => {
+    const response = await createShelf(
+      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      oidc.accessToken,
+      {parentBarcode: storage.barcode}
     );
     if (response.status === 200 && response.barcode) {
       load();
@@ -51,36 +63,50 @@ export const Shelf = ({ oidc, shelves, storage, load }: {
   };
 
   return (
-    <div className="container">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
       {shelves.map(shelf =>
-        <Card size="sm" className="mx-auto w-full max-w-sm card" key={shelf.barcode}>
-          <CardHeader>
-            <CardTitle style={{backgroundColor: "lemonchiffon"}}>
-              <div className="left-div">
-                {shelf.barcode}
-                <div className="left-div">
+        <Card size="sm" className="w-full rounded-[12px]" key={shelf.barcode}>
+          <CardHeader className={`bg-[#f0f0f0] border-b-2 rounded-t-[12px] ${shelf.deletedBy ? 'bg-red-100' : 'bg-[#f0f0f0]'}`}>
+            <CardTitle>
+              <div className="flex items-center gap-2 py-1">
+                <ShelfIcon color="#ee6b00" />
+                <BarcodeIcon size={16} color="#212121" />
+                <span className={`font-bold ${shelf.deletedBy ? 'line-through opacity-50' : ''} flex-1`}>{shelf.barcode}</span>
+                <div>
                   {shelf.deletedBy ?
                     <Undo undoDeletion={() => undoDeletion(shelf.barcode)} isIcon={true} title={t("app.shelfDeleted")}
                           disabled={disabled}/>
                     : disabled ?
-                      <Trash2 style={{color: "gray"}}/>
+                      <Trash2 className="text-gray-400" />
                     : <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
                              onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>}
-                  <span title={t("app.addNewBox")}>
-                    <ListPlus onClick={disabled || shelf.deletedBy ? () => {} : () => onAddBox(shelf.barcode)}
-                          style={{color: disabled || shelf.deletedBy ? "gray" : "black"}}/>
-                  </span>
                 </div>
               </div>
             </CardTitle>
-            <CardDescription>
-            </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className={shelf.deletedBy ? 'opacity-50' : ''}>
             <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} load={load}/>
+            <Button className={`w-full mb-4 ${shelf.boxes.length > 0 ? 'mt-4' : ''}`}
+                variant="outline"
+                size="lg"
+                disabled={disabled || !!shelf.deletedBy}
+                onClick={() => onAddBox(shelf.barcode)}
+              >
+              <AddIcon />
+              {t('app.addNewBox')}
+            </Button>
           </CardContent>
         </Card>
       )}
+      <Button className="cursor-pointer"
+        variant="outline"
+        size="lg"
+        disabled={disabled}
+        onClick={onAddShelf}
+      >
+        <AddIcon />
+        {t('app.addNewShelf')}
+      </Button>
     </div>
   );
 };

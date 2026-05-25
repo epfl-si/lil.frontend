@@ -4,7 +4,7 @@ import type {BoxType, ShelfType, StorageType} from "@/lib/types.tsx";
 import {deleteBox, restoreBox} from "@/lib/graphql/postingTools.ts";
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
-import {QrCode as BarcodeIcon, Box as BoxIcon, Trash2} from "lucide-react";
+import {QrCode as BarcodeIcon, Archive as BoxIcon, Trash2} from "lucide-react";
 
 export const Box = ({ oidc, storage, shelf, boxes,load }: {
   oidc: State,
@@ -41,7 +41,7 @@ export const Box = ({ oidc, storage, shelf, boxes,load }: {
   return (
     <div className="flex flex-col gap-1">
       {boxes.map((box) => (
-        <div key={box.barcode} className="flex items-center gap-2 py-1">
+        <div key={box.barcode} className={`flex items-center gap-2 py-1 ${box.deletedBy ? 'bg-red-100 -mx-4 px-4' : ''}`}>
           <BoxIcon color="#007480" />
           <BarcodeIcon size={16} color="#212121" />
           <span className={`text-sm ${box.deletedBy ? 'line-through opacity-50' : ''} flex-1`}>{box.barcode}</span>
@@ -53,7 +53,7 @@ export const Box = ({ oidc, storage, shelf, boxes,load }: {
               disabled={disabled}
             />
           ) : disabled ? (
-            <Trash2 style={{ color: "gray" }} />
+            <Trash2 className="text-gray-400" />
           ) : (
             <Alert
               title={t("app.deleteShelfTitle", { barcode: box.barcode })}
