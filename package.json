@@ -6,9 +6,9 @@
   "config": {
     "appName": "Laboratory Inventory Locations",
     "githubUrl": "https://github.com/epfl-si/lil.dev",
-    "address": "EPFL CH-1015 Lausanne",
-    "telephone": "+41 21 693 11 11",
-    "supportEmail": "support@acme.com"
+    "address": "",
+    "telephone": "021 693 1234",
+    "supportEmail": "1234@epfl.ch"
   },
   "scripts": {
     "dev": "vite",
