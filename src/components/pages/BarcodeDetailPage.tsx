@@ -107,7 +107,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
           </div>
         )}
 
-        <Details oidc={oidc} details={details} connectedUser={connectedUser}  activeFilters={activeFilters} setActiveFilters={setActiveFilters}/>
+        <Details oidc={oidc} details={details} connectedUser={connectedUser} activeFilters={activeFilters} setActiveFilters={setActiveFilters}/>
         {!details ? <></> :
           <div>
             <hr className="border-gray-200 mb-4" />

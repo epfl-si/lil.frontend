@@ -194,7 +194,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                       <span>{new Date(storage.createdOn).toLocaleString('fr-CH')}</span><br />
                       <span className="text-gray-500">{storage.createdBy}</span>
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className={`text-right ${connectedUser.isReadOnly ? 'invisible' : 'visible'}`}>
                       ...
                     </TableCell>
                   </TableRow>
