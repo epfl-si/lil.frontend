@@ -108,7 +108,7 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
 
   return (
     <div>
-      {activeFilters && <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row", gap: "16px" }}>
+      {activeFilters && <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-4">
         <FilterSelect placeholder={t('app.roomType')} data={options.roomType} value={activeFilters.roomType} setValue={handleRoomChange} listName="roomType" disable={disable}/>
         <FilterSelect placeholder={t('app.productType')} data={options.productType} value={activeFilters.productType} setValue={handleProductChange} listName="productType" disable={disable}/>
         <FilterSelect placeholder={t('app.storageType')} data={options.storageType} value={activeFilters.storageType} setValue={handleStorageChange} listName="storageType" disable={disable}/>
