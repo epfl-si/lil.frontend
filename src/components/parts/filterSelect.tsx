@@ -22,7 +22,7 @@ export const FilterSelect = (
             }}
               disabled={disable}
       >
-      <SelectTrigger className="w-1/2 m-1">
+      <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

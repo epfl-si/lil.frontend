@@ -103,6 +103,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
         <Details oidc={oidc} details={details} />
         {!details ? <></> :
           <div>
+            <hr className="border-gray-200 mb-4" />
             <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails}/>
           </div>
         }
