@@ -99,7 +99,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
           </div>
         )}
 
-        <Details oidc={oidc} details={details}  connectedUser={connectedUser}/>
+        <Details oidc={oidc} details={details} connectedUser={connectedUser}/>
         {!details ? <></> :
           <div>
             <hr className="border-gray-200 mb-4" />
