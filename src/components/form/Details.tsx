@@ -42,12 +42,13 @@ export const Details = ({ oidc, details }: { oidc: State, details: StorageType |
   }
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row"}}>
+    <div>
       { activeFilters && <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={true} disable={!!details}/>}
       {!details &&
           <Button
             variant="outline"
             size="lg"
+            className="primary-buttons mt-4"
             onClick={onSaveStorage}
           >
             <Save />
