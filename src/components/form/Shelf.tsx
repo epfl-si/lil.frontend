@@ -90,7 +90,7 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes
           </CardHeader>
           <CardContent className={shelf.deletedBy ? 'opacity-50' : ''}>
             <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} load={load} connectedUser={connectedUser}/>
-            {!connectedUser.isReadOnly && <Button className={`w-full mb-4 ${shelf.boxes.length > 0 ? 'mt-4' : ''} ${allowsBoxes ? 'visible' : 'invisible'}`}
+            {!connectedUser.isReadOnly && (allowsBoxes ? <Button className={`w-full mb-4 ${shelf.boxes.length > 0 ? 'mt-4' : ''}`}
                      variant="outline"
                      size="lg"
                      disabled={disabled || !!shelf.deletedBy}
@@ -98,11 +98,11 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes
             >
               <AddIcon/>
               {t('app.addNewBox')}
-            </Button>}
+            </Button> : <p className="text-red-500 text-sm font-medium mb-3">{t("app.boxesNoteAllowed")}</p>)}
           </CardContent>
         </Card>
       )}
-      {!connectedUser.isReadOnly && <Button className={`cursor-pointer ${allowsShelves ? 'visible' : 'invisible'}`}
+      {!connectedUser.isReadOnly && (allowsShelves ? <Button className="cursor-pointer"
                variant="outline"
                size="lg"
                disabled={disabled}
@@ -110,7 +110,8 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes
       >
         <AddIcon/>
         {t('app.addNewShelf')}
-      </Button>}
+      </Button> : <p className="text-red-500 text-sm font-medium">{t("app.shelvesNoteAllowed")}</p>)
+      }
     </div>
   );
 };
