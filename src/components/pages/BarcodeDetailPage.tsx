@@ -1,6 +1,6 @@
 import {Link, useParams} from "react-router";
 import {useEffect, useState} from "react";
-import {ArrowLeft, ShelvingUnit, Trash2} from "lucide-react";
+import {ArrowLeft, QrCode as BarcodeIcon, ShelvingUnit, Trash2} from "lucide-react";
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import {Details} from "@/components/form/Details.tsx";
@@ -70,9 +70,10 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       </Button>
 
       <div className={`flex items-center gap-3 mb-6 ${details?.deletedBy ? 'line-through opacity-50' : ''}`}>
-        <div className="bg-[#f0f0f0] rounded-[12px] p-2 h-10 w-10 flex items-center justify-center">
-          <ShelvingUnit size={20} />
+        <div className="bg-[#f0f0f0] rounded-[12px] h-10 w-10 flex items-center justify-center">
+          <ShelvingUnit size={24} />
         </div>
+        <BarcodeIcon size={22} color="#212121" />
         <h1 className="text-2xl sm:text-3xl font-bold">
           {details ? details.barcode : t("app.addNewLocation")}
         </h1>
