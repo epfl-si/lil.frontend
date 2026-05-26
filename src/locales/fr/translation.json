@@ -11,8 +11,8 @@
   "app": {
     "barcodeHeader": "Code",
     "shelvesAndBoxesHeader": "Étagères / Boîtes",
-    "room": "Locale",
-    "roomType": "Type de locale",
+    "room": "Local",
+    "roomType": "Type de local",
     "productType": "Type de produit",
     "storageType": "Type de stockage",
     "storageSubType": "Sous-type de stockage",
