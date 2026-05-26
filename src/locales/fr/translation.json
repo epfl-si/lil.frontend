@@ -24,7 +24,7 @@
     "backToStorage": "Retour aux stockages",
     "detailsOfBarcode": "Détails du code {{barcode}}",
     "all": "Tous",
-    "addNewLocation": "Ajouter",
+    "addNewLocation": "Ajouter un code",
     "addNewShelf": "Ajouter une étagère",
     "addNewBox": "Ajouter une boite",
     "deleteShelf": "Supprimer l'étagère",
