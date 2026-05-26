@@ -69,17 +69,17 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
         </Link>
       </Button>
 
-      <div className="mb-6">
-        <div className={`flex items-center gap-3 mb-2 ${details?.deletedBy ? 'line-through opacity-50' : ''}`}>
-          <div className="bg-[#f0f0f0] rounded-[12px] p-2 h-10 w-10 flex items-center justify-center">
-            <ShelvingUnit size={20} />
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-bold">
-            {details ? details.barcode : t("app.addNewLocation")}
-          </h1>
+      <div className={`flex items-center gap-3 mb-6 ${details?.deletedBy ? 'line-through opacity-50' : ''}`}>
+        <div className="bg-[#f0f0f0] rounded-[12px] p-2 h-10 w-10 flex items-center justify-center">
+          <ShelvingUnit size={20} />
         </div>
+        <h1 className="text-2xl sm:text-3xl font-bold">
+          {details ? details.barcode : t("app.addNewLocation")}
+        </h1>
+      </div>
 
-        <div className="flex items-center gap-3 mt-4">
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
           <Button className="primary-buttons"
             variant="outline"
             size="lg"
@@ -96,14 +96,14 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
             </>
           )}
         </div>
-      </div>
 
-      <Details oidc={oidc} details={details} />
-      {!details ? <></> :
-        <div>
-          <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails}/>
-        </div>
-      }
+        <Details oidc={oidc} details={details} />
+        {!details ? <></> :
+          <div>
+            <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails}/>
+          </div>
+        }
+      </div>
     </div>
   );
 };
