@@ -9,13 +9,14 @@ import {Plus as AddIcon, QrCode as BarcodeIcon, Rows2 as ShelfIcon, Trash2} from
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 
-export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes }: {
+export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes, allowsShelves }: {
   oidc: State,
   shelves: ShelfType[],
   storage: StorageType,
   load: () => void,
   connectedUser: UserType,
-  allowsBoxes: boolean
+  allowsBoxes: boolean,
+  allowsShelves: boolean
 }) => {
   const { t } = useTranslation();
   const disabled = storage?.deletedBy !== null;
