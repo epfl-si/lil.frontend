@@ -88,27 +88,27 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser }: {
           </CardHeader>
           <CardContent className={shelf.deletedBy ? 'opacity-50' : ''}>
             <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} load={load} connectedUser={connectedUser}/>
-            <Button className={`w-full mb-4 ${shelf.boxes.length > 0 ? 'mt-4' : ''}`}
-                variant="outline"
-                size="lg"
-                disabled={disabled || !!shelf.deletedBy}
-                onClick={() => onAddBox(shelf.barcode)}
-              >
-              <AddIcon />
+            {!connectedUser.isReadOnly && <Button className={`w-full mb-4 ${shelf.boxes.length > 0 ? 'mt-4' : ''}`}
+                     variant="outline"
+                     size="lg"
+                     disabled={disabled || !!shelf.deletedBy}
+                     onClick={() => onAddBox(shelf.barcode)}
+            >
+              <AddIcon/>
               {t('app.addNewBox')}
-            </Button>
+            </Button>}
           </CardContent>
         </Card>
       )}
-      <Button className="cursor-pointer"
-        variant="outline"
-        size="lg"
-        disabled={disabled}
-        onClick={onAddShelf}
+      {!connectedUser.isReadOnly && <Button className="cursor-pointer"
+               variant="outline"
+               size="lg"
+               disabled={disabled}
+               onClick={onAddShelf}
       >
-        <AddIcon />
+        <AddIcon/>
         {t('app.addNewShelf')}
-      </Button>
+      </Button>}
     </div>
   );
 };
