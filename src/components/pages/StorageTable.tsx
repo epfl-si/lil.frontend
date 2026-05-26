@@ -159,7 +159,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                 <SortableHeader label={t('app.barcodeHeader')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.shelvesAndBoxesHeader')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
                 <SortableHeader label={t('app.createdHeader')} sortKey="createdOn" sortConfig={sortConfig} handleSort={handleSort}/>
-                <TableHead className="text-right" style={{visibility: connectedUser.isReadOnly ? 'hidden' : 'visible'}}>{t('app.actions')}</TableHead>
+                <TableHead className={`text-right ${connectedUser.isReadOnly ? 'invisible' : 'visible'}`}>{t('app.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="font-medium">
@@ -201,7 +201,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                       <span>{new Date(storage.createdOn).toLocaleString('fr-CH')}</span><br />
                       <span className="text-gray-500">{storage.createdBy}</span>
                     </TableCell>
-                    <TableCell className="text-right" style={{visibility: connectedUser.isReadOnly ? 'hidden' : 'visible'}}>
+                    <TableCell className={`text-right ${connectedUser.isReadOnly ? 'invisible' : 'visible'}`}>
                       ...
                     </TableCell>
                   </TableRow>
