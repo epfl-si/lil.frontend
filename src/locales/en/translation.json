@@ -21,7 +21,7 @@
     "noStorageCurrentlyAvailable": "No storage currently available.",
     "manageYourLocation": "Manage your codes",
     "storageFacilityManagement": "Laboratory Inventory Locations",
-    "backToStorage": "Back to storages",
+    "backToStorage": "Back to codes",
     "detailsOfBarcode": "Details of code {{barcode}}",
     "all": "All",
     "addNewLocation": "Add code",
