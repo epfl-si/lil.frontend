@@ -32,13 +32,15 @@
     "cancel": "Annuler",
     "continue": "Continuer",
     "deleteShelfTitle": "Vous êtes sûrs de supprimer {{barcode}}?",
-    "storageDeleted": "Ce stockage a été supprimé",
+    "storageDeleted": "Ce code a été supprimé",
     "shelfDeleted": "Cette étagère a été supprimée",
     "boxDeleted": "Cette boîte a été supprimée",
     "deleteStorage": "Supprimer le code",
     "saveStorage": "Sauvegarder",
     "createdHeader": "Création",
-    "actions": "Actions"
+    "actions": "Actions",
+    "shelvesNoteAllowed": "Étagères non admises",
+    "boxesNoteAllowed": "Boîtes non admises"
   },
   "roomType": {
     "LABO":  "Laboratoire",

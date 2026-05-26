@@ -32,13 +32,15 @@
     "cancel": "Cancel",
     "continue": "Continue",
     "deleteShelfTitle": "Are you sure to delete {{barcode}}?",
-    "storageDeleted": "This storage has been deleted",
+    "storageDeleted": "This code has been deleted",
     "shelfDeleted": "This shelf has been deleted",
     "boxDeleted": "This box has been deleted",
     "deleteStorage": "Delete code",
     "saveStorage": "Save",
     "createdHeader": "Created",
-    "actions": "Actions"
+    "actions": "Actions",
+    "shelvesNoteAllowed": "Shelves not allowed",
+    "boxesNoteAllowed": "Boxes not allowed"
   },
   "roomType": {
     "LABO":  "Laboratory",
