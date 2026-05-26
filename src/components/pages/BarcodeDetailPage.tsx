@@ -79,18 +79,18 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       </div>
 
       <div className="space-y-4">
-        {details && (
+        {details && !connectedUser.isReadOnly && (
           <div className="flex items-center gap-3">
             <Button className="primary-buttons"
               variant="outline"
               size="lg"
-              disabled={!!details?.deletedBy || connectedUser.isReadOnly}
+              disabled={!!details?.deletedBy}
               onClick={onDeleteStorage}
             >
               <Trash2 />
               {t('app.deleteStorage')}
             </Button>
-            {details?.deletedBy && !connectedUser.isReadOnly && (
+            {details?.deletedBy && (
               <>
                 <p className="text-red-500 text-sm font-medium">{t("app.storageDeleted")}</p>
                 <Undo title={t("app.storageDeleted")} undoDeletion={undoDeletion} isIcon={true} />
