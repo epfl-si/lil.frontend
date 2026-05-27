@@ -34,7 +34,6 @@ export const fetchStorage = async (
     pageSize?: number;
     sortField?: string;
     sortDirection?: string;
-    roomDisplay?: string;
     searchTerm?: string;
   }
 ): Promise<FetchStoragesType> => {
@@ -46,8 +45,7 @@ export const fetchStorage = async (
     $page: Int,
     $pageSize: Int,
     $sortField: String,
-    $sortDirection: String
-    $roomDisplay: String
+    $sortDirection: String,
     $searchTerm: String
   ) {
     storages(
@@ -59,7 +57,6 @@ export const fetchStorage = async (
       pageSize: $pageSize,
       sortField: $sortField,
       sortDirection: $sortDirection,
-      roomDisplay: $roomDisplay
       searchTerm: $searchTerm
     ) {
       totalCount
@@ -290,31 +287,6 @@ export const fetchAllowedTypeValue = async (
 
   const result = await doGraphQL(query, variables, address, authToken);
   return { status: result.status, data: result.data?.allowedTypeValue, errors: result.errors };
-};
-
-export const fetchStorageSuggestions = async (
-  address: string | undefined,
-  authToken: string | undefined,
-  field: string,
-  searchText: string
-): Promise<{ status: number; data: string[]; errors: any }> => {
-
-  const query = `query getSuggestions($field: String!, $text: String!) {
-    suggestStorage(field: $field, searchText: $text)
-  }`;
-
-  const variables = {
-    field: field,
-    text: searchText
-  };
-
-  const result = await doGraphQL(query, variables, address, authToken);
-
-  return {
-    status: result.status,
-    data: result.data?.suggestStorage || [],
-    errors: result.errors
-  };
 };
 
 export const fetchRoomApiSuggestions = async (
