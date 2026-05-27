@@ -108,3 +108,12 @@ export interface FilterOptions {
   storageType: Type[];
   storageSubType: Type[];
 }
+
+type SortKey = keyof StorageType;
+
+export interface SortableHeaderProps {
+  label: string;
+  sortKey: SortKey;
+  sortConfig: { key: SortKey; direction: "asc" | "desc" } | null;
+  handleSort: (key: SortKey) => void;
+}
