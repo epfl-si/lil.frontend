@@ -43,7 +43,7 @@ export const FilterDebouncedInput = ({
         type="text"
         list={listId}
         value={localValue}
-        onChange={(e) => setLocalValue(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLocalValue(e.target.value)}
         disabled={disable}
         className="w-1/2 m-1"
         placeholder={placeholder}

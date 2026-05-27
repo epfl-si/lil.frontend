@@ -101,8 +101,8 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
     if (val && activeFilters.roomType && activeFilters.productType && activeFilters.storageType) {
       const res = await fetchAllowedTypeValue(baseUrl, token, activeFilters.roomType, activeFilters.productType, activeFilters.storageType, val);
 
-      onFilterChange('allowsBoxes', res.data.allowsBoxes);
-      onFilterChange('allowsShelves', res.data.allowsShelves);
+      onFilterChange('allowsBoxes', res.data?.allowsBoxes ?? false);
+      onFilterChange('allowsShelves', res.data?.allowsShelves ?? false);
     }
   };
 

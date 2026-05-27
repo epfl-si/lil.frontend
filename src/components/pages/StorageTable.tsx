@@ -10,20 +10,13 @@ import {
 import {Link, useNavigate, useSearchParams} from "react-router";
 import {ArrowDown, ArrowUp, ArrowUpDown, ListPlus} from "lucide-react";
 import type {State} from "@epfl-si/react-appauth";
-import type {ActiveFilters, StorageType, UserType} from "@/lib/types.tsx";
+import type {ActiveFilters, StorageType, UserType, SortableHeaderProps} from "@/lib/types.tsx";
 import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
 import {useTranslation} from "react-i18next";
 import {Filters} from "@/components/parts/filters.tsx";
 import {Button} from "@/components/ui/button.tsx";
 
 type SortKey = keyof StorageType;
-
-interface SortableHeaderProps {
-  label: string;
-  sortKey: SortKey;
-  sortConfig: { key: SortKey; direction: "asc" | "desc" } | null;
-  handleSort: (key: SortKey) => void;
-}
 
 const SortableHeader = ({
   label,
@@ -117,7 +110,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
   };
 
   // Drop down filtering handler
-  const handleFilterChange = (key: keyof ActiveFilters, value: string) => {
+  const handleFilterChange = (key: keyof ActiveFilters, value: string | boolean) => {
     setActiveFilters((prev) => ({ ...prev, [key]: value}));
     setCurrentPage(1);
   }
