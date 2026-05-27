@@ -106,6 +106,16 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
     }
   };
 
+  const handleFetchRoomSuggestions = async (searchTerm: string) => {
+    try {
+      const res = await fetchRoomApiSuggestions(baseUrl, token, searchTerm);
+      return res.data;
+    } catch (error) {
+      console.error("Error retrieving suggestions :", error);
+      return [];
+    }
+  };
+
   return (
     <div>
     <div className="flex gap-4">
@@ -115,11 +125,7 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
         value={activeFilters.searchTerm || ""}
         onChange={(val: any) => onFilterChange('searchTerm', val)}
         isAutoComplete={true}
-        fetchData={async (searchTerm: any) => {
-          const res = await fetchRoomApiSuggestions(baseUrl, oidc.accessToken, searchTerm);
-          console.log(res);
-          return res.data;
-        }}
+        fetchData={handleFetchRoomSuggestions}
       />
         :
       <SearchFieldAutoComplete
