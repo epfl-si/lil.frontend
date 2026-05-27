@@ -122,7 +122,7 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
       {isCascading ?
       <SearchFieldAutoComplete
         placeholder={t("app.selectRoom")}
-        value={activeFilters.searchTerm || ""}
+        value={activeFilters.searchTerm || ""}
         onChange={(val: any) => onFilterChange('searchTerm', val)}
         isAutoComplete={true}
         fetchData={handleFetchRoomSuggestions}
@@ -130,7 +130,7 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
         :
       <SearchFieldAutoComplete
         placeholder={t("app.searchTerm")}
-        value={activeFilters.searchTerm || ""}
+        value={activeFilters.searchTerm || ""}
         onChange={(val: any) => onFilterChange('searchTerm', val)}
         isAutoComplete={false}
       />
