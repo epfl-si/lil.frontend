@@ -293,10 +293,13 @@ export const fetchRoomApiSuggestions = async (
   address: string | undefined,
   authToken: string | undefined,
   roomSearch: string
-): Promise<{ status: number; data: string[]; errors: any }> => {
+): Promise<{ status: number; data: { id: number; name: string }[]; errors: any }> => {
 
   const query = `query getRoomApiSuggestions($roomSearch: String!) {
-    suggestRoomApi(roomSearch: $roomSearch)
+    suggestRoomApi(roomSearch: $roomSearch) {
+      id
+      name
+    }
   }`;
 
   const variables = {
