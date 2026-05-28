@@ -109,9 +109,16 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
   const handleFetchRoomSuggestions = async (searchTerm: string) => {
     try {
       const res = await fetchRoomApiSuggestions(baseUrl, token, searchTerm);
+      if (res.errors) {
+        console.error("GraphQL error retrieving suggestions :", res.errors);
+        return [];
+      }
+      if (!res.data) {
+        return [];
+      }
       return res.data;
     } catch (error) {
-      console.error("Error retrieving suggestions :", error);
+      console.error("Network error retrieving suggestions :", error);
       return [];
     }
   };
