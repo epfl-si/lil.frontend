@@ -155,7 +155,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                 <TableHead className={`text-right ${connectedUser.isReadOnly ? 'invisible' : 'visible'}`}>{t('app.actions')}</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="font-medium">
+            <TableBody>
               {isLoading ? (
                 <TableRow>
                   <TableCell colSpan={9} className="text-center py-8">{t('app.loadingData')}</TableCell>
