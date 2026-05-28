@@ -139,7 +139,7 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
         // }}
       />
         :
-      <SearchFieldAutoComplete
+      <SearchFieldAutoComplete<string>
         placeholder={t("app.searchTerm")}
         value={activeFilters.searchTerm || ""}
         onChange={(val: any) => onFilterChange('searchTerm', val)}
