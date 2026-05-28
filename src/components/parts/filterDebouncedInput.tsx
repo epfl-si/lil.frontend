@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input.tsx";
+import { Popover, PopoverContent, PopoverAnchor } from "@/components/ui/popover.tsx";
+import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command.tsx";
 
 export const FilterDebouncedInput = ({
   placeholder,
@@ -15,6 +17,7 @@ export const FilterDebouncedInput = ({
   disable?: boolean;
 }) => {
   const [localValue, setLocalValue] = useState(value || "");
+  const [open, setOpen] = useState(false);
   const isInitialMount = useRef(true);
 
   useEffect(() => {
@@ -35,25 +38,50 @@ export const FilterDebouncedInput = ({
     return () => clearTimeout(timeoutId);
   }, [localValue]);
 
-  const listId = `suggestions-${placeholder.replace(/\s+/g, '-')}`;
-
   return (
-    <>
-      <Input
-        type="text"
-        list={listId}
-        value={localValue}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLocalValue(e.target.value)}
-        disabled={disable}
-        className="w-1/2 m-1"
-        placeholder={placeholder}
-      />
+    <Popover open={open && suggestions.length > 0} onOpenChange={setOpen}>
+      <div className="w-1/2 m-1">
+        <PopoverAnchor asChild>
+          <Input
+            type="text"
+            value={localValue}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setLocalValue(e.target.value);
+              setOpen(true);
+            }}
+            disabled={disable}
+            className="w-full"
+            placeholder={placeholder}
+          />
+        </PopoverAnchor>
 
-      <datalist id={listId}>
-        {suggestions.map((suggestion, index) => (
-          <option key={index} value={suggestion} />
-        ))}
-      </datalist>
-    </>
+        <PopoverContent
+          className="p-0 w-[var(--radix-popover-trigger-width)]"
+          align="start"
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
+          <Command shouldFilter={false}>
+            <CommandList>
+              <CommandGroup>
+                {suggestions.map((suggestion, index) => (
+                  <CommandItem
+                    key={`${suggestion}-${index}`}
+                    value={suggestion}
+                    onSelect={(currentValue) => {
+                      setLocalValue(currentValue);
+                      onSearch(currentValue);
+                      setOpen(false);
+                    }}
+                    className="cursor-pointer data-[selected=true]:bg-primary data-[selected=true]:text-primary-foreground"
+                  >
+                    {suggestion}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </div>
+    </Popover>
   );
 };
