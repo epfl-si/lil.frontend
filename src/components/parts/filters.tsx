@@ -120,12 +120,16 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
     <div>
     <div className="flex gap-4">
       {isCascading ?
-      <SearchFieldAutoComplete
+      <SearchFieldAutoComplete<{ id: number; name: string }>
         placeholder={t("app.selectRoom")}
         value={activeFilters.searchTerm || ""}
-        onChange={(val: any) => onFilterChange('searchTerm', val)}
+        onChange={(val: string) => onFilterChange('searchTerm', val)}
         isAutoComplete={true}
         fetchData={handleFetchRoomSuggestions}
+        getDisplayValue={(room) => room.name}
+        // onSelectItem={(room) => {
+        //   onFilterChange('roomId', room.id);
+        // }}
       />
         :
       <SearchFieldAutoComplete
@@ -133,6 +137,7 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
         value={activeFilters.searchTerm || ""}
         onChange={(val: any) => onFilterChange('searchTerm', val)}
         isAutoComplete={false}
+        getDisplayValue={(item) => item}
       />
       }
     </div>
