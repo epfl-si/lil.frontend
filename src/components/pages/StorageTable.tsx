@@ -8,40 +8,16 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination.tsx";
 import {Link, useNavigate, useSearchParams} from "react-router";
-import {ArrowDown, ArrowUp, ArrowUpDown, ListPlus} from "lucide-react";
+import {ListPlus} from "lucide-react";
 import type {State} from "@epfl-si/react-appauth";
-import type {ActiveFilters, StorageType, UserType, SortableHeaderProps} from "@/lib/types.tsx";
+import type {ActiveFilters, StorageType, UserType} from "@/lib/types.tsx";
 import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
 import {useTranslation} from "react-i18next";
 import {Filters} from "@/components/parts/filters.tsx";
+import { SortableHeader } from "@/components/parts/sortableHeader";
 import {Button} from "@/components/ui/button.tsx";
 
 type SortKey = keyof StorageType;
-
-const SortableHeader = ({
-  label,
-  sortKey,
-  sortConfig,
-  handleSort,
-}: SortableHeaderProps) => (
-  <TableHead
-    onClick={() => handleSort(sortKey)}
-    className="cursor-pointer select-none hover:bg-slate-50 transition-colors"
-  >
-    <div className="flex items-center gap-2">
-      {label}
-      {sortConfig?.key === sortKey ? (
-        sortConfig.direction === "asc" ? (
-          <ArrowUp className="w-4 h-4" />
-        ) : (
-          <ArrowDown className="w-4 h-4" />
-        )
-      ) : (
-        <ArrowUpDown className="w-4 h-4 opacity-30" />
-      )}
-    </div>
-  </TableHead>
-);
 
 export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
   const { t } = useTranslation();
