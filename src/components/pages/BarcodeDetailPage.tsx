@@ -5,11 +5,13 @@ import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import {Details} from "@/components/form/Details.tsx";
 import {fetchStorageDetails} from "@/lib/graphql/fetchingTools.ts";
-import type {ActiveFilters, ShelfType, StorageType, UserType} from "@/lib/types.tsx";
+import type {ActiveFilters, NotificationType, ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {Shelf} from "@/components/form/Shelf.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {deleteStorage, restoreStorage} from "@/lib/graphql/postingTools.ts";
 import {Undo} from "@/components/parts/Undo.tsx";
+import {handleResponse} from "@/lib/graphql/utils.ts";
+import {InfoAlert} from "@/components/parts/InfoAlert.tsx";
 
 export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
   const { t } = useTranslation();
@@ -24,6 +26,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
     allowsBoxes: true,
     allowsShelves: true
   });
+  const [notification, setNotification] = useState<NotificationType>({visible: "invisible"})
 
   useEffect(() => {
     if (barcode) {
@@ -60,9 +63,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       oidc.accessToken,
       {barcode}
     );
-    if (response.status === 200 && response.deleted) {
-      await loadDetails()
-    }
+    await handleResponse(response, setNotification, loadDetails, 'restoreStorage');
   };
 
   const onDeleteStorage = async () => {
@@ -71,31 +72,32 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       oidc.accessToken,
       {barcode}
     );
-    if (response.status === 200 && response.deleted) {
-      await loadDetails();
-    }
+    await handleResponse(response, setNotification, loadDetails, 'deleteStorage');
   };
 
   return (
     <div>
-      <Button className="mb-6" variant="outline" size="lg" asChild>
-        <Link to="/" >
-          <ArrowLeft />
-          {t('app.backToStorage')}
-        </Link>
-      </Button>
+      <InfoAlert notification={notification} close={() => {setNotification({visible: "invisible"})}} />
 
-      <div className={`flex items-center gap-3 mb-6 ${details?.deletedBy ? 'line-through opacity-50' : ''}`}>
-        <div className="bg-[#f0f0f0] rounded-[12px] h-10 w-10 flex items-center justify-center">
-          <ShelvingUnit size={24} />
+      <div className={`${notification.visible == 'visible' ? 'opacity-50' : ''}`}>
+        <Button className="mb-6" variant="outline" size="lg" asChild>
+          <Link to="/" >
+            <ArrowLeft />
+            {t('app.backToStorage')}
+          </Link>
+        </Button>
+
+        <div className={`flex items-center gap-3 mb-6 ${details?.deletedBy ? 'line-through opacity-50' : ''}`}>
+          <div className="bg-[#f0f0f0] rounded-[12px] h-10 w-10 flex items-center justify-center">
+            <ShelvingUnit size={24} />
+          </div>
+          <BarcodeIcon size={22} color="#212121" />
+          <h1 className="text-2xl sm:text-3xl font-bold">
+            {details ? details.barcode : t("app.addNewLocation")}
+          </h1>
         </div>
-        <BarcodeIcon size={22} color="#212121" />
-        <h1 className="text-2xl sm:text-3xl font-bold">
-          {details ? details.barcode : t("app.addNewLocation")}
-        </h1>
-      </div>
 
-      <div className="space-y-4">
+        <div className="space-y-4">
         {details && !connectedUser.isReadOnly && (
           <div className="flex items-center gap-3">
             <Button className="primary-buttons"
@@ -124,6 +126,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
                    allowsBoxes={activeFilters.allowsBoxes} allowsShelves={activeFilters.allowsShelves}/>
           </div>
         }
+      </div>
       </div>
     </div>
   );
