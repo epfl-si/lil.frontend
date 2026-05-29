@@ -82,8 +82,10 @@ export const fetchStorage = async (
         }
         shelves {
           barcode
+          deletedBy
           boxes {
             barcode
+            deletedBy
           }
         }
       }
