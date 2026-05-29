@@ -120,3 +120,10 @@ export interface FetchStorageVariables {
   sortDirection?: string;
   searchTerm?: string;
 }
+
+export type NotificationType = {
+  title?: string;
+  body?: string;
+  variant?: 'default' | 'destructive';
+  visible: 'visible' | 'invisible';
+}
