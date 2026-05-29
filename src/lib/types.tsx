@@ -108,4 +108,14 @@ export interface FilterOptions {
   storageSubType: Type[];
 }
 
+export interface FetchStorageVariables {
+  roomTypeSymbol?: string;
+  productTypeSymbol?: string;
+  storageTypeSymbol?: string;
+  storageSubTypeSymbol?: string;
+  page?: number;
+  pageSize?: number;
+  sortField?: string;
+  sortDirection?: string;
+  searchTerm?: string;
 }
