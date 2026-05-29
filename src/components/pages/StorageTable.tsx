@@ -121,6 +121,8 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
     setCurrentPage(1);
   }
 
+  const showDeleted = connectedUser.isAdmin;
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
@@ -152,17 +154,20 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                 <SortableHeader label={t('app.barcodeHeader')} sortKey="barcode" sortConfig={sortConfig} handleSort={handleSort}/>
                 <TableHead>{t('app.shelvesAndBoxesHeader')}</TableHead>
                 <SortableHeader label={t('app.createdHeader')} sortKey="createdOn" sortConfig={sortConfig} handleSort={handleSort}/>
+                {showDeleted &&
+                  <SortableHeader label={t('app.deletedHeader')} sortKey="deletedOn" sortConfig={sortConfig} handleSort={handleSort}/>
+                }
                 <TableHead className={`text-right ${connectedUser.isReadOnly ? 'invisible' : 'visible'}`}>{t('app.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={9} className="text-center py-8">{t('app.loadingData')}</TableCell>
+                  <TableCell colSpan={showDeleted ? 9 : 10} className="text-center py-8">{t('app.loadingData')}</TableCell>
                 </TableRow>
               ) : storages.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={9} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
+                  <TableCell colSpan={showDeleted ? 9 : 10} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
                 </TableRow>
               ) : (
                 storages.map((storage, index) => (
@@ -194,6 +199,16 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                       <span>{new Date(storage.createdOn).toLocaleString('fr-CH')}</span><br />
                       <span className="text-gray-500">{storage.createdBy}</span>
                     </TableCell>
+                    {showDeleted &&
+                      <TableCell>
+                        {storage.deletedBy && storage.deletedOn &&
+                          <div>
+                            <span>{new Date(storage.deletedOn).toLocaleString('fr-CH')}</span><br />
+                            <span className="text-gray-500">{storage.deletedBy}</span>
+                          </div>
+                        }
+                      </TableCell>
+                    }
                     <TableCell className={`text-right ${connectedUser.isReadOnly ? 'invisible' : 'visible'}`}>
                       ...
                     </TableCell>

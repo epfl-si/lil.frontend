@@ -38,6 +38,7 @@
     "deleteStorage": "Supprimer le code",
     "saveStorage": "Sauvegarder",
     "createdHeader": "Création",
+    "deletedHeader": "Suppression",
     "actions": "Actions",
     "shelvesNoteAllowed": "Étagères non admises",
     "boxesNoteAllowed": "Boîtes non admises"
