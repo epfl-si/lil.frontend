@@ -166,7 +166,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                 </TableRow>
               ) : (
                 storages.map((storage, index) => (
-                  <TableRow key={index}>
+                  <TableRow className={`${storage.deletedBy ? 'bg-red-100 hover:bg-red-200/70' : ''}`} key={index}>
                     <TableCell>{storage.roomDisplay}</TableCell>
                     <TableCell>{t(`roomType.${storage.roomType.symbol}`)} ({storage.roomType.shortName})</TableCell>
                     <TableCell>{t(`productType.${storage.productType.symbol}`)} ({storage.productType.shortName})</TableCell>
@@ -175,17 +175,17 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
                     <TableCell>
                       <Link
                         to={`/code/${storage.barcode}`}
-                        className="text-blue-600 hover:underline cursor-pointer"
+                        className={`text-blue-600 hover:underline cursor-pointer ${storage.deletedBy ? 'line-through' : ''}`}
                       >
                         {storage.barcode}
                       </Link>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className={`${storage.deletedBy ? 'line-through' : ''}`}>
                       {storage.shelves?.map((shelf) => (
-                        <div key={shelf.barcode}>
+                        <div className={`${storage.deletedBy ? '' : shelf.deletedBy ? 'line-through bg-red-100' : ''}`} key={shelf.barcode}>
                           {shelf.barcode}
                           {shelf.boxes?.map((box) => (
-                            <div key={box.barcode}>{box.barcode}</div>
+                            <div className={`${storage.deletedBy ? '' : box.deletedBy ? 'line-through bg-red-100' : ''}`} key={box.barcode}>{box.barcode}</div>
                           ))}
                         </div>
                       ))}
