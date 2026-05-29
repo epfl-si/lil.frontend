@@ -1,5 +1,5 @@
 import {doGraphQL} from "./utils.ts";
-import type {FetchAllowedType, FetchStoragesType, FetchStorageType, FetchType, FetchUserType} from "@/lib/types.tsx";
+import type {FetchAllowedType, FetchStoragesType, FetchStorageType, FetchType, FetchUserType, FetchStorageVariables} from "@/lib/types.tsx";
 
 export const fetchConnectedUser = async (
   address: string | undefined,
@@ -25,17 +25,7 @@ export const fetchConnectedUser = async (
 export const fetchStorage = async (
   address: string | undefined,
   authToken: string | undefined,
-  variables: {
-    roomTypeSymbol?: string;
-    productTypeSymbol?: string;
-    storageTypeSymbol?: string;
-    storageSubTypeSymbol?: string;
-    page?: number;
-    pageSize?: number;
-    sortField?: string;
-    sortDirection?: string;
-    searchTerm?: string;
-  }
+  variables: FetchStorageVariables
 ): Promise<FetchStoragesType> => {
   const query = `query getStorage (
     $roomTypeSymbol: String,
