@@ -113,9 +113,6 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
       console.error("GraphQL error retrieving suggestions :", res.errors);
       return [];
     }
-    if (!res.data) {
-      return [];
-    }
     return res.data;
   };
 
