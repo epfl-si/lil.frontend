@@ -42,6 +42,15 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
     if (response.status === 200 && response.data) {
       setDetails(response.data);
       setShelves(response.data.shelves);
+      setActiveFilters({
+        searchTerm: response.data.roomDisplay,
+        roomType: response.data.roomType.symbol,
+        productType: response.data.productType.symbol,
+        storageType: response.data.storageType.symbol,
+        storageSubType: response.data.storageSubType.symbol,
+        allowsBoxes: true,
+        allowsShelves: true
+      })
     }
   };
 
