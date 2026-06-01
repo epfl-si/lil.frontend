@@ -17,7 +17,7 @@ export const Details = ({ oidc, details, connectedUser, activeFilters, setActive
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const handleFilterChange = (key: keyof ActiveFilters, value: string | boolean) => {
+  const handleFilterChange = <K extends keyof ActiveFilters>(key: K, value: ActiveFilters[K]) => {
     setActiveFilters((prev) => ({ ...prev, [key]: value}));
   }
 
