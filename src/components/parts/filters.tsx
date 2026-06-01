@@ -124,13 +124,15 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
         placeholder={t("app.selectRoom")}
         value={activeFilters.searchTerm || ""}
         onChange={(val: string) => {
-          onFilterChange('searchTerm', val)
+          onFilterChange('searchTerm', val);
+          onFilterChange('selectedRoomName', undefined);
           onFilterChange('selectedRoomId', undefined);
         }}
         isAutoComplete={true}
         fetchData={handleFetchRoomSuggestions}
         getDisplayValue={(room) => room.name}
         onSelectItem={(room) => {
+          onFilterChange('selectedRoomName', room.name);
           onFilterChange('selectedRoomId', room.id);
         }}
         disable={disable}
