@@ -10,7 +10,7 @@ export const Layout = ({ user, oidc }: { user: UserType, oidc: State }) => {
     <main className="flex flex-col h-screen">
       <Header user={user} onLogin={() => oidc.login()}
               onLogout={() => oidc.logout()}/>
-      <div className="p-4 sm:p-8 max-w-[80%] mx-auto w-full flex-1">
+      <div className="p-4 sm:p-8 w-full 2xl:max-w-[90%] 3xl:max-w-[80%] mx-auto flex-1">
         <Outlet />
       </div>
       <Footer />
