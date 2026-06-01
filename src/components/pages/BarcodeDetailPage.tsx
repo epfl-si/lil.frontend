@@ -55,15 +55,16 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
   const loadSubLocations = (response: FetchStorageType) => {
     setDetails(response.data);
     setShelves(response.data.shelves);
-  setActiveFilters({
-        searchTerm: response.data.roomDisplay,
-        roomType: response.data.roomType.symbol,
-        productType: response.data.productType.symbol,
-        storageType: response.data.storageType.symbol,
-        storageSubType: response.data.storageSubType.symbol,
-        allowsBoxes: true,
-        allowsShelves: true
-      })}
+    setActiveFilters({
+      searchTerm: response.data.roomDisplay,
+      roomType: response.data.roomType.symbol,
+      productType: response.data.productType.symbol,
+      storageType: response.data.storageType.symbol,
+      storageSubType: response.data.storageSubType.symbol,
+      allowsBoxes: true,
+      allowsShelves: true
+    })
+  }
 
   const undoDeletion = async () => {
     const response = await restoreStorage(
