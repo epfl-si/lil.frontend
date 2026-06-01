@@ -158,7 +158,6 @@ export const saveStorage = async (
   authToken: string | undefined,
   variables: {
     roomId: number,
-    roomDisplay: string,
     roomType: string,
     productType: string,
     storageType: string,
@@ -166,8 +165,7 @@ export const saveStorage = async (
   }
 ): Promise<PostBarcodeType> => {
   const query = `mutation CreateStorage (
-    $productType: String,
-     $roomDisplay: String,
+     $productType: String,
      $roomId: Int,
      $roomType: String,
      $storageSubType: String,
@@ -175,7 +173,6 @@ export const saveStorage = async (
   ) {
     createStorage (
         productType: $productType
-        roomDisplay: $roomDisplay
         roomId: $roomId
         roomType: $roomType
         storageSubType: $storageSubType

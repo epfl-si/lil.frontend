@@ -47,7 +47,8 @@
     "boxesNoteAllowed": "Boîtes non admises",
     "searchTerm": "Rechercher...",
     "selectRoom": "Choisissez une room...",
-    "error": "Une erreur s'est produite"
+    "error": "Une erreur s'est produite",
+    "valuesNotDefined": "Tous le champs sont obligatoires"
   },
   "roomType": {
     "LABO":  "Laboratoire",

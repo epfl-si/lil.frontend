@@ -99,7 +99,6 @@ export interface ActiveFilters {
   allowsBoxes?: boolean;
   allowsShelves?: boolean;
   searchTerm?: string;
-  selectedRoomName?: string;
   selectedRoomId?: number;
 }
 

@@ -47,7 +47,8 @@
     "boxesNoteAllowed": "Boxes not allowed",
     "searchTerm": "Search...",
     "selectRoom": "Choose a room...",
-    "error": "An error has occurred"
+    "error": "An error has occurred",
+    "valuesNotDefined": "All fields are required"
   },
   "roomType": {
     "LABO":  "Laboratory",

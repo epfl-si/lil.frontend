@@ -24,19 +24,27 @@ export const Details = ({ oidc, details, connectedUser, activeFilters, setActive
   }
 
   const onSaveStorage = async () => {
-    const response = await saveStorage(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
-      oidc.accessToken,
-      {
-        roomDisplay: activeFilters.selectedRoomName,
-        roomId: activeFilters.selectedRoomId,
-        roomType: activeFilters.roomType,
-        productType: activeFilters.productType,
-        storageType: activeFilters.storageType,
-        storageSubType: activeFilters.storageSubType,
-      }
-    );
-    await handleResponse(response, setNotification, () => {navigate(`/code/${response.barcode}`);});
+    if (!activeFilters.selectedRoomId ||
+      !activeFilters.roomType ||
+      !activeFilters.productType ||
+      !activeFilters.storageType ||
+      !activeFilters.storageSubType
+    ) {
+      setNotification({visible: 'visible', variant: "destructive", title: t("app.error"), body: t("app.valuesNotDefined")})
+    } else {
+      const response = await saveStorage(
+        import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+        oidc.accessToken,
+        {
+          roomId: activeFilters.selectedRoomId,
+          roomType: activeFilters.roomType,
+          productType: activeFilters.productType,
+          storageType: activeFilters.storageType,
+          storageSubType: activeFilters.storageSubType,
+        }
+      );
+      await handleResponse(response, setNotification, () => {navigate(`/code/${response.barcode}`);});
+    }
   }
 
   return (
