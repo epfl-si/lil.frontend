@@ -163,11 +163,11 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={showDeleted ? 9 : 10} className="text-center py-8">{t('app.loadingData')}</TableCell>
+                  <TableCell colSpan={showDeleted ? 10 : 9} className="text-center py-8">{t('app.loadingData')}</TableCell>
                 </TableRow>
               ) : storages.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={showDeleted ? 9 : 10} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
+                  <TableCell colSpan={showDeleted ? 10 : 9} className="text-center py-8 text-gray-500">{t('app.noStorageCurrentlyAvailable')}</TableCell>
                 </TableRow>
               ) : (
                 storages.map((storage, index) => (
