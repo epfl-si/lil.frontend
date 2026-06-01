@@ -50,7 +50,7 @@ export async function handleResponse(
   const errorList: string[] = response.errors ? response.errors.map((err) => typeof err === 'string' ? err : err.message) : [];
 
   if (errorList.length > 0) {
-    setNotification({visible: "visible", body: errorList.join('\n'), title: t("error"), variant: "destructive"});
+    setNotification({visible: "visible", body: errorList.join('\n'), title: t("app.error"), variant: "destructive"});
   } else {
     callBack(...callBackArgs);
   }
