@@ -1,6 +1,6 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
-import type {ShelfType, StorageType, UserType} from "@/lib/types.tsx";
+import type {NotificationType, ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {Card, CardContent, CardHeader, CardTitle} from "../ui/card";
 import {Box} from "@/components/form/Box.tsx";
 import {Button} from "@/components/ui/button.tsx";
@@ -8,12 +8,14 @@ import {createBox, createShelf, deleteShelf, restoreShelf} from "@/lib/graphql/p
 import {Plus as AddIcon, QrCode as BarcodeIcon, Rows2 as ShelfIcon, Trash2} from "lucide-react";
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
+import {handleResponse} from "@/lib/graphql/utils.ts";
 
-export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes, allowsShelves }: {
+export const Shelf = ({ oidc, shelves, storage, load, setNotification, connectedUser, allowsBoxes, allowsShelves }: {
   oidc: State,
   shelves: ShelfType[],
   storage: StorageType,
   load: () => void,
+  setNotification: (notification: NotificationType) => void,
   connectedUser: UserType,
   allowsBoxes: boolean,
   allowsShelves: boolean
@@ -27,9 +29,7 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes
       oidc.accessToken,
       {parentBarcode}
     );
-    if (response.status === 200 && response.barcode) {
-      load();
-    }
+    await handleResponse(response, setNotification, load);
   };
 
   const onAddShelf = async () => {
@@ -38,9 +38,7 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes
       oidc.accessToken,
       {parentBarcode: storage.barcode}
     );
-    if (response.status === 200 && response.barcode) {
-      load();
-    }
+    await handleResponse(response, setNotification, load);
   };
 
   const onDeleteShelf = async (barcode: string) => {
@@ -49,9 +47,7 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes
       oidc.accessToken,
       {barcode}
     );
-    if (response.status === 200 && response.deleted) {
-      load();
-    }
+    await handleResponse(response, setNotification, load);
   };
 
   const undoDeletion = async (barcode: string) => {
@@ -60,9 +56,7 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes
       oidc.accessToken,
       {barcode}
     );
-    if (response.status === 200 && response.deleted) {
-      load();
-    }
+    await handleResponse(response, setNotification, load);
   };
 
   return (
@@ -98,7 +92,7 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes
             </CardTitle>
           </CardHeader>
           <CardContent className={shelf.deletedBy ? 'opacity-50' : ''}>
-            <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} load={load} connectedUser={connectedUser}/>
+            <Box oidc={oidc} boxes={shelf.boxes} storage={storage} shelf={shelf} load={load} connectedUser={connectedUser} setNotification={setNotification} />
             {!connectedUser.isReadOnly && (allowsBoxes ? <Button className={`w-full mb-4 ${shelf.boxes.length > 0 ? 'mt-4' : ''}`}
                      variant="outline"
                      size="lg"

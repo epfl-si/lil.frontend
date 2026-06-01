@@ -46,7 +46,8 @@
     "shelvesNoteAllowed": "Étagères non admises",
     "boxesNoteAllowed": "Boîtes non admises",
     "searchTerm": "Rechercher...",
-    "selectRoom": "Choisissez une room..."
+    "selectRoom": "Choisissez une room...",
+    "error": "Une erreur s'est produite"
   },
   "roomType": {
     "LABO":  "Laboratoire",

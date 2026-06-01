@@ -46,7 +46,8 @@
     "shelvesNoteAllowed": "Shelves not allowed",
     "boxesNoteAllowed": "Boxes not allowed",
     "searchTerm": "Search...",
-    "selectRoom": "Choose a room..."
+    "selectRoom": "Choose a room...",
+    "error": "An error has occurred"
   },
   "roomType": {
     "LABO":  "Laboratory",

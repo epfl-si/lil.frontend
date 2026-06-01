@@ -1,18 +1,20 @@
 import type {State} from "@epfl-si/react-appauth";
-import type {ActiveFilters, StorageType, UserType} from "@/lib/types.tsx";
+import type {ActiveFilters, NotificationType, StorageType, UserType} from "@/lib/types.tsx";
 import {Filters} from "@/components/parts/filters.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Save} from "lucide-react";
 import {useTranslation} from "react-i18next";
 import {saveStorage} from "@/lib/graphql/postingTools.ts";
 import {useNavigate} from "react-router";
+import {handleResponse} from "@/lib/graphql/utils.ts";
 
-export const Details = ({ oidc, details, connectedUser, activeFilters, setActiveFilters }: {
+export const Details = ({ oidc, details, connectedUser, activeFilters, setActiveFilters, setNotification }: {
   oidc: State,
   details: StorageType | undefined,
   connectedUser: UserType,
   activeFilters: ActiveFilters,
-  setActiveFilters: (filters: (prev) => ActiveFilters) => void
+  setActiveFilters: (filters: (prev) => ActiveFilters) => void,
+  setNotification: (notification: NotificationType) => void
 }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -34,9 +36,7 @@ export const Details = ({ oidc, details, connectedUser, activeFilters, setActive
         storageSubType: activeFilters.storageSubType,
       }
     );
-    if (response.status === 200 && response.barcode) {
-      navigate(`/code/${response.barcode}`);
-    }
+    await handleResponse(response, setNotification, () => {navigate(`/code/${response.barcode}`);});
   }
 
   return (

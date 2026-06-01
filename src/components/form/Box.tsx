@@ -1,17 +1,19 @@
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
-import type {BoxType, ShelfType, StorageType, UserType} from "@/lib/types.tsx";
+import type {BoxType, NotificationType, ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {deleteBox, restoreBox} from "@/lib/graphql/postingTools.ts";
 import {Alert} from "@/components/parts/Alert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 import {QrCode as BarcodeIcon, Archive as BoxIcon, Trash2} from "lucide-react";
+import {handleResponse} from "@/lib/graphql/utils.ts";
 
-export const Box = ({ oidc, storage, shelf, boxes,load, connectedUser }: {
+export const Box = ({ oidc, storage, shelf, boxes, load, setNotification, connectedUser }: {
   oidc: State,
   storage: StorageType,
   shelf: ShelfType,
   boxes: BoxType[],
   load: () => void,
+  setNotification: (notification: NotificationType) => void,
   connectedUser: UserType
 }) => {
   const { t } = useTranslation();
@@ -23,9 +25,7 @@ export const Box = ({ oidc, storage, shelf, boxes,load, connectedUser }: {
       oidc.accessToken,
       {barcode}
     );
-    if (response.status === 200 && response.deleted) {
-      load();
-    }
+    await handleResponse(response, setNotification, load);
   };
 
   const undoDeletion = async (barcode: string) => {
@@ -34,9 +34,7 @@ export const Box = ({ oidc, storage, shelf, boxes,load, connectedUser }: {
       oidc.accessToken,
       {barcode}
     );
-    if (response.status === 200 && response.deleted) {
-      load();
-    }
+    await handleResponse(response, setNotification, load);
   };
 
   return (

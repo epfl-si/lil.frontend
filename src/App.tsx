@@ -14,7 +14,8 @@ function App() {
   const [connectedUser, setConnectedUser] = useState<UserType>({
     groups: [],
     username: '',
-    isAdmin: false
+    isAdmin: false,
+    isReadOnly: false
   });
 
   useEffect(() => {
