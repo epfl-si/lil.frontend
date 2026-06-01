@@ -118,33 +118,31 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
 
   return (
     <div>
-    <div className="flex gap-4">
-      {isCascading ?
-      <SearchFieldAutoComplete<{ id: number; name: string }>
-        placeholder={t("app.selectRoom")}
-        value={activeFilters.searchTerm || ""}
-        onChange={(val: string) => {
-          onFilterChange('searchTerm', val);
-          onFilterChange('selectedRoomName', undefined);
-          onFilterChange('selectedRoomId', undefined);
-        }}
-        isAutoComplete={true}
-        fetchData={handleFetchRoomSuggestions}
-        getDisplayValue={(room) => room.name}
-        onSelectItem={(room) => {
-          onFilterChange('selectedRoomName', room.name);
-          onFilterChange('selectedRoomId', room.id);
-        }}
-        disable={disable}
-      />
-        :
-      <SearchFieldAutoComplete<string>
-        placeholder={t("app.searchTerm")}
-        value={activeFilters.searchTerm || ""}
-        onChange={(val: any) => onFilterChange('searchTerm', val)}
-        isAutoComplete={false}
-        getDisplayValue={(item) => item}
-      />
+      <div className="flex gap-4">
+        {isCascading ?
+        <SearchFieldAutoComplete<{ id: number; name: string }>
+          placeholder={t("app.selectRoom")}
+          value={activeFilters.searchTerm || ""}
+          onChange={(val: string) => {
+            onFilterChange('searchTerm', val);
+            onFilterChange('selectedRoomId', undefined);
+          }}
+          isAutoComplete={true}
+          fetchData={handleFetchRoomSuggestions}
+          getDisplayValue={(room) => room.name}
+          onSelectItem={(room) => {
+            onFilterChange('selectedRoomId', room.id);
+          }}
+          disable={disable}
+        />
+          :
+        <SearchFieldAutoComplete<string>
+          placeholder={t("app.searchTerm")}
+          value={activeFilters.searchTerm || ""}
+          onChange={(val: any) => onFilterChange('searchTerm', val)}
+          isAutoComplete={false}
+          getDisplayValue={(item) => item}
+        />
       }
     </div>
       {activeFilters && <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-4">
