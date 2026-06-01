@@ -86,7 +86,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
   };
 
   // Drop down filtering handler
-  const handleFilterChange = (key: keyof ActiveFilters, value: string | boolean) => {
+  const handleFilterChange = <K extends keyof ActiveFilters>(key: K, value: ActiveFilters[K]) => {
     setActiveFilters((prev) => ({ ...prev, [key]: value}));
     setCurrentPage(1);
   }
