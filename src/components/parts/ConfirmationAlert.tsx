@@ -11,7 +11,7 @@ import {
 import {useTranslation} from "react-i18next";
 import {Trash2} from "lucide-react";
 
-export const Alert = ({ title, description, actionLabel, tooltip, onSubmit}: {
+export const ConfirmationAlert = ({ title, description, actionLabel, tooltip, onSubmit}: {
   title: string,
   description: string,
   actionLabel: string

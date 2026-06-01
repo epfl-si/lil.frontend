@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/alert"
 import type {NotificationType} from "@/lib/types.tsx";
 
-export const InfoAlert = ({ notification, close }: {
+export const MessageAlert = ({ notification, close }: {
   notification: NotificationType,
   close: () => void
 }) => {
