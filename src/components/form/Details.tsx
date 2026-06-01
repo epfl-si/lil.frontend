@@ -28,8 +28,8 @@ export const Details = ({ oidc, details, connectedUser, activeFilters, setActive
       import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {
-        roomDisplay: 'INN.033',
-        roomId: 1234,
+        roomDisplay: activeFilters.selectedRoomName,
+        roomId: activeFilters.selectedRoomId,
         roomType: activeFilters.roomType,
         productType: activeFilters.productType,
         storageType: activeFilters.storageType,
