@@ -2,7 +2,7 @@ import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import type {BoxType, NotificationType, ShelfType, StorageType, UserType} from "@/lib/types.tsx";
 import {deleteBox, restoreBox} from "@/lib/graphql/postingTools.ts";
-import {Alert} from "@/components/parts/Alert.tsx";
+import {ConfirmationAlert} from "@/components/parts/ConfirmationAlert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 import {QrCode as BarcodeIcon, Archive as BoxIcon, Trash2} from "lucide-react";
 import {handleResponse} from "@/lib/graphql/utils.ts";
@@ -54,7 +54,7 @@ export const Box = ({ oidc, storage, shelf, boxes, load, setNotification, connec
           ) : disabled ? (
             <Trash2 className="text-gray-400" />
           ) : (
-            <Alert
+            <ConfirmationAlert
               title={t("app.deleteBoxTitle")}
               description={t("app.deleteBoxDescription", { barcode: box.barcode })}
               actionLabel={t("app.delete")}

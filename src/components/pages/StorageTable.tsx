@@ -17,7 +17,7 @@ import {Filters} from "@/components/parts/filters.tsx";
 import {SortableHeader} from "@/components/parts/sortableHeader";
 import {Button} from "@/components/ui/button.tsx";
 import {handleResponse} from "@/lib/graphql/utils.ts";
-import {InfoAlert} from "@/components/parts/InfoAlert.tsx";
+import {MessageAlert} from "@/components/parts/MessageAlert.tsx";
 
 type SortKey = keyof StorageType;
 
@@ -100,7 +100,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
 
   return (
     <div>
-      <InfoAlert notification={notification} close={() => {setNotification({visible: "invisible"})}} />
+      <MessageAlert notification={notification} close={() => {setNotification({visible: "invisible"})}} />
       <div  className={`${notification.visible == 'visible' ? 'opacity-50' : ''}`}>
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <div>

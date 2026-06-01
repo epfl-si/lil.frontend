@@ -18,7 +18,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {deleteStorage, restoreStorage} from "@/lib/graphql/postingTools.ts";
 import {Undo} from "@/components/parts/Undo.tsx";
 import {handleResponse} from "@/lib/graphql/utils.ts";
-import {InfoAlert} from "@/components/parts/InfoAlert.tsx";
+import {MessageAlert} from "@/components/parts/MessageAlert.tsx";
 
 export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
   const { t } = useTranslation();
@@ -86,7 +86,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
 
   return (
     <div>
-      <InfoAlert notification={notification} close={() => {setNotification({visible: "invisible"})}} />
+      <MessageAlert notification={notification} close={() => {setNotification({visible: "invisible"})}} />
 
       <div className={`${notification.visible == 'visible' ? 'opacity-50' : ''}`}>
         <Button className="mb-6" variant="outline" size="lg" asChild>

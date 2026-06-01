@@ -6,7 +6,7 @@ import {Box} from "@/components/form/Box.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {createBox, createShelf, deleteShelf, restoreShelf} from "@/lib/graphql/postingTools.ts";
 import {Plus as AddIcon, QrCode as BarcodeIcon, Rows2 as ShelfIcon, Trash2} from "lucide-react";
-import {Alert} from "@/components/parts/Alert.tsx";
+import {ConfirmationAlert} from "@/components/parts/ConfirmationAlert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 import {handleResponse} from "@/lib/graphql/utils.ts";
 
@@ -79,9 +79,9 @@ export const Shelf = ({ oidc, shelves, storage, load, setNotification, connected
                         disabled={disabled}/>
                     : disabled ?
                       <Trash2 className="text-gray-400" />
-                      : <Alert
+                      : <ConfirmationAlert
                           title={t("app.deleteShelfTitle")}
-                          description={t("app.deleteShelfDescription", { barcode: shelf.barcode })}
+                          description={t("app.deleteShelfDescription", {barcode: shelf.barcode})}
                           actionLabel={t("app.delete")}
                           onSubmit={() => onDeleteShelf(shelf.barcode)}
                           tooltip={t("app.deleteShelf")}/>
