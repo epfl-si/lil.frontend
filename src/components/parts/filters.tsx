@@ -16,7 +16,7 @@ import { SearchFieldAutoComplete } from "@/components/parts/searchFieldAutoCompl
 interface Props {
   oidc: State;
   activeFilters: ActiveFilters;
-  onFilterChange: (key: keyof ActiveFilters, value: string | boolean) => void;
+  onFilterChange: <K extends keyof ActiveFilters>(key: K, value: ActiveFilters[K]) => void;
   isCascading?: boolean;
   disable?: boolean;
 }
@@ -125,13 +125,16 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
       <SearchFieldAutoComplete<{ id: number; name: string }>
         placeholder={t("app.selectRoom")}
         value={activeFilters.searchTerm || ""}
-        onChange={(val: string) => onFilterChange('searchTerm', val)}
+        onChange={(val: string) => {
+          onFilterChange('searchTerm', val)
+          onFilterChange('selectedRoomId', undefined);
+        }}
         isAutoComplete={true}
         fetchData={handleFetchRoomSuggestions}
         getDisplayValue={(room) => room.name}
-        // onSelectItem={(room) => {
-        //   onFilterChange('roomId', room.id);
-        // }}
+        onSelectItem={(room) => {
+          onFilterChange('selectedRoomId', room.id);
+        }}
       />
         :
       <SearchFieldAutoComplete<string>
