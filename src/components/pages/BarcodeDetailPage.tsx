@@ -5,7 +5,14 @@ import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import {Details} from "@/components/form/Details.tsx";
 import {fetchStorageDetails} from "@/lib/graphql/fetchingTools.ts";
-import type {ActiveFilters, NotificationType, ShelfType, StorageType, UserType} from "@/lib/types.tsx";
+import type {
+  ActiveFilters,
+  FetchStorageType,
+  NotificationType,
+  ShelfType,
+  StorageType,
+  UserType
+} from "@/lib/types.tsx";
 import {Shelf} from "@/components/form/Shelf.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {deleteStorage, restoreStorage} from "@/lib/graphql/postingTools.ts";
@@ -42,10 +49,13 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
         barcode,
       }
     );
-    if (response.status === 200 && response.data) {
-      setDetails(response.data);
-      setShelves(response.data.shelves);
-      setActiveFilters({
+    await handleResponse(response, setNotification, loadSubLocations, response);
+  };
+
+  const loadSubLocations = (response: FetchStorageType) => {
+    setDetails(response.data);
+    setShelves(response.data.shelves);
+  setActiveFilters({
         searchTerm: response.data.roomDisplay,
         roomType: response.data.roomType.symbol,
         productType: response.data.productType.symbol,
@@ -53,9 +63,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
         storageSubType: response.data.storageSubType.symbol,
         allowsBoxes: true,
         allowsShelves: true
-      })
-    }
-  };
+      })}
 
   const undoDeletion = async () => {
     const response = await restoreStorage(
@@ -63,7 +71,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       oidc.accessToken,
       {barcode}
     );
-    await handleResponse(response, setNotification, loadDetails, 'restoreStorage');
+    await handleResponse(response, setNotification, loadDetails);
   };
 
   const onDeleteStorage = async () => {
@@ -72,7 +80,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       oidc.accessToken,
       {barcode}
     );
-    await handleResponse(response, setNotification, loadDetails, 'deleteStorage');
+    await handleResponse(response, setNotification, loadDetails);
   };
 
   return (
@@ -118,12 +126,12 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
           </div>
         )}
 
-        <Details oidc={oidc} details={details} connectedUser={connectedUser} activeFilters={activeFilters} setActiveFilters={setActiveFilters}/>
+        <Details oidc={oidc} details={details} connectedUser={connectedUser} activeFilters={activeFilters} setActiveFilters={setActiveFilters} setNotification={setNotification} />
         {!details ? <></> :
           <div>
             <hr className="border-gray-200 mb-4" />
             <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails} connectedUser={connectedUser}
-                   allowsBoxes={activeFilters.allowsBoxes} allowsShelves={activeFilters.allowsShelves}/>
+                   allowsBoxes={activeFilters.allowsBoxes} allowsShelves={activeFilters.allowsShelves} setNotification={setNotification} />
           </div>
         }
       </div>

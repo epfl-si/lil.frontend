@@ -1,4 +1,5 @@
 import type {NotificationType} from "@/lib/types.tsx";
+import {t} from "i18next";
 
 export async function doGraphQL(
 	query: string,
@@ -40,34 +41,17 @@ export async function doGraphQL(
 	};
 }
 
-export function getErrorMessage (response: any, method: string) {
-  const errorList: string[] = response.errors ? response.errors.map((err) => typeof err === 'string' ? err : err.message) : [];
-  const methodErrors = response.data && response.data[method] && response.data[method].errors ?
-    response.data[method].errors.map((err: { message: string; }) => err.message) : [];
-  errorList.push(...methodErrors);
-  if(typeof response.data === 'string' && response.data.indexOf("errors") > -1) {
-    errorList.push(...JSON.parse(response.data).errors);
-  }
-  const errorMessage = errorList.join('\n');
-
-  return {
-    notif: {
-      text: errorMessage,
-      type: 'error'
-    },
-    errorCount: errorList.length
-  };
-}
-
-export async function handleResponse (
+export async function handleResponse(
   response: any,
   setNotification: (notification: NotificationType) => void,
-  callBack: () => void,
-  method: string) {
-  const errors = getErrorMessage(response, method);
-  if (errors.errorCount > 0) {
-    setNotification({visible: "visible", body: errors.notif.text, title: errors.notif.type, variant: "destructive"});
+  callBack: (...args: any) => void,
+  ...callBackArgs: any
+) {
+  const errorList: string[] = response.errors ? response.errors.map((err) => typeof err === 'string' ? err : err.message) : [];
+
+  if (errorList.length > 0) {
+    setNotification({visible: "visible", body: errorList.join('\n'), title: t("error"), variant: "destructive"});
   } else {
-    callBack();
+    callBack(...callBackArgs);
   }
 }
