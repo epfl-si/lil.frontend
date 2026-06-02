@@ -22,7 +22,7 @@ export const MessageAlert = ({ notification, close }: {
         </div>
         <AlertAction>
           <X onClick={close}
-             className="cursor-pointer" />
+             className="cursor-pointer text-gray-400 hover:text-red-500" />
         </AlertAction>
       </Alert>
     </div>
