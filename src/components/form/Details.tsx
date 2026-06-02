@@ -24,12 +24,12 @@ export const Details = ({ oidc, details, connectedUser, activeFilters, setActive
   }
 
   const onSaveStorage = async () => {
-    if (!activeFilters.selectedRoomId ||
-      !activeFilters.roomType ||
+    if (!activeFilters.selectedRoomId) {
+      setNotification({visible: 'visible', variant: "destructive", title: t("app.error"), body: t("app.roomNotDefined")})
+    } else if (!activeFilters.roomType ||
       !activeFilters.productType ||
       !activeFilters.storageType ||
-      !activeFilters.storageSubType
-    ) {
+      !activeFilters.storageSubType) {
       setNotification({visible: 'visible', variant: "destructive", title: t("app.error"), body: t("app.valuesNotDefined")})
     } else {
       const response = await saveStorage(

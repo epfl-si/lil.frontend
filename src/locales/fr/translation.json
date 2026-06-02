@@ -48,7 +48,8 @@
     "searchTerm": "Rechercher...",
     "selectRoom": "Choisissez une room...",
     "error": "Une erreur s'est produite",
-    "valuesNotDefined": "Tous le champs sont obligatoires"
+    "valuesNotDefined": "Tous le champs sont obligatoires",
+    "roomNotDefined": "Le local n'est pas valide"
   },
   "roomType": {
     "LABO":  "Laboratoire",
