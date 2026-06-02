@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { Input } from "@/components/ui/input.tsx";
 import { Popover, PopoverContent, PopoverAnchor } from "@/components/ui/popover.tsx";
-import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command.tsx";
+import { Command, CommandInput, CommandGroup, CommandItem, CommandList } from "@/components/ui/command.tsx";
 
 export const FilterDebouncedInput = ({
   placeholder,
@@ -39,31 +38,30 @@ export const FilterDebouncedInput = ({
   }, [localValue]);
 
   return (
-    <Popover open={open && suggestions.length > 0} onOpenChange={setOpen}>
-      <div className="w-1/2 m-1">
-        <PopoverAnchor asChild>
-          <Input
-            type="text"
-            value={localValue}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setLocalValue(e.target.value);
-              setOpen(true);
-            }}
-            disabled={disable}
-            className="w-full"
-            placeholder={placeholder}
-          />
-        </PopoverAnchor>
+    <Command shouldFilter={false} className="w-1/2 m-1 overflow-visible bg-transparent">
+      <Popover open={open && suggestions.length > 0} onOpenChange={setOpen}>
+        <div className="w-1/2 m-1">
+          <PopoverAnchor asChild>
+            <CommandInput
+              value={localValue}
+              onValueChange={(val) => {
+                setLocalValue(val);
+                setOpen(true);
+              }}
+              disabled={disable}
+              className="w-full"
+              placeholder={placeholder}
+            />
+          </PopoverAnchor>
 
-        <PopoverContent
-          className="p-0 w-[var(--radix-popover-trigger-width)]"
-          align="start"
-          onOpenAutoFocus={(e) => e.preventDefault()}
-        >
-          <Command shouldFilter={false}>
+          <PopoverContent
+            className="p-0 w-[var(--radix-popover-trigger-width)]"
+            align="start"
+            onOpenAutoFocus={(e) => e.preventDefault()}
+          >
             <CommandList>
               <CommandGroup>
-                {suggestions.map((suggestion, index) => (
+                {suggestions.slice(0, 50).map((suggestion, index) => (
                   <CommandItem
                     key={`${suggestion}-${index}`}
                     value={suggestion}
@@ -79,9 +77,9 @@ export const FilterDebouncedInput = ({
                 ))}
               </CommandGroup>
             </CommandList>
-          </Command>
-        </PopoverContent>
-      </div>
-    </Popover>
+          </PopoverContent>
+        </div>
+      </Popover>
+    </Command>
   );
 };
