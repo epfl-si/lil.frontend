@@ -75,16 +75,25 @@ export const Shelf = ({ oidc, shelves, storage, load, connectedUser, allowsBoxes
                 <ShelfIcon color="#ee6b00" />
                 <BarcodeIcon size={16} color="#212121" />
                 <span className={`font-bold ${shelf.deletedBy ? 'line-through opacity-50' : ''} flex-1`}>{shelf.barcode}</span>
-                {!connectedUser.isReadOnly && <div>
-                  {shelf.deletedBy ?
-                    <Undo undoDeletion={() => undoDeletion(shelf.barcode)} isIcon={true} title={t("app.shelfDeleted")}
-                          disabled={disabled}/>
+                {!connectedUser.isReadOnly &&
+                  <div>
+                    {shelf.deletedBy ?
+                      <Undo
+                        undoDeletion={() => undoDeletion(shelf.barcode)}
+                        isIcon={true}
+                        title={t("app.shelfDeleted")}
+                        disabled={disabled}/>
                     : disabled ?
                       <Trash2 className="text-gray-400" />
-                      : <Alert title={t("app.deleteShelfTitle", {barcode: shelf.barcode})}
-                               onSubmit={() => onDeleteShelf(shelf.barcode)} tooltip={t("app.deleteShelf")}/>}
-
-                </div>}
+                      : <Alert
+                          title={t("app.deleteShelfTitle")}
+                          description={t("app.deleteShelfDescription", { barcode: shelf.barcode })}
+                          actionLabel={t("app.delete")}
+                          onSubmit={() => onDeleteShelf(shelf.barcode)}
+                          tooltip={t("app.deleteShelf")}/>
+                    }
+                </div>
+                }
               </div>
             </CardTitle>
           </CardHeader>
