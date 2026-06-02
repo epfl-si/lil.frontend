@@ -11,9 +11,10 @@ import {
 import {useTranslation} from "react-i18next";
 import {Trash2} from "lucide-react";
 
-export const Alert = ({ title, body, tooltip, onSubmit}: {
+export const Alert = ({ title, description, actionLabel, tooltip, onSubmit}: {
   title: string,
-  body?: string,
+  description: string,
+  actionLabel: string
   tooltip: string,
   onSubmit: () => void
 }) => {
@@ -29,13 +30,11 @@ export const Alert = ({ title, body, tooltip, onSubmit}: {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          {body && <AlertDialogDescription>
-            {body}
-          </AlertDialogDescription>}
+          <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{t("app.cancel")}</AlertDialogCancel>
-          <AlertDialogAction onClick={onSubmit}>{t("app.continue")}</AlertDialogAction>
+          <AlertDialogAction onClick={onSubmit}>{actionLabel}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

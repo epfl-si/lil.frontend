@@ -57,7 +57,9 @@ export const Box = ({ oidc, storage, shelf, boxes,load, connectedUser }: {
             <Trash2 className="text-gray-400" />
           ) : (
             <Alert
-              title={t("app.deleteShelfTitle", { barcode: box.barcode })}
+              title={t("app.deleteBoxTitle")}
+              description={t("app.deleteBoxDescription", { barcode: box.barcode })}
+              actionLabel={t("app.delete")}
               onSubmit={() => onDeleteBox(box.barcode)}
               tooltip={t("app.deleteBox")}
             />
