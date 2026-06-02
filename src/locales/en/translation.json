@@ -48,7 +48,8 @@
     "searchTerm": "Search...",
     "selectRoom": "Choose a room...",
     "error": "An error has occurred",
-    "valuesNotDefined": "All fields are required"
+    "valuesNotDefined": "All fields are required",
+    "roomNotDefined": "The room is not valid"
   },
   "roomType": {
     "LABO":  "Laboratory",
