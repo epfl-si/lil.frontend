@@ -118,7 +118,7 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
 
   return (
     <div>
-      <div className="flex gap-4">
+      <div>
         {isCascading ?
         <SearchFieldAutoComplete<{ id: number; name: string }>
           placeholder={t("app.selectRoom")}

@@ -38,9 +38,9 @@ export const FilterDebouncedInput = ({
   }, [localValue]);
 
   return (
-    <Command shouldFilter={false} className="w-1/2 m-1 overflow-visible bg-transparent">
+    <Command shouldFilter={false} className="mb-4 lg:w-1/3 overflow-visible bg-transparent">
       <Popover open={open && suggestions.length > 0} onOpenChange={setOpen}>
-        <div className="w-1/2 m-1">
+        <div>
           <PopoverAnchor asChild>
             <CommandInput
               value={localValue}
