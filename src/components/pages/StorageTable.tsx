@@ -8,7 +8,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination.tsx";
 import {Link, useNavigate, useSearchParams} from "react-router";
-import {ListPlus} from "lucide-react";
+import {Plus as AddIcon} from "lucide-react";
 import type {State} from "@epfl-si/react-appauth";
 import type {ActiveFilters, FetchStoragesType, NotificationType, StorageType, UserType} from "@/lib/types.tsx";
 import {fetchStorage} from "@/lib/graphql/fetchingTools.ts";
@@ -115,7 +115,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
             className="primary-buttons"
             onClick={() => navigate("/code/new")}
           >
-            <ListPlus/>
+            <AddIcon/>
             {t('app.addNewLocation')}
           </Button>}
           <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={false} />
