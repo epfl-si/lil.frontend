@@ -76,13 +76,16 @@ function CommandInput({
           data-slot="command-input"
           className={cn(
             "w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
+            props.disabled && "pl-3",
             className
           )}
           {...props}
         />
+        {!props.disabled && (
         <InputGroupAddon>
           <SearchIcon className="size-4 shrink-0 opacity-50" />
         </InputGroupAddon>
+        )}
       </InputGroup>
     </div>
   )
