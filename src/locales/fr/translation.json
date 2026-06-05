@@ -50,6 +50,9 @@
     "error": "Une erreur s'est produite",
     "valuesNotDefined": "Tous le champs sont obligatoires",
     "roomNotDefined": "Le local n'est pas valide",
+    "exporting": "Exportation",
+    "exportToCsv": "Exporter en CSV",
+    "errorFetchingCSV": "Erreur lors de l'importation du fichier CSV",
     "createdBy": "Créé par",
     "deletedBy": "Supprimé par",
     "onDate": "le"
