@@ -50,6 +50,9 @@
     "error": "An error has occurred",
     "valuesNotDefined": "All fields are required",
     "roomNotDefined": "The room is not valid",
+    "exporting": "Exporting",
+    "exportToCsv": "Export to CSV",
+    "errorFetchingCSV": "Error importing the CSV file",
     "createdBy": "Created by",
     "deletedBy": "Deleted by",
     "onDate": "on"
