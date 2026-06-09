@@ -33,7 +33,7 @@ export const FilterSelect = (
           </SelectItem>
           {data.map(rt =>
             <SelectItem value={rt.symbol} key={rt.symbol}>
-              {t(`${listName}.${rt.symbol}`)}
+              {t(`${listName}.${rt.symbol}`)} ({rt.shortName})
             </SelectItem>)
           }
         </SelectGroup>
