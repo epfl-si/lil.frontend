@@ -9,7 +9,7 @@ import {
 } from "@/lib/graphql/fetchingTools.ts";
 import {useEffect, useState} from "react";
 import {FilterSelect} from "@/components/parts/filterSelect.tsx";
-import type {ActiveFilters, FilterOptions, Type} from "@/lib/types.tsx";
+import type {ActiveFilters, FilterOptions, Type, StorageType} from "@/lib/types.tsx";
 import { fetchRoomApiSuggestions } from "@/lib/graphql/fetchingTools";
 import { SearchFieldAutoComplete } from "@/components/parts/searchFieldAutoComplete";
 
@@ -19,9 +19,10 @@ interface Props {
   onFilterChange: <K extends keyof ActiveFilters>(key: K, value: ActiveFilters[K]) => void;
   isCascading?: boolean;
   disable?: boolean;
+  details?: StorageType;
 }
 
-export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = false, disable = false }: Props) => {
+export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = false, disable = false, details }: Props) => {
   const { t } = useTranslation();
   const [options, setOptions] = useState<FilterOptions>({
     roomType: [],
@@ -146,10 +147,10 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
       }
     </div>
       {activeFilters && <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-4">
-        <FilterSelect placeholder={t('app.roomType')} data={disable && activeFilters.roomType ? [{ symbol: activeFilters.roomType } as Type] : options.roomType} value={activeFilters.roomType} setValue={handleRoomChange} listName="roomType" disable={disable}/>
-        <FilterSelect placeholder={t('app.productType')} data={disable && activeFilters.productType ? [{ symbol: activeFilters.productType } as Type] : options.productType} value={activeFilters.productType} setValue={handleProductChange} listName="productType" disable={disable}/>
-        <FilterSelect placeholder={t('app.storageType')} data={disable && activeFilters.storageType ? [{ symbol: activeFilters.storageType } as Type] : options.storageType} value={activeFilters.storageType} setValue={handleStorageChange} listName="storageType" disable={disable}/>
-        <FilterSelect placeholder={t('app.storageSubType')} data={disable && activeFilters.storageSubType ? [{ symbol: activeFilters.storageSubType } as Type] : options.storageSubType} value={activeFilters.storageSubType} setValue={handleSubStorageChange} listName="storageSubType" disable={disable}/>
+        <FilterSelect placeholder={t('app.roomType')} data={disable && details && activeFilters.roomType ? [{ symbol: activeFilters.roomType, shortName: details.roomType?.shortName } as Type] : options.roomType} value={activeFilters.roomType} setValue={handleRoomChange} listName="roomType" disable={disable}/>
+        <FilterSelect placeholder={t('app.productType')} data={disable && details && activeFilters.productType ? [{ symbol: activeFilters.productType, shortName: details.productType?.shortName } as Type] : options.productType} value={activeFilters.productType} setValue={handleProductChange} listName="productType" disable={disable}/>
+        <FilterSelect placeholder={t('app.storageType')} data={disable && details && activeFilters.storageType ? [{ symbol: activeFilters.storageType, shortName: details.storageType?.shortName } as Type] : options.storageType} value={activeFilters.storageType} setValue={handleStorageChange} listName="storageType" disable={disable}/>
+        <FilterSelect placeholder={t('app.storageSubType')} data={disable && details && activeFilters.storageSubType ? [{ symbol: activeFilters.storageSubType, shortName: details.storageSubType?.shortName } as Type] : options.storageSubType} value={activeFilters.storageSubType} setValue={handleSubStorageChange} listName="storageSubType" disable={disable}/>
       </div>}
     </div>
   );
