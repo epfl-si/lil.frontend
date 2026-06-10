@@ -49,7 +49,7 @@ export const Details = ({ oidc, details, connectedUser, activeFilters, setActive
 
   return (
     <div>
-      { activeFilters && <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={true} disable={!!details}/>}
+      { activeFilters && <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={true} disable={!!details} details={details} />}
       {!details && !connectedUser.isReadOnly &&
           <Button
             variant="outline"
