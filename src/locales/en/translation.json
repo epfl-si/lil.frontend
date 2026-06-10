@@ -49,7 +49,9 @@
     "selectRoom": "Choose a room...",
     "error": "An error has occurred",
     "valuesNotDefined": "All fields are required",
-    "roomNotDefined": "The room is not valid"
+    "roomNotDefined": "The room is not valid",
+    "createdBy": "Created by",
+    "deletedBy": "Deleted by"
   },
   "roomType": {
     "LABO":  "Laboratory",
