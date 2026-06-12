@@ -52,7 +52,7 @@
     "roomNotDefined": "Le local n'est pas valide",
     "exporting": "Exportation",
     "exportToCsv": "Exporter en CSV",
-    "errorFetchingCSV": "Erreur lors de l'importation du fichier CSV",
+    "errorFetchingCSV": "Erreur lors de l'exportation du fichier CSV",
     "createdBy": "Créé par",
     "deletedBy": "Supprimer par"
   },

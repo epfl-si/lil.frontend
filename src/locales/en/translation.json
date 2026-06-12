@@ -52,7 +52,7 @@
     "roomNotDefined": "The room is not valid",
     "exporting": "Exporting",
     "exportToCsv": "Export to CSV",
-    "errorFetchingCSV": "Error importing the CSV file",
+    "errorFetchingCSV": "Error exporting the CSV file",
     "createdBy": "Created by",
     "deletedBy": "Deleted by"
   },
