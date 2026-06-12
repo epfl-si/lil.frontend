@@ -150,21 +150,27 @@ const handleCsvDownload = async () => {
           </div>
         </div>
         <div className="space-y-4">
-          {!connectedUser.isReadOnly && <Button
-            variant="outline"
-            size="lg"
-            className="primary-buttons"
-            onClick={() => navigate("/code/new")}
-          >
-            <AddIcon/>
-            {t('app.addNewLocation')}
-          </Button>}
-          <ExportCsvButton
-            fetchData={handleCsvDownload}
-            columns={csvColumns}
-            filename="export_stockage_lil_epfl"
-            setNotification={setNotification}
-          />
+          <div className="flex justify-between items-center">
+            <div>
+              {!connectedUser.isReadOnly && <Button
+                variant="outline"
+                size="lg"
+                className="primary-buttons"
+                onClick={() => navigate("/code/new")}
+              >
+                <AddIcon/>
+                {t('app.addNewLocation')}
+              </Button>}
+            </div>
+            <div>
+              <ExportCsvButton
+                fetchData={handleCsvDownload}
+                columns={csvColumns}
+                filename="export_stockage_lil_epfl"
+                setNotification={setNotification}
+              />
+            </div>
+          </div>
           <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={false} />
           <div className="border rounded-md bg-white">
             <Table>
