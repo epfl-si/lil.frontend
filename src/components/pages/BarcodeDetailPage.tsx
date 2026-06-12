@@ -105,6 +105,16 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
             {details ? details.barcode : t("app.addNewLocation")}
           </h1>
         </div>
+        {details && (
+          <div className="mt-2 mb-6 text-sm text-gray-500">
+            {t('app.createdBy')} {details.createdBy} {t('app.onDate')} {new Date(details.createdOn).toLocaleDateString('fr-CH')}
+            {details.deletedBy && details.deletedOn && (
+              <span className="text-red-500 ml-2 font-medium">
+                • {t('app.deletedBy')} {details.deletedBy} {t('app.onDate')} {new Date(details.deletedOn).toLocaleDateString('fr-CH')}
+              </span>
+            )}
+          </div>
+        )}
 
         <div className="space-y-4">
         {details && !connectedUser.isReadOnly && (

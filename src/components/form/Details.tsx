@@ -7,7 +7,6 @@ import {useTranslation} from "react-i18next";
 import {saveStorage} from "@/lib/graphql/postingTools.ts";
 import {useNavigate} from "react-router";
 import {handleResponse} from "@/lib/graphql/utils.ts";
-import { Input } from "../ui/input";
 
 export const Details = ({ oidc, details, connectedUser, activeFilters, setActiveFilters, setNotification }: {
   oidc: State,
@@ -51,30 +50,6 @@ export const Details = ({ oidc, details, connectedUser, activeFilters, setActive
   return (
     <div>
       { activeFilters && <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={true} disable={!!details} details={details} />}
-      { details && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-          <div>
-            <label className="text-sm font-medium text-gray-500 mb-1 block">{t('app.createdBy')}</label>
-            <Input disabled={true} type="text" value={details.createdBy || ''} />
-          </div>
-          <div>
-            <label className="text-sm font-medium text-gray-500 mb-1 block">{t('app.createdHeader')}</label>
-            <Input disabled={true} type="text" value={details.createdOn ? new Date(details.createdOn).toLocaleString('fr-CH') : ''} />
-          </div>
-          {details.deletedBy && (
-            <>
-              <div>
-                <label className="text-sm font-medium text-gray-500 mb-1 block">{t('app.deletedBy')}</label>
-                <Input disabled={true} type="text" value={details.deletedBy} className="border-red-200 text-red-500" />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-gray-500 mb-1 block">{t('app.deletedHeader')}</label>
-                <Input disabled={true} type="text" value={details.deletedOn ? new Date(details.deletedOn).toLocaleString('fr-CH') : ''} className="border-red-200 text-red-500" />
-              </div>
-            </>
-          )}
-        </div>
-      )}
       {!details && !connectedUser.isReadOnly &&
           <Button
             variant="outline"

@@ -51,7 +51,8 @@
     "valuesNotDefined": "Tous le champs sont obligatoires",
     "roomNotDefined": "Le local n'est pas valide",
     "createdBy": "Créé par",
-    "deletedBy": "Supprimé par"
+    "deletedBy": "Supprimé par",
+    "onDate": "le"
   },
   "roomType": {
     "LABO":  "Laboratoire",
