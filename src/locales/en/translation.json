@@ -51,7 +51,8 @@
     "valuesNotDefined": "All fields are required",
     "roomNotDefined": "The room is not valid",
     "createdBy": "Created by",
-    "deletedBy": "Deleted by"
+    "deletedBy": "Deleted by",
+    "onDate": "on"
   },
   "roomType": {
     "LABO":  "Laboratory",
