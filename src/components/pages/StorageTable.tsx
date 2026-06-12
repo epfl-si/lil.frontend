@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useMemo} from "react";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {
   Pagination,
@@ -18,6 +18,7 @@ import {SortableHeader} from "@/components/parts/sortableHeader";
 import {Button} from "@/components/ui/button.tsx";
 import {handleResponse} from "@/lib/graphql/utils.ts";
 import {MessageAlert} from "@/components/parts/MessageAlert.tsx";
+import {ExportCsvButton} from "@/components/parts/exportCSVButton";
 
 type SortKey = keyof StorageType;
 
@@ -98,6 +99,46 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
 
   const showDeleted = connectedUser.isAdmin;
 
+const handleCsvDownload = async () => {
+    const response = await fetchStorage(
+      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      oidc.accessToken,
+      {
+        page: 1,
+        pageSize: totalCount,
+      }
+    );
+
+    if (!response || !response.data) return [];
+
+    return response.data.map((storage: StorageType) => ({
+      room: storage.roomDisplay,
+      roomType: `${t(`roomType.${storage.roomType.symbol}`)} (${storage.roomType.shortName})`,
+      productType: `${t(`productType.${storage.productType.symbol}`)} (${storage.productType.shortName})`,
+      storageType: `${t(`storageType.${storage.storageType.symbol}`)} (${storage.storageType.shortName})`,
+      storageSubType: `${t(`storageSubType.${storage.storageSubType.symbol}`)} (${storage.storageSubType.shortName})`,
+      barcode: storage.barcode,
+      createdOn: new Date(storage.createdOn).toLocaleString('fr-CH'),
+      createdBy: storage.createdBy,
+      deletedOn: storage.deletedOn ? new Date(storage.deletedOn).toLocaleString('fr-CH') : "",
+      deletedBy: storage.deletedBy || "",
+    }));
+  };
+  const csvColumns = useMemo(() => [
+    { key: "room" as const, label: t('app.room') },
+    { key: "roomType" as const, label: t('app.roomType') },
+    { key: "productType" as const, label: t('app.productType') },
+    { key: "storageType" as const, label: t('app.storageType') },
+    { key: "storageSubType" as const, label: t('app.storageSubType') },
+    { key: "barcode" as const, label: t('app.barcodeHeader') },
+    { key: "createdOn" as const, label: t('app.createdHeader') },
+    { key: "createdBy" as const, label: t('app.createdBy') },
+    ...(showDeleted ? [
+      { key: "deletedOn" as const, label: t('app.deletedHeader') },
+      { key: "deletedBy" as const, label: t('app.deletedBy') }
+    ] : [])
+  ], [t, showDeleted]);
+
   return (
     <div>
       <MessageAlert notification={notification} close={() => {setNotification({visible: "invisible"})}} />
@@ -109,15 +150,27 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
           </div>
         </div>
         <div className="space-y-4">
-          {!connectedUser.isReadOnly && <Button
-            variant="outline"
-            size="lg"
-            className="primary-buttons"
-            onClick={() => navigate("/code/new")}
-          >
-            <AddIcon/>
-            {t('app.addNewLocation')}
-          </Button>}
+          <div className="flex justify-between items-center">
+            <div>
+              {!connectedUser.isReadOnly && <Button
+                variant="outline"
+                size="lg"
+                className="primary-buttons"
+                onClick={() => navigate("/code/new")}
+              >
+                <AddIcon/>
+                {t('app.addNewLocation')}
+              </Button>}
+            </div>
+            <div>
+              <ExportCsvButton
+                fetchData={handleCsvDownload}
+                columns={csvColumns}
+                filename="export_stockage_lil_epfl"
+                setNotification={setNotification}
+              />
+            </div>
+          </div>
           <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={false} />
           <div className="border rounded-md bg-white">
             <Table>
