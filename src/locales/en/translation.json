@@ -55,7 +55,9 @@
     "errorFetchingCSV": "Error exporting the CSV file",
     "createdBy": "Created by",
     "deletedBy": "Deleted by",
-    "onDate": "on"
+    "onDate": "on",
+    "createdOn": "Created on",
+    "deletedOn": "Deleted on"
   },
   "roomType": {
     "LABO":  "Laboratory",
