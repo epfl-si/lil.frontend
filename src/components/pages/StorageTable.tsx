@@ -118,9 +118,9 @@ const handleCsvDownload = async () => {
       storageType: `${t(`storageType.${storage.storageType.symbol}`)} (${storage.storageType.shortName})`,
       storageSubType: `${t(`storageSubType.${storage.storageSubType.symbol}`)} (${storage.storageSubType.shortName})`,
       barcode: storage.barcode,
-      createdOn: new Date(storage.createdOn).toLocaleString('fr-CH'),
+      createdOn: new Date(storage.createdOn).toLocaleDateString('fr-CH'),
       createdBy: storage.createdBy,
-      deletedOn: storage.deletedOn ? new Date(storage.deletedOn).toLocaleString('fr-CH') : "",
+      deletedOn: storage.deletedOn ? new Date(storage.deletedOn).toLocaleDateString('fr-CH') : "",
       deletedBy: storage.deletedBy || "",
     }));
   };
@@ -226,14 +226,14 @@ const handleCsvDownload = async () => {
                         ))}
                       </TableCell>
                       <TableCell>
-                        <span>{new Date(storage.createdOn).toLocaleString('fr-CH')}</span><br />
+                        <span>{new Date(storage.createdOn).toLocaleDateString('fr-CH')}</span><br />
                         <span className="text-gray-500">{storage.createdBy}</span>
                       </TableCell>
                       {showDeleted &&
                         <TableCell>
                           {storage.deletedBy && storage.deletedOn &&
                             <div>
-                              <span>{new Date(storage.deletedOn).toLocaleString('fr-CH')}</span><br />
+                              <span>{new Date(storage.deletedOn).toLocaleDateString('fr-CH')}</span><br />
                               <span className="text-gray-500">{storage.deletedBy}</span>
                             </div>
                           }
