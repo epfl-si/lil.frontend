@@ -131,10 +131,10 @@ const handleCsvDownload = async () => {
     { key: "storageType" as const, label: t('app.storageType') },
     { key: "storageSubType" as const, label: t('app.storageSubType') },
     { key: "barcode" as const, label: t('app.barcodeHeader') },
-    { key: "createdOn" as const, label: t('app.createdHeader') },
+    { key: "createdOn" as const, label: t('app.createdOn') },
     { key: "createdBy" as const, label: t('app.createdBy') },
     ...(showDeleted ? [
-      { key: "deletedOn" as const, label: t('app.deletedHeader') },
+      { key: "deletedOn" as const, label: t('app.deletedOn') },
       { key: "deletedBy" as const, label: t('app.deletedBy') }
     ] : [])
   ], [t, showDeleted]);
