@@ -71,10 +71,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout }) => {
             ) : (
               <button
                 type="button"
-                onClick={() => {
-                  console.log("Test", import.meta.env.LIL_REACT_APP_AUTH_SERVER_URL)
-                  if (onLogin) onLogin();
-                }}
+                onClick={onLogin}
                 className="text-muted-foreground hover:text-foreground hover:cursor-pointer font-medium px-4 py-2"
               >
                 {t('header.signIn')}
