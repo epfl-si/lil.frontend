@@ -187,7 +187,6 @@ const handleCsvDownload = async () => {
                   {showDeleted &&
                     <SortableHeader label={t('app.deletedHeader')} sortKey="deletedOn" sortConfig={sortConfig} handleSort={handleSort}/>
                   }
-                  <TableHead className={`text-right ${connectedUser.isReadOnly ? 'invisible' : 'visible'}`}>{t('app.actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -239,9 +238,6 @@ const handleCsvDownload = async () => {
                           }
                         </TableCell>
                       }
-                      <TableCell className={`text-right ${connectedUser.isReadOnly ? 'invisible' : 'visible'}`}>
-                        ...
-                      </TableCell>
                     </TableRow>
                   ))
                 )}
