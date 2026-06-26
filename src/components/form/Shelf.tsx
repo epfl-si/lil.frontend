@@ -9,6 +9,7 @@ import {Plus as AddIcon, QrCode as BarcodeIcon, Rows2 as ShelfIcon, Trash2} from
 import {ConfirmationAlert} from "@/components/parts/ConfirmationAlert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 import {handleResponse} from "@/lib/graphql/utils.ts";
+import {env} from "@/lib/env"
 
 export const Shelf = ({ oidc, shelves, storage, load, setNotification, connectedUser, allowsBoxes, allowsShelves }: {
   oidc: State,
@@ -25,7 +26,7 @@ export const Shelf = ({ oidc, shelves, storage, load, setNotification, connected
 
   const onAddBox = async (parentBarcode: string) => {
     const response = await createBox(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {parentBarcode}
     );
@@ -34,7 +35,7 @@ export const Shelf = ({ oidc, shelves, storage, load, setNotification, connected
 
   const onAddShelf = async () => {
     const response = await createShelf(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {parentBarcode: storage.barcode}
     );
@@ -43,7 +44,7 @@ export const Shelf = ({ oidc, shelves, storage, load, setNotification, connected
 
   const onDeleteShelf = async (barcode: string) => {
     const response = await deleteShelf(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {barcode}
     );
@@ -52,7 +53,7 @@ export const Shelf = ({ oidc, shelves, storage, load, setNotification, connected
 
   const undoDeletion = async (barcode: string) => {
     const response = await restoreShelf(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {barcode}
     );

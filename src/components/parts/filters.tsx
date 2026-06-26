@@ -12,6 +12,7 @@ import {FilterSelect} from "@/components/parts/filterSelect.tsx";
 import type {ActiveFilters, FilterOptions, Type, StorageType} from "@/lib/types.tsx";
 import { fetchRoomApiSuggestions } from "@/lib/graphql/fetchingTools";
 import { SearchFieldAutoComplete } from "@/components/parts/searchFieldAutoComplete";
+import {env} from "@/lib/env"
 
 interface Props {
   oidc: State;
@@ -31,7 +32,7 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
     storageSubType: [],
   });
 
-  const baseUrl = import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL;
+  const baseUrl = env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL;
   const token = oidc.accessToken;
 
   useEffect(() => {

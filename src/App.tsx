@@ -8,6 +8,7 @@ import {RequireAuth} from "@/components/auth/RequireAuth.tsx";
 import {BarcodeDetailPage} from "@/components/pages/BarcodeDetailPage.tsx";
 import type {UserType} from "@/lib/types.tsx";
 import {StorageTable} from "@/components/pages/StorageTable.tsx";
+import {env} from "@/lib/env"
 
 function App() {
   const oidc = useOpenIDConnectContext();
@@ -26,7 +27,7 @@ function App() {
 
   const loadFetch = async () => {
     const results = await fetchConnectedUser(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken
     );
     if (results.status === 200 && results.data) {
