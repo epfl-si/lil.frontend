@@ -1,15 +1,16 @@
 #!/bin/bash
 
 INJECT_JSON_FILE=/config/12factor.json
-HTML_FILE=index.html
+HTML_FILE=dist/index.html
 
 set -e -x
 
 main() {
     serve_dir=/tmp/serve
-    cp  dist/* $serve_dir/
+    mkdir -p "$serve_dir"
+    cp -r dist/* $serve_dir/
     if [ -f "$INJECT_JSON_FILE" ]; then
-        inject_json_file "$INJECT_JSON_FILE" "$HTML_FILE" < index.html > $serve_dir/index.html
+        inject_json_file "$INJECT_JSON_FILE" "$HTML_FILE" > $serve_dir/index.html
     fi
 
     exec serve -s $serve_dir -l 3000
