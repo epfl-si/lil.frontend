@@ -7,6 +7,7 @@ import {useTranslation} from "react-i18next";
 import {saveStorage} from "@/lib/graphql/postingTools.ts";
 import {useNavigate} from "react-router";
 import {handleResponse} from "@/lib/graphql/utils.ts";
+import {env} from "@/lib/env"
 
 export const Details = ({ oidc, details, connectedUser, activeFilters, setActiveFilters, setNotification }: {
   oidc: State,
@@ -33,7 +34,7 @@ export const Details = ({ oidc, details, connectedUser, activeFilters, setActive
       setNotification({visible: 'visible', variant: "destructive", title: t("app.error"), body: t("app.valuesNotDefined")})
     } else {
       const response = await saveStorage(
-        import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+        env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
         oidc.accessToken,
         {
           roomId: activeFilters.selectedRoomId,

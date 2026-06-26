@@ -19,6 +19,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {handleResponse} from "@/lib/graphql/utils.ts";
 import {MessageAlert} from "@/components/parts/MessageAlert.tsx";
 import {ExportCsvButton} from "@/components/parts/exportCSVButton";
+import {env} from "@/lib/env"
 
 type SortKey = keyof StorageType;
 
@@ -55,7 +56,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
   const loadStorages = async () => {
     setIsLoading(true);
     const response = await fetchStorage(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {
         page: currentPage,
@@ -101,7 +102,7 @@ export const StorageTable = ({ oidc, connectedUser }: { oidc: State, connectedUs
 
 const handleCsvDownload = async () => {
     const response = await fetchStorage(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {
         page: 1,

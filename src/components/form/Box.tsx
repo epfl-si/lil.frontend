@@ -6,6 +6,7 @@ import {ConfirmationAlert} from "@/components/parts/ConfirmationAlert.tsx";
 import {Undo} from "@/components/parts/Undo.tsx";
 import {QrCode as BarcodeIcon, Archive as BoxIcon, Trash2} from "lucide-react";
 import {handleResponse} from "@/lib/graphql/utils.ts";
+import {env} from "@/lib/env"
 
 export const Box = ({ oidc, storage, shelf, boxes, load, setNotification, connectedUser }: {
   oidc: State,
@@ -21,7 +22,7 @@ export const Box = ({ oidc, storage, shelf, boxes, load, setNotification, connec
 
   const onDeleteBox = async (barcode: string) => {
     const response = await deleteBox(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {barcode}
     );
@@ -30,7 +31,7 @@ export const Box = ({ oidc, storage, shelf, boxes, load, setNotification, connec
 
   const undoDeletion = async (barcode: string) => {
     const response = await restoreBox(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {barcode}
     );

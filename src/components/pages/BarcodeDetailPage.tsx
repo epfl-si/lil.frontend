@@ -19,6 +19,7 @@ import {deleteStorage, restoreStorage} from "@/lib/graphql/postingTools.ts";
 import {Undo} from "@/components/parts/Undo.tsx";
 import {handleResponse} from "@/lib/graphql/utils.ts";
 import {MessageAlert} from "@/components/parts/MessageAlert.tsx";
+import {env} from "@/lib/env"
 
 export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
   const { t } = useTranslation();
@@ -43,7 +44,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
 
   const loadDetails = async () => {
     const response = await fetchStorageDetails(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {
         barcode,
@@ -68,7 +69,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
 
   const undoDeletion = async () => {
     const response = await restoreStorage(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {barcode}
     );
@@ -77,7 +78,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
 
   const onDeleteStorage = async () => {
     const response = await deleteStorage(
-      import.meta.env.LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
+      env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
       {barcode}
     );
