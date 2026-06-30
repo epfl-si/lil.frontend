@@ -108,6 +108,8 @@ export const fetchStorageDetails = async (
       deletedBy
       deletedOn
       roomDisplay
+      rmmStatus
+      rmmMessage
       productType {
         shortName
         symbol
@@ -122,12 +124,16 @@ export const fetchStorageDetails = async (
         createdOn
         deletedBy
         deletedOn
+        rmmStatus
+        rmmMessage
         boxes {
           barcode
           createdBy
           createdOn
           deletedBy
           deletedOn
+          rmmStatus
+          rmmMessage
         }
       }
       storageSubType {

@@ -35,6 +35,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
     allowsShelves: true
   });
   const [notification, setNotification] = useState<NotificationType>({visible: "invisible"})
+  const [rmmMessage, setRMMMessage] = useState<string>('')
 
   useEffect(() => {
     if (barcode) {
@@ -64,7 +65,19 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
       storageSubType: response.data.storageSubType.symbol,
       allowsBoxes: true,
       allowsShelves: true
-    })
+    });
+    const rmmMess = [response.data.rmmMessage];
+    response.data.shelves.forEach(sh => {
+      if (!rmmMess.includes(sh.rmmMessage)) {
+        rmmMess.push(sh.rmmMessage);
+      }
+      sh.boxes.forEach(b => {
+        if (!rmmMess.includes(b.rmmMessage)) {
+          rmmMess.push(b.rmmMessage);
+        }
+      });
+    });
+    setRMMMessage(rmmMess.join(' '));
   }
 
   const undoDeletion = async () => {
@@ -137,6 +150,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
             )}
           </div>
         )}
+          <p className="text-red-500 text-sm font-medium">{rmmMessage}</p>
 
         <Details oidc={oidc} details={details} connectedUser={connectedUser} activeFilters={activeFilters} setActiveFilters={setActiveFilters} setNotification={setNotification} />
         {!details ? <></> :

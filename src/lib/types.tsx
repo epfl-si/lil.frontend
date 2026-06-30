@@ -29,6 +29,8 @@ export type StorageType = {
   createdOn: Date,
   deletedBy?: string,
   deletedOn?: Date,
+  rmmStatus: string,
+  rmmMessage?: string,
   shelves: ShelfType[]
 }
 
@@ -38,6 +40,8 @@ export type ShelfType = {
   createdOn: Date,
   deletedBy?: string,
   deletedOn?: Date,
+  rmmStatus: string,
+  rmmMessage?: string,
   boxes: BoxType[]
 }
 
@@ -47,6 +51,8 @@ export type BoxType = {
   createdOn: Date,
   deletedBy?: string,
   deletedOn?: Date,
+  rmmStatus: string,
+  rmmMessage?: string,
 }
 
 export type FetchStoragesType = {
