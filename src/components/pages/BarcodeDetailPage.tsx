@@ -77,7 +77,7 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
         }
       });
     });
-    setRMMMessage(rmmMess.join(' '));
+    setRMMMessage(rmmMess.filter(m => m !== undefined).join(' '));
   }
 
   const undoDeletion = async () => {
