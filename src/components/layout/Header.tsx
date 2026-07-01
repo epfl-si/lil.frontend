@@ -59,7 +59,7 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout }) => {
                     ) : (
                       <CircleUserRound className="w-8 h-8 text-muted-foreground ml-2" strokeWidth={1} />
                     )}
-                    <p className="text-sm font-medium">{user.username}</p>
+                    <p className="text-sm font-medium">{user.name || user.username}</p>
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">

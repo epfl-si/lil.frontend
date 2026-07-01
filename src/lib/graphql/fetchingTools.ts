@@ -9,6 +9,7 @@ export const fetchConnectedUser = async (
     connectedUserInfo {
       groups
       username
+      name
       isAdmin
       isReadOnly
     }
