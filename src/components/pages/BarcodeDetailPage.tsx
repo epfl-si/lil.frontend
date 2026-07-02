@@ -20,6 +20,7 @@ import {Undo} from "@/components/parts/Undo.tsx";
 import {handleResponse} from "@/lib/graphql/utils.ts";
 import {MessageAlert} from "@/components/parts/MessageAlert.tsx";
 import {env} from "@/lib/env"
+import {AuditDetails} from "@/components/parts/AuditDetails.tsx";
 
 export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
   const { t } = useTranslation();
@@ -119,16 +120,8 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
             {details ? details.barcode : t("app.addNewLocation")}
           </h1>
         </div>
-        {details && (
-          <div className="mt-2 mb-6 text-sm text-gray-500">
-            {t('app.createdBy')} {details.createdBy} {t('app.onDate')} {new Date(details.createdOn).toLocaleDateString('fr-CH')}
-            {details.deletedBy && details.deletedOn && (
-              <span className="text-red-500 ml-2 font-medium">
-                • {t('app.deletedBy')} {details.deletedBy} {t('app.onDate')} {new Date(details.deletedOn).toLocaleDateString('fr-CH')}
-              </span>
-            )}
-          </div>
-        )}
+        {details &&<AuditDetails deletedBy={details.deletedBy} createdBy={details.createdBy} createdOn={details.createdOn}
+                                 deletedOn={details.deletedOn} font={"sm"}/>}
 
         <div className="space-y-4">
         {details && !connectedUser.isReadOnly && (
