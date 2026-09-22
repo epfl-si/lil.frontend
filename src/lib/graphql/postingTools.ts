@@ -5,11 +5,21 @@ export const createShelf = async (
   address: string | undefined,
   authToken: string | undefined,
   variables: {
-    parentBarcode: string
+    parentBarcode: string,
+    userSciper: number,
+    userName: string
   }
 ): Promise<PostBarcodeType> => {
-  const query = `mutation createShelf ( $parentBarcode: String ) {
-      createShelf ( parentBarcode: $parentBarcode )
+  const query = `mutation createShelf (
+    $parentBarcode: String,
+    $userSciper: Int,
+    $userName: String
+  ) {
+      createShelf (
+        parentBarcode: $parentBarcode
+        userSciper: $userSciper
+        userName: $userName
+      )
   }`;
 
   const result = await doGraphQL(query, variables, address, authToken);
@@ -24,11 +34,21 @@ export const createBox = async (
   address: string | undefined,
   authToken: string | undefined,
   variables: {
-    parentBarcode: string
+    parentBarcode: string,
+    userSciper: number,
+    userName: string
   }
 ): Promise<PostBarcodeType> => {
-  const query = `mutation CreateBox ( $parentBarcode: String ) {
-      createBox ( parentBarcode: $parentBarcode )
+  const query = `mutation CreateBox (
+     $parentBarcode: String,
+     $userSciper: Int,
+     $userName: String
+  ) {
+      createBox (
+        parentBarcode: $parentBarcode
+        userSciper: $userSciper
+        userName: $userName
+      )
   }`;
 
   const result = await doGraphQL(query, variables, address, authToken);
@@ -162,6 +182,8 @@ export const saveStorage = async (
     productType: string,
     storageType: string,
     storageSubType: string,
+    userSciper: number,
+    userName: string
   }
 ): Promise<PostBarcodeType> => {
   const query = `mutation CreateStorage (
@@ -170,6 +192,8 @@ export const saveStorage = async (
      $roomType: String,
      $storageSubType: String,
      $storageType: String,
+     $userSciper: Int,
+     $userName: String
   ) {
     createStorage (
         productType: $productType
@@ -177,6 +201,8 @@ export const saveStorage = async (
         roomType: $roomType
         storageSubType: $storageSubType
         storageType: $storageType
+        userSciper: $userSciper
+        userName: $userName
     )
 }`;
 

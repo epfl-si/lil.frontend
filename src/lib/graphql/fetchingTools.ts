@@ -318,3 +318,28 @@ export const fetchRoomApiSuggestions = async (
     errors: result.errors
   };
 };
+
+export const fetchUserApiSuggestions = async (
+  address: string | undefined,
+  authToken: string | undefined,
+  searchUser: string
+): Promise<{ status: number; data: { id: number; name: string }[]; errors: any }> => {
+
+  const query = `query getUserApiSuggestions($searchUser: String!) {
+    suggestUserApi(searchUser: $searchUser) {
+      id
+      name
+    }
+  }`;
+
+  const variables = {
+    searchUser: searchUser
+  };
+
+  const result = await doGraphQL(query, variables, address, authToken);
+  return {
+    status: result.status,
+    data: result.data?.suggestUserApi || [],
+    errors: result.errors
+  };
+};

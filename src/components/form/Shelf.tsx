@@ -12,7 +12,7 @@ import {handleResponse} from "@/lib/graphql/utils.ts";
 import {env} from "@/lib/env"
 import {AuditDetails} from "@/components/parts/AuditDetails.tsx";
 
-export const Shelf = ({ oidc, shelves, storage, load, setNotification, connectedUser, allowsBoxes, allowsShelves }: {
+export const Shelf = ({ oidc, shelves, storage, load, setNotification, connectedUser, allowsBoxes, allowsShelves, selectedUser }: {
   oidc: State,
   shelves: ShelfType[],
   storage: StorageType,
@@ -20,7 +20,8 @@ export const Shelf = ({ oidc, shelves, storage, load, setNotification, connected
   setNotification: (notification: NotificationType) => void,
   connectedUser: UserType,
   allowsBoxes: boolean,
-  allowsShelves: boolean
+  allowsShelves: boolean,
+  selectedUser: {id: number, name: string}
 }) => {
   const { t } = useTranslation();
   const disabled = storage?.deletedBy !== null;
@@ -29,7 +30,11 @@ export const Shelf = ({ oidc, shelves, storage, load, setNotification, connected
     const response = await createBox(
       env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
-      {parentBarcode}
+      {
+        parentBarcode,
+        userName: selectedUser?.name,
+        userSciper: selectedUser?.id
+      }
     );
     await handleResponse(response, setNotification, load);
   };
@@ -38,7 +43,11 @@ export const Shelf = ({ oidc, shelves, storage, load, setNotification, connected
     const response = await createShelf(
       env().LIL_REACT_APP_GRAPHQL_ENDPOINT_URL,
       oidc.accessToken,
-      {parentBarcode: storage.barcode}
+      {
+        parentBarcode: storage.barcode,
+        userName: selectedUser?.name,
+        userSciper: selectedUser?.id
+      }
     );
     await handleResponse(response, setNotification, load);
   };

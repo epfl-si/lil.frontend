@@ -5,14 +5,16 @@ import {
   fetchProductType,
   fetchRoomType,
   fetchStorageSubType,
-  fetchStorageType
+  fetchStorageType,
+  fetchUserApiSuggestions
 } from "@/lib/graphql/fetchingTools.ts";
 import {useEffect, useState} from "react";
 import {FilterSelect} from "@/components/parts/filterSelect.tsx";
-import type {ActiveFilters, FilterOptions, Type, StorageType} from "@/lib/types.tsx";
-import { fetchRoomApiSuggestions } from "@/lib/graphql/fetchingTools";
-import { SearchFieldAutoComplete } from "@/components/parts/searchFieldAutoComplete";
+import type {ActiveFilters, FilterOptions, StorageType, Type, UserType} from "@/lib/types.tsx";
+import {fetchRoomApiSuggestions} from "@/lib/graphql/fetchingTools";
+import {SearchFieldAutoComplete} from "@/components/parts/searchFieldAutoComplete";
 import {env} from "@/lib/env"
+import {Info} from "lucide-react";
 
 interface Props {
   oidc: State;
@@ -21,9 +23,10 @@ interface Props {
   isCascading?: boolean;
   disable?: boolean;
   details?: StorageType;
+  currentUser: UserType;
 }
 
-export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = false, disable = false, details }: Props) => {
+export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = false, disable = false, details, currentUser }: Props) => {
   const { t } = useTranslation();
   const [options, setOptions] = useState<FilterOptions>({
     roomType: [],
@@ -118,25 +121,53 @@ export const Filters = ({ oidc, activeFilters, onFilterChange, isCascading = fal
     return res.data;
   };
 
+  const handleFetchUserSuggestions = async (searchUser: string) => {
+    const res = await fetchUserApiSuggestions(baseUrl, token, searchUser);
+    if (res.errors) {
+      console.error("GraphQL error retrieving suggestions :", res.errors);
+      return [];
+    }
+    return res.data;
+  };
+
   return (
     <div>
       <div>
         {isCascading ?
-        <SearchFieldAutoComplete<{ id: number; name: string }>
-          placeholder={t("app.selectRoom")}
-          value={activeFilters.searchTerm || ""}
-          onChange={(val: string) => {
-            onFilterChange('searchTerm', val);
-            onFilterChange('selectedRoomId', undefined);
-          }}
-          isAutoComplete={true}
-          fetchData={handleFetchRoomSuggestions}
-          getDisplayValue={(room) => room.name}
-          onSelectItem={(room) => {
-            onFilterChange('selectedRoomId', room.id);
-          }}
-          disable={disable}
-        />
+        <>
+          {currentUser.isAdmin && <div className="flex flex-row"><SearchFieldAutoComplete<{ id: number; name: string }>
+            placeholder={t("app.selectUser")}
+            value={activeFilters.searchUser || ""}
+            onChange={(val) => {
+              onFilterChange('searchUser', val);
+              onFilterChange('selectedUser', undefined);
+            }}
+            isAutoComplete={true}
+            fetchData={handleFetchUserSuggestions}
+            getDisplayValue={(user) => `${user.name} (${user.id})`}
+            onSelectItem={(user) => {
+              onFilterChange('selectedUser', user);
+            }}
+          />
+            <span title={t('app.selectUserInfo')} className=" ml-2.5">
+              <Info />
+            </span></div>}
+          <SearchFieldAutoComplete<{ id: number; name: string }>
+            placeholder={t("app.selectRoom")}
+            value={activeFilters.searchTerm || ""}
+            onChange={(val: string) => {
+              onFilterChange('searchTerm', val);
+              onFilterChange('selectedRoomId', undefined);
+            }}
+            isAutoComplete={true}
+            fetchData={handleFetchRoomSuggestions}
+            getDisplayValue={(room) => room.name}
+            onSelectItem={(room) => {
+              onFilterChange('selectedRoomId', room.id);
+            }}
+            disable={disable}
+          />
+        </>
           :
         <SearchFieldAutoComplete<string>
           placeholder={t("app.searchTerm")}
