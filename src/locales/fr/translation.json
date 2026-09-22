@@ -43,6 +43,8 @@
     "shelfDeleted": "Cette étagère a été supprimée",
     "boxDeleted": "Cette boîte a été supprimée",
     "deleteStorage": "Supprimer le code",
+    "deleteStorageDescription": "Voulez-vous vraiment supprimer la location {{barcode}}?",
+    "deleteStorageTitle": "Supprimer la location",
     "saveStorage": "Sauvegarder",
     "createdHeader": "Création",
     "deletedHeader": "Suppression",

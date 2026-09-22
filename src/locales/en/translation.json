@@ -43,6 +43,8 @@
     "shelfDeleted": "This shelf has been deleted",
     "boxDeleted": "This box has been deleted",
     "deleteStorage": "Delete sub-location",
+    "deleteStorageDescription": "Are you sure you want to delete the location {{barcode}}?",
+    "deleteStorageTitle": "Delete location",
     "saveStorage": "Save",
     "createdHeader": "Created",
     "deletedHeader": "Deleted",
