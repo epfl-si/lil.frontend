@@ -62,7 +62,9 @@
     "onDate": "le",
     "createdOn": "Créé le",
     "deletedOn": "Supprimé le",
-    "infoSavingDetails": "Toutes les modifications sont traitées pendant la nuit et un email est envoyé avec le résultat du traitement."
+    "infoSavingDetails": "Toutes les modifications sont traitées pendant la nuit et un email est envoyé avec le résultat du traitement.",
+    "selectUser": "Choisissez un utilisateur...",
+    "selectUserInfo": "Sélectionnez l'utilisateur pour le quel vous créez le lieu de stockage. L'utilisateur par default sera celui connecté."
   },
   "roomType": {
     "LABO":  "Laboratoire",

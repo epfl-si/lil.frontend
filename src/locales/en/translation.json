@@ -62,7 +62,9 @@
     "onDate": "on",
     "createdOn": "Created on",
     "deletedOn": "Deleted on",
-    "infoSavingDetails": "All changes are processed overnight, and an email is sent with the result of the process."
+    "infoSavingDetails": "All changes are processed overnight, and an email is sent with the result of the process.",
+    "selectUser": "Select user...",
+    "selectUserInfo": "Select the user for whom you are creating the location. The default user is the connected user."
   },
   "roomType": {
     "LABO":  "Laboratory",

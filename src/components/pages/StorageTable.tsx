@@ -180,7 +180,7 @@ const handleCsvDownload = async () => {
               />
             </div>
           </div>
-          <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={false} />
+          <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={false} currentUser={connectedUser}/>
           <div className="border rounded-md bg-white">
             <Table>
               <TableHeader>

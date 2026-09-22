@@ -42,6 +42,8 @@ export const Details = ({ oidc, details, connectedUser, activeFilters, setActive
           productType: activeFilters.productType,
           storageType: activeFilters.storageType,
           storageSubType: activeFilters.storageSubType,
+          userSciper: activeFilters.selectedUser?.id,
+          userName: activeFilters.selectedUser?.name
         }
       );
       await handleResponse(response, setNotification, () => {navigate(`/code/${response.barcode}`);});
@@ -50,7 +52,7 @@ export const Details = ({ oidc, details, connectedUser, activeFilters, setActive
 
   return (
     <div>
-      { activeFilters && <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={true} disable={!!details} details={details} />}
+      { activeFilters && <Filters oidc={oidc} activeFilters={activeFilters} onFilterChange={handleFilterChange} isCascading={true} disable={!!details} details={details} currentUser={connectedUser} />}
       {!details && !connectedUser.isReadOnly &&
           <Button
             variant="outline"

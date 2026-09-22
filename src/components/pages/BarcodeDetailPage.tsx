@@ -59,6 +59,11 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
     setDetails(response.data);
     setShelves(response.data.shelves);
     setActiveFilters({
+      selectedUser: connectedUser.isAdmin && response.data.createdBy ?
+        {id: parseInt(response.data.createdBy.substring(response.data.createdBy.indexOf(' (') + 2, response.data.createdBy.indexOf(')'))),
+            name: response.data.createdBy.substring(0, response.data.createdBy.indexOf(' ('))} :
+        undefined,
+      searchUser: connectedUser.isAdmin ? response.data.createdBy : undefined,
       searchTerm: response.data.roomDisplay,
       roomType: response.data.roomType.symbol,
       productType: response.data.productType.symbol,
@@ -150,7 +155,9 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
           <div>
             <hr className="border-gray-200 mb-4" />
             <Shelf oidc={oidc} shelves={shelves} storage={details} load={loadDetails} connectedUser={connectedUser}
-                   allowsBoxes={activeFilters.allowsBoxes} allowsShelves={activeFilters.allowsShelves} setNotification={setNotification} />
+                   allowsBoxes={activeFilters.allowsBoxes} allowsShelves={activeFilters.allowsShelves} setNotification={setNotification}
+                   selectedUser={activeFilters.selectedUser}
+            />
           </div>
         }
       </div>

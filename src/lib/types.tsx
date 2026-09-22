@@ -106,6 +106,8 @@ export interface ActiveFilters {
   allowsShelves?: boolean;
   searchTerm?: string;
   selectedRoomId?: number;
+  selectedUser?: any;
+  searchUser?: string;
 }
 
 export interface FilterOptions {
