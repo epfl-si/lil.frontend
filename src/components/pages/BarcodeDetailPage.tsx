@@ -1,6 +1,6 @@
 import {Link, useParams} from "react-router";
 import {useEffect, useState} from "react";
-import {ArrowLeft, QrCode as BarcodeIcon, ShelvingUnit, Trash2} from "lucide-react";
+import {ArrowLeft, QrCode as BarcodeIcon, ShelvingUnit} from "lucide-react";
 import type {State} from "@epfl-si/react-appauth";
 import {useTranslation} from 'react-i18next';
 import {Details} from "@/components/form/Details.tsx";
@@ -21,6 +21,7 @@ import {handleResponse} from "@/lib/graphql/utils.ts";
 import {MessageAlert} from "@/components/parts/MessageAlert.tsx";
 import {env} from "@/lib/env"
 import {AuditDetails} from "@/components/parts/AuditDetails.tsx";
+import {ConfirmationAlert} from "@/components/parts/ConfirmationAlert.tsx";
 
 export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connectedUser: UserType }) => {
   const { t } = useTranslation();
@@ -131,15 +132,15 @@ export const BarcodeDetailPage = ({ oidc, connectedUser }: { oidc: State, connec
         <div className="space-y-4">
         {details && !connectedUser.isReadOnly && (
           <div className="flex items-center gap-3">
-            <Button className="primary-buttons"
-              variant="outline"
-              size="lg"
-              disabled={!!details?.deletedBy}
-              onClick={onDeleteStorage}
-            >
-              <Trash2 />
-              {t('app.deleteStorage')}
-            </Button>
+            <ConfirmationAlert
+              title={t("app.deleteStorageTitle")}
+              description={t("app.deleteStorageDescription", {barcode: details.barcode})}
+              actionLabel={t("app.delete")}
+              onSubmit={onDeleteStorage}
+              tooltip={t("app.deleteStorage")}
+              disable={!!details?.deletedBy}
+              isPrimaryButton={true}
+            />
             {details?.deletedBy && connectedUser.isAdmin && (
               <>
                 <p className="text-red-500 text-sm font-medium">{t("app.storageDeleted")}</p>
